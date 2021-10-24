@@ -1,0 +1,11 @@
+digraph G {
+n0;
+n0 -> n1;
+n1;
+n1 -> n2;
+n2;
+n2 [label="10"];
+n1 [label="return"];
+n0 [label="f"];
+
+}

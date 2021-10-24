@@ -1,0 +1,20 @@
+FOI,Grupo,Teste,Result,Esperado,Correto,Razao
+FOI,GrupoH,asl62,1,0,FALSE,1 error found. Line of the error: 4 syntax error 
+FOI,GrupoH,asl63,1,0,FALSE,1 error found. Line of the error: 7 syntax error 
+FOI,GrupoH,asl65,1,0,FALSE,1 error found. Line of the error: 7 syntax error 
+FOI,GrupoH,asl66,1,0,FALSE,1 error found. Line of the error: 6 syntax error 
+FOI,GrupoH,asl80,1,0,FALSE,1 error found. Line of the error: 3 syntax error 
+FOI,GrupoH,asl86,0,1,FALSE,NA
+FOI,GrupoH,asl129,1,0,FALSE,1 error found. Line of the error: 6 syntax error 
+FOI,GrupoH,asl140,1,0,FALSE,1 error found. Line of the error: 3 syntax error 
+FOI,GrupoH,asl143,1,0,FALSE,1 error found. Line of the error: 3 syntax error 
+FOI,GrupoH,asl150,1,0,FALSE,1 error found. Line of the error: 3 syntax error 
+FOI,GrupoH,asl157,1,0,FALSE,1 error found. Line of the error: 2 syntax error 
+FOI,GrupoH,asl158,1,0,FALSE,1 error found. Line of the error: 2 syntax error 
+FOI,GrupoH,asl159,0,1,FALSE,NA
+FOI,GrupoH,asl160,1,0,FALSE,1 error found. Line of the error: 4 syntax error 
+FOI,GrupoH,asl161,1,0,FALSE,1 error found. Line of the error: 4 syntax error 
+FOI,GrupoH,asl162,1,0,FALSE,1 error found. Line of the error: 4 syntax error 
+FOI,GrupoH,asl163,1,0,FALSE,1 error found. Line of the error: 3 syntax error 
+FOI,GrupoH,asl167,1,0,FALSE,1 error found. Line of the error: 3 syntax error 
+FOI,GrupoH,asl168,1,0,FALSE,1 error found. Line of the error: 7 syntaxerror 
