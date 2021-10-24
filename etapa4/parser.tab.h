@@ -106,9 +106,9 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 9 "parser.y"
+#line 13 "parser.y"
 
-    symbol valor_lexico;
+    token_value valor_lexico;
     tree* ast;
 
 #line 115 "parser.tab.h"

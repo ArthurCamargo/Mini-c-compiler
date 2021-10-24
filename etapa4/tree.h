@@ -5,7 +5,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum literal_type
+typedef enum type
 {
     TYPE_UINT,
     TYPE_INT,
@@ -13,7 +13,7 @@ typedef enum literal_type
     TYPE_BOOL,
     TYPE_STRING,
     TYPE_CHAR,
-} literal_type;
+} type;
 
 typedef enum token_type
 {
@@ -21,6 +21,7 @@ typedef enum token_type
     COMPOSE_OP,
     ID,
     LITERAL,
+    FUNCTION,
 }token_type;
 
 
@@ -36,36 +37,34 @@ typedef union value
 
 typedef struct literal_value
 {
-    literal_type lt;
+    type lt;
     value v;
 }literal_value;
 
-typedef struct symbol
+typedef struct token_value
 {
     int line;
     token_type token_t;
     literal_value lv;
-} symbol;
+} token_value;
 
 typedef struct tree
 {
-    symbol data;
+    token_value data;
     int child_number;
-    struct tree** child; //copy of pointer to create an n-ary tree
+    struct tree** child;
 } tree;
 
-
-
-symbol create_symbol(int line, token_type t, literal_type literal);
-symbol create_symbol_value_int_uint_bool(int line, token_type t, literal_type literal, int n);
-symbol create_symbol_value_char(int line, token_type t, literal_type literal, char n);
-symbol create_symbol_value_string(int line, token_type t, literal_type literal, char* n);
-symbol create_symbol_value_float(int line, token_type t, literal_type literal, float n);
+token_value create_token(int line, token_type t, type literal);
+token_value create_token_value_int_uint_bool(int line, token_type t, type literal, int n);
+token_value create_token_value_char(int line, token_type t, type literal, char n);
+token_value create_token_value_string(int line, token_type t, type literal, char* n);
+token_value create_token_value_float(int line, token_type t, type literal, float n);
 tree* empty_tree();
-tree* insert_leaf(symbol data);
+tree* insert_leaf(token_value data);
 tree* insert_child(tree* t, tree* tc);
 tree* create_insert_child(token_type type, tree * t, tree * child);
-void print_data(symbol data);
+void print_data(token_value data);
 void print_tree(tree * t);
 void libera(tree * t);
 void exporta(tree * t);

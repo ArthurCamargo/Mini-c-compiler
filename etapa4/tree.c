@@ -1,6 +1,6 @@
 #include "tree.h"
 
-tree* insert_leaf(symbol data)
+tree* insert_leaf(token_value data)
 {
     tree* t = (tree *) malloc(sizeof(tree)); //allocate space for the tree
     t->data = data;
@@ -40,7 +40,7 @@ void print_tree(tree * t)
     }
 }
 
-void print_data(symbol data)
+void print_data(token_value data)
 {
     switch(data.token_t)
     {
@@ -131,9 +131,9 @@ void exporta(tree* arvore)
     }
 }
 
-symbol create_symbol(int line, token_type t, literal_type literal)
+token_value create_token_value(int line, token_type t, type literal)
 {
-    symbol s;
+    token_value s;
     s.line = line;
     s.token_t = t;
     s.lv.lt = literal;
@@ -141,8 +141,8 @@ symbol create_symbol(int line, token_type t, literal_type literal)
     return s;
 }
 
-symbol create_symbol_value_int_uint_bool(int line, token_type t, literal_type literal, int n)
-{ symbol s;
+token_value create_token_value_int_uint_bool(int line, token_type t, type literal, int n)
+{ token_value s;
     s.token_t = t;
     s.lv.lt = literal;
     s.lv.v.vb = n;
@@ -150,9 +150,9 @@ symbol create_symbol_value_int_uint_bool(int line, token_type t, literal_type li
     return s;
 }
 
-symbol create_symbol_value_char(int line, token_type t, literal_type literal, char n)
+token_value create_token_value_char(int line, token_type t, type literal, char n)
 {
-    symbol s;
+    token_value s;
     s.token_t = t;
     s.lv.lt = literal;
     s.lv.v.vc = n;
@@ -160,9 +160,9 @@ symbol create_symbol_value_char(int line, token_type t, literal_type literal, ch
     return s;
 }
 
-symbol create_symbol_value_string(int line, token_type t, literal_type literal, char* n)
+token_value create_token_value_string(int line, token_type t, type literal, char* n)
 {
-    symbol s;
+    token_value s;
     s.token_t = t;
     s.lv.lt = literal;
     s.lv.v.vs = n;
@@ -170,9 +170,9 @@ symbol create_symbol_value_string(int line, token_type t, literal_type literal, 
     return s;
 }
 
-symbol create_symbol_value_float(int line, token_type t, literal_type literal, float n)
+token_value create_token_value_float(int line, token_type t, type literal, float n)
 {
-    symbol s;
+    token_value s;
     s.token_t = t;
     s.lv.lt = literal;
     s.lv.v.vf = n;

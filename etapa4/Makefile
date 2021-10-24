@@ -23,10 +23,10 @@ flex:
 	flex scanner.l
 
 analisador-debug:
-	$(CC) main.c tree.c lex.yy.c parser.tab.c -o etapa3 $(DCFLAGS)
+	$(CC) main.c tree.c stack.c symbol_table.c lex.yy.c parser.tab.c -o etapa4 $(DCFLAGS)
 
 analisador:
-	$(CC) main.c tree.c lex.yy.c parser.tab.c -o etapa3 $(CFLAGS)
+	$(CC) main.c tree.c stack.c symbol_table.c lex.yy.c parser.tab.c -o etapa4 $(CFLAGS)
 
 clean:
-	rm  etapa3
+	rm  etapa4

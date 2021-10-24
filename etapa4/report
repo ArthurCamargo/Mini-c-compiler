@@ -53,216 +53,220 @@ Grammar
    20 const: TK_PR_CONST
    21      | ε
 
-   22 command_block: '{' command '}'
+   22 command_block: open_block command close_block
 
-   23 command: simple_command ';' command
-   24        | flux_control ';' command
-   25        | ε
+   23 open_block: '{'
 
-   26 simple_command: local_variable
-   27               | attribution
-   28               | input
-   29               | output
-   30               | return
-   31               | command_block
-   32               | shift
-   33               | break
-   34               | continue
-   35               | func_call
+   24 close_block: '}'
 
-   36 local_variable: static const type id_list
+   25 command: simple_command ';' command
+   26        | flux_control ';' command
+   27        | ε
 
-   37 id_list: id initialization
-   38        | id_list ',' id initialization
-   39        | id
+   28 simple_command: local_variable
+   29               | attribution
+   30               | input
+   31               | output
+   32               | return
+   33               | command_block
+   34               | shift
+   35               | break
+   36               | continue
+   37               | func_call
 
-   40 initialization: TK_OC_LE id
-   41               | TK_OC_LE literal
+   38 local_variable: static const type id_list
 
-   42 literal: TK_LIT_UINT
-   43        | TK_LIT_INT
-   44        | TK_LIT_FLOAT
-   45        | TK_LIT_FALSE
-   46        | TK_LIT_TRUE
-   47        | TK_LIT_CHAR
-   48        | TK_LIT_STRING
+   39 id_list: id initialization
+   40        | id_list ',' id initialization
+   41        | id
 
-   49 attribution: id '=' expr
-   50            | vector_attribution '=' expr
+   42 initialization: TK_OC_LE id
+   43               | TK_OC_LE literal
 
-   51 vector_attribution: id '[' expr ']'
+   44 literal: TK_LIT_UINT
+   45        | TK_LIT_INT
+   46        | TK_LIT_FLOAT
+   47        | TK_LIT_FALSE
+   48        | TK_LIT_TRUE
+   49        | TK_LIT_CHAR
+   50        | TK_LIT_STRING
 
-   52 expr: ternary
+   51 attribution: id '=' expr
+   52            | vector_attribution '=' expr
 
-   53 ternary: ternary '?' ternary ':' or
-   54        | unary_minus
+   53 vector_attribution: id '[' expr ']'
 
-   55 unary_minus: '+' unary_minus
-   56            | '-' unary_minus
-   57            | or
+   54 expr: ternary
 
-   58 or: or TK_OC_OR and
-   59   | and
+   55 ternary: ternary '?' ternary ':' or
+   56        | unary_minus
 
-   60 and: and TK_OC_AND or_log
-   61    | or_log
+   57 unary_minus: '+' unary_minus
+   58            | '-' unary_minus
+   59            | or
 
-   62 or_log: or_log '|' and_log
-   63       | and_log
+   60 or: or TK_OC_OR and
+   61   | and
 
-   64 and_log: and_log '&' equal
-   65        | equal
+   62 and: and TK_OC_AND or_log
+   63    | or_log
 
-   66 equal: equal TK_OC_EQ rel
-   67      | equal TK_OC_NE rel
-   68      | rel
+   64 or_log: or_log '|' and_log
+   65       | and_log
 
-   69 rel: rel TK_OC_LE soma_sub
-   70    | rel TK_OC_GE soma_sub
-   71    | rel '>' soma_sub
-   72    | rel '<' soma_sub
-   73    | soma_sub
+   66 and_log: and_log '&' equal
+   67        | equal
 
-   74 soma_sub: soma_sub '+' mult_div
-   75         | soma_sub '-' mult_div
-   76         | mult_div
+   68 equal: equal TK_OC_EQ rel
+   69      | equal TK_OC_NE rel
+   70      | rel
 
-   77 mult_div: mult_div '*' unary
-   78         | mult_div '/' unary
-   79         | mult_div '%' unary
-   80         | exponential
+   71 rel: rel TK_OC_LE soma_sub
+   72    | rel TK_OC_GE soma_sub
+   73    | rel '>' soma_sub
+   74    | rel '<' soma_sub
+   75    | soma_sub
 
-   81 exponential: exponential '^' unary
-   82            | unary
+   76 soma_sub: soma_sub '+' mult_div
+   77         | soma_sub '-' mult_div
+   78         | mult_div
 
-   83 unary: '*' unary
-   84      | '&' unary
-   85      | '#' unary
-   86      | '?' unary
-   87      | '!' unary
-   88      | parenthesis
+   79 mult_div: mult_div '*' unary
+   80         | mult_div '/' unary
+   81         | mult_div '%' unary
+   82         | exponential
 
-   89 parenthesis: '(' expr ')'
-   90            | operand_arit
+   83 exponential: exponential '^' unary
+   84            | unary
 
-   91 flux_control: conditional
-   92             | iterative
+   85 unary: '*' unary
+   86      | '&' unary
+   87      | '#' unary
+   88      | '?' unary
+   89      | '!' unary
+   90      | parenthesis
 
-   93 conditional: TK_PR_IF '(' expr ')' command_block
-   94            | TK_PR_IF '(' expr ')' command_block TK_PR_ELSE command_block
+   91 parenthesis: '(' expr ')'
+   92            | operand_arit
 
-   95 iterative: TK_PR_FOR '(' attribution ':' expr ':' attribution ')' command_block
-   96          | TK_PR_WHILE '(' expr ')' TK_PR_DO command_block
+   93 flux_control: conditional
+   94             | iterative
 
-   97 input: TK_PR_INPUT id
+   95 conditional: TK_PR_IF '(' expr ')' command_block
+   96            | TK_PR_IF '(' expr ')' command_block TK_PR_ELSE command_block
 
-   98 output: TK_PR_OUTPUT id
-   99       | TK_PR_OUTPUT literal
+   97 iterative: TK_PR_FOR '(' attribution ':' expr ':' attribution ')' command_block
+   98          | TK_PR_WHILE '(' expr ')' TK_PR_DO command_block
 
-  100 return: TK_PR_RETURN expr
+   99 input: TK_PR_INPUT id
 
-  101 break: TK_PR_BREAK
+  100 output: TK_PR_OUTPUT id
+  101       | TK_PR_OUTPUT literal
 
-  102 continue: TK_PR_CONTINUE
+  102 return: TK_PR_RETURN expr
 
-  103 shift: id TK_OC_SL TK_LIT_UINT
-  104      | id TK_OC_SR TK_LIT_UINT
-  105      | vector_attribution TK_OC_SL TK_LIT_UINT
-  106      | vector_attribution TK_OC_SR TK_LIT_UINT
+  103 break: TK_PR_BREAK
 
-  107 func_call: id '(' args ')'
+  104 continue: TK_PR_CONTINUE
 
-  108 args: expr ',' args
-  109     | expr
+  105 shift: id TK_OC_SL TK_LIT_UINT
+  106      | id TK_OC_SR TK_LIT_UINT
+  107      | vector_attribution TK_OC_SL TK_LIT_UINT
+  108      | vector_attribution TK_OC_SR TK_LIT_UINT
 
-  110 operand_arit: vector_attribution
-  111             | id
-  112             | TK_LIT_UINT
-  113             | TK_LIT_INT
-  114             | TK_LIT_FLOAT
-  115             | TK_LIT_TRUE
-  116             | TK_LIT_FALSE
-  117             | func_call
+  109 func_call: id '(' args ')'
 
-  118 type: TK_PR_INT
-  119     | TK_PR_FLOAT
-  120     | TK_PR_BOOL
-  121     | TK_PR_CHAR
-  122     | TK_PR_STRING
+  110 args: expr ',' args
+  111     | expr
+
+  112 operand_arit: vector_attribution
+  113             | id
+  114             | TK_LIT_UINT
+  115             | TK_LIT_INT
+  116             | TK_LIT_FLOAT
+  117             | TK_LIT_TRUE
+  118             | TK_LIT_FALSE
+  119             | func_call
+
+  120 type: TK_PR_INT
+  121     | TK_PR_FLOAT
+  122     | TK_PR_BOOL
+  123     | TK_PR_CHAR
+  124     | TK_PR_STRING
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
-    '!' <valor_lexico> (33) 87
-    '#' <valor_lexico> (35) 85
+    '!' <valor_lexico> (33) 89
+    '#' <valor_lexico> (35) 87
     '$' <valor_lexico> (36)
-    '%' <valor_lexico> (37) 79
-    '&' <valor_lexico> (38) 64 84
-    '(' <valor_lexico> (40) 16 17 89 93 94 95 96 107
-    ')' <valor_lexico> (41) 16 17 89 93 94 95 96 107
-    '*' <valor_lexico> (42) 77 83
-    '+' <valor_lexico> (43) 55 74
-    ',' <valor_lexico> (44) 7 18 38 108
-    '-' <valor_lexico> (45) 56 75
+    '%' <valor_lexico> (37) 81
+    '&' <valor_lexico> (38) 66 86
+    '(' <valor_lexico> (40) 16 17 91 95 96 97 98 109
+    ')' <valor_lexico> (41) 16 17 91 95 96 97 98 109
+    '*' <valor_lexico> (42) 79 85
+    '+' <valor_lexico> (43) 57 76
+    ',' <valor_lexico> (44) 7 18 40 110
+    '-' <valor_lexico> (45) 58 77
     '.' <valor_lexico> (46)
-    '/' <valor_lexico> (47) 78
-    ':' <valor_lexico> (58) 53 95
-    ';' <valor_lexico> (59) 6 23 24
-    '<' <valor_lexico> (60) 72
-    '=' <valor_lexico> (61) 49 50
-    '>' <valor_lexico> (62) 71
-    '?' <valor_lexico> (63) 53 86
-    '[' <valor_lexico> (91) 9 51
-    ']' <valor_lexico> (93) 9 51
-    '^' <valor_lexico> (94) 81
-    '{' <valor_lexico> (123) 22
-    '|' <valor_lexico> (124) 62
-    '}' <valor_lexico> (125) 22
+    '/' <valor_lexico> (47) 80
+    ':' <valor_lexico> (58) 55 97
+    ';' <valor_lexico> (59) 6 25 26
+    '<' <valor_lexico> (60) 74
+    '=' <valor_lexico> (61) 51 52
+    '>' <valor_lexico> (62) 73
+    '?' <valor_lexico> (63) 55 88
+    '[' <valor_lexico> (91) 9 53
+    ']' <valor_lexico> (93) 9 53
+    '^' <valor_lexico> (94) 83
+    '{' <valor_lexico> (123) 23
+    '|' <valor_lexico> (124) 64
+    '}' <valor_lexico> (125) 24
     error (256)
-    TK_LIT_UINT <valor_lexico> (258) 9 42 103 104 105 106 112
-    TK_LIT_INT <valor_lexico> (259) 43 113
-    TK_LIT_FLOAT <valor_lexico> (260) 44 114
-    TK_LIT_FALSE <valor_lexico> (261) 45 116
-    TK_LIT_TRUE <valor_lexico> (262) 46 115
-    TK_LIT_CHAR <valor_lexico> (263) 47
-    TK_LIT_STRING <valor_lexico> (264) 48
+    TK_LIT_UINT <valor_lexico> (258) 9 44 105 106 107 108 114
+    TK_LIT_INT <valor_lexico> (259) 45 115
+    TK_LIT_FLOAT <valor_lexico> (260) 46 116
+    TK_LIT_FALSE <valor_lexico> (261) 47 118
+    TK_LIT_TRUE <valor_lexico> (262) 48 117
+    TK_LIT_CHAR <valor_lexico> (263) 49
+    TK_LIT_STRING <valor_lexico> (264) 50
     TK_IDENTIFICADOR <valor_lexico> (265) 13
-    TK_PR_INT <valor_lexico> (266) 118
-    TK_PR_FLOAT <valor_lexico> (267) 119
-    TK_PR_BOOL <valor_lexico> (268) 120
-    TK_PR_STRING <valor_lexico> (269) 122
-    TK_PR_CHAR <valor_lexico> (270) 121
-    TK_PR_IF <valor_lexico> (271) 93 94
+    TK_PR_INT <valor_lexico> (266) 120
+    TK_PR_FLOAT <valor_lexico> (267) 121
+    TK_PR_BOOL <valor_lexico> (268) 122
+    TK_PR_STRING <valor_lexico> (269) 124
+    TK_PR_CHAR <valor_lexico> (270) 123
+    TK_PR_IF <valor_lexico> (271) 95 96
     TK_PR_THEN <valor_lexico> (272)
-    TK_PR_ELSE <valor_lexico> (273) 94
-    TK_PR_WHILE <valor_lexico> (274) 96
-    TK_PR_DO <valor_lexico> (275) 96
-    TK_PR_INPUT <valor_lexico> (276) 97
-    TK_PR_OUTPUT <valor_lexico> (277) 98 99
-    TK_PR_RETURN <valor_lexico> (278) 100
+    TK_PR_ELSE <valor_lexico> (273) 96
+    TK_PR_WHILE <valor_lexico> (274) 98
+    TK_PR_DO <valor_lexico> (275) 98
+    TK_PR_INPUT <valor_lexico> (276) 99
+    TK_PR_OUTPUT <valor_lexico> (277) 100 101
+    TK_PR_RETURN <valor_lexico> (278) 102
     TK_PR_CONST <valor_lexico> (279) 20
     TK_PR_STATIC <valor_lexico> (280) 11
     TK_PR_FOREACH <valor_lexico> (281)
-    TK_PR_FOR <valor_lexico> (282) 95
+    TK_PR_FOR <valor_lexico> (282) 97
     TK_PR_SWITCH <valor_lexico> (283)
     TK_PR_CASE <valor_lexico> (284)
-    TK_PR_BREAK <valor_lexico> (285) 101
-    TK_PR_CONTINUE <valor_lexico> (286) 102
+    TK_PR_BREAK <valor_lexico> (285) 103
+    TK_PR_CONTINUE <valor_lexico> (286) 104
     TK_PR_CLASS <valor_lexico> (287)
     TK_PR_PRIVATE <valor_lexico> (288)
     TK_PR_PUBLIC <valor_lexico> (289)
     TK_PR_PROTECTED <valor_lexico> (290)
     TK_PR_END <valor_lexico> (291)
     TK_PR_DEFAULT <valor_lexico> (292)
-    TK_OC_LE <valor_lexico> (293) 40 41 69
-    TK_OC_GE <valor_lexico> (294) 70
-    TK_OC_EQ <valor_lexico> (295) 66
-    TK_OC_NE <valor_lexico> (296) 67
-    TK_OC_AND <valor_lexico> (297) 60
-    TK_OC_OR <valor_lexico> (298) 58
-    TK_OC_SL <valor_lexico> (299) 103 105
-    TK_OC_SR <valor_lexico> (300) 104 106
+    TK_OC_LE <valor_lexico> (293) 42 43 71
+    TK_OC_GE <valor_lexico> (294) 72
+    TK_OC_EQ <valor_lexico> (295) 68
+    TK_OC_NE <valor_lexico> (296) 69
+    TK_OC_AND <valor_lexico> (297) 62
+    TK_OC_OR <valor_lexico> (298) 60
+    TK_OC_SL <valor_lexico> (299) 105 107
+    TK_OC_SR <valor_lexico> (300) 106 108
     TOKEN_ERRO <valor_lexico> (301)
 
 
@@ -290,10 +294,10 @@ Nonterminals, with rules where they appear
         on right: 6 7
     static <ast> (79)
         on left: 11 12
-        on right: 6 15 36
+        on right: 6 15 38
     id <ast> (80)
         on left: 13
-        on right: 6 7 15 18 19 37 38 39 40 49 51 97 98 103 104 107 111
+        on right: 6 7 15 18 19 39 40 41 42 51 53 99 100 105 106 109 113
     function <ast> (81)
         on left: 14
         on right: 4
@@ -308,115 +312,121 @@ Nonterminals, with rules where they appear
         on right: 16 18
     const <ast> (85)
         on left: 20 21
-        on right: 18 19 36
+        on right: 18 19 38
     command_block <ast> (86)
         on left: 22
-        on right: 14 31 93 94 95 96
-    command <ast> (87)
-        on left: 23 24 25
-        on right: 22 23 24
-    simple_command <ast> (88)
-        on left: 26 27 28 29 30 31 32 33 34 35
-        on right: 23
-    local_variable <ast> (89)
-        on left: 36
-        on right: 26
-    id_list <ast> (90)
-        on left: 37 38 39
-        on right: 36 38
-    initialization <ast> (91)
-        on left: 40 41
-        on right: 37 38
-    literal <ast> (92)
-        on left: 42 43 44 45 46 47 48
-        on right: 41 99
-    attribution <ast> (93)
-        on left: 49 50
-        on right: 27 95
-    vector_attribution <ast> (94)
-        on left: 51
-        on right: 50 105 106 110
-    expr <ast> (95)
-        on left: 52
-        on right: 49 50 51 89 93 94 95 96 100 108 109
-    ternary <ast> (96)
-        on left: 53 54
-        on right: 52 53
-    unary_minus <ast> (97)
-        on left: 55 56 57
-        on right: 54 55 56
-    or <ast> (98)
-        on left: 58 59
-        on right: 53 57 58
-    and <ast> (99)
+        on right: 14 33 95 96 97 98
+    open_block <ast> (87)
+        on left: 23
+        on right: 22
+    close_block <ast> (88)
+        on left: 24
+        on right: 22
+    command <ast> (89)
+        on left: 25 26 27
+        on right: 22 25 26
+    simple_command <ast> (90)
+        on left: 28 29 30 31 32 33 34 35 36 37
+        on right: 25
+    local_variable <ast> (91)
+        on left: 38
+        on right: 28
+    id_list <ast> (92)
+        on left: 39 40 41
+        on right: 38 40
+    initialization <ast> (93)
+        on left: 42 43
+        on right: 39 40
+    literal <ast> (94)
+        on left: 44 45 46 47 48 49 50
+        on right: 43 101
+    attribution <ast> (95)
+        on left: 51 52
+        on right: 29 97
+    vector_attribution <ast> (96)
+        on left: 53
+        on right: 52 107 108 112
+    expr <ast> (97)
+        on left: 54
+        on right: 51 52 53 91 95 96 97 98 102 110 111
+    ternary <ast> (98)
+        on left: 55 56
+        on right: 54 55
+    unary_minus <ast> (99)
+        on left: 57 58 59
+        on right: 56 57 58
+    or <ast> (100)
         on left: 60 61
-        on right: 58 59 60
-    or_log <ast> (100)
+        on right: 55 59 60
+    and <ast> (101)
         on left: 62 63
         on right: 60 61 62
-    and_log <ast> (101)
+    or_log <ast> (102)
         on left: 64 65
         on right: 62 63 64
-    equal <ast> (102)
-        on left: 66 67 68
-        on right: 64 65 66 67
-    rel <ast> (103)
-        on left: 69 70 71 72 73
-        on right: 66 67 68 69 70 71 72
-    soma_sub <ast> (104)
-        on left: 74 75 76
-        on right: 69 70 71 72 73 74 75
-    mult_div <ast> (105)
-        on left: 77 78 79 80
-        on right: 74 75 76 77 78 79
-    exponential <ast> (106)
-        on left: 81 82
-        on right: 80 81
-    unary <ast> (107)
-        on left: 83 84 85 86 87 88
-        on right: 77 78 79 81 82 83 84 85 86 87
-    parenthesis <ast> (108)
-        on left: 89 90
-        on right: 88
-    flux_control <ast> (109)
+    and_log <ast> (103)
+        on left: 66 67
+        on right: 64 65 66
+    equal <ast> (104)
+        on left: 68 69 70
+        on right: 66 67 68 69
+    rel <ast> (105)
+        on left: 71 72 73 74 75
+        on right: 68 69 70 71 72 73 74
+    soma_sub <ast> (106)
+        on left: 76 77 78
+        on right: 71 72 73 74 75 76 77
+    mult_div <ast> (107)
+        on left: 79 80 81 82
+        on right: 76 77 78 79 80 81
+    exponential <ast> (108)
+        on left: 83 84
+        on right: 82 83
+    unary <ast> (109)
+        on left: 85 86 87 88 89 90
+        on right: 79 80 81 83 84 85 86 87 88 89
+    parenthesis <ast> (110)
         on left: 91 92
-        on right: 24
-    conditional <ast> (110)
-        on left: 93 94
-        on right: 91
-    iterative <ast> (111)
-        on left: 95 96
-        on right: 92
-    input <ast> (112)
-        on left: 97
-        on right: 28
-    output <ast> (113)
-        on left: 98 99
-        on right: 29
-    return <ast> (114)
-        on left: 100
-        on right: 30
-    break <ast> (115)
-        on left: 101
-        on right: 33
-    continue <ast> (116)
-        on left: 102
-        on right: 34
-    shift <ast> (117)
-        on left: 103 104 105 106
-        on right: 32
-    func_call <ast> (118)
-        on left: 107
-        on right: 35 117
-    args <ast> (119)
-        on left: 108 109
-        on right: 107 108
-    operand_arit <ast> (120)
-        on left: 110 111 112 113 114 115 116 117
         on right: 90
-    type <ast> (121)
-        on left: 118 119 120 121 122
-        on right: 6 15 18 19 36
+    flux_control <ast> (111)
+        on left: 93 94
+        on right: 26
+    conditional <ast> (112)
+        on left: 95 96
+        on right: 93
+    iterative <ast> (113)
+        on left: 97 98
+        on right: 94
+    input <ast> (114)
+        on left: 99
+        on right: 30
+    output <ast> (115)
+        on left: 100 101
+        on right: 31
+    return <ast> (116)
+        on left: 102
+        on right: 32
+    break <ast> (117)
+        on left: 103
+        on right: 35
+    continue <ast> (118)
+        on left: 104
+        on right: 36
+    shift <ast> (119)
+        on left: 105 106 107 108
+        on right: 34
+    func_call <ast> (120)
+        on left: 109
+        on right: 37 119
+    args <ast> (121)
+        on left: 110 111
+        on right: 109 110
+    operand_arit <ast> (122)
+        on left: 112 113 114 115 116 117 118 119
+        on right: 92
+    type <ast> (123)
+        on left: 120 121 122 123 124
+        on right: 6 15 18 19 38
 
 
 State 0
@@ -510,6 +520,7 @@ State 8
     '{'  shift, and go to state 17
 
     command_block  go to state 18
+    open_block     go to state 19
 
 
 State 9
@@ -528,37 +539,37 @@ State 10
 
 State 11
 
-  118 type: TK_PR_INT •
-
-    $default  reduce using rule 118 (type)
-
-
-State 12
-
-  119 type: TK_PR_FLOAT •
-
-    $default  reduce using rule 119 (type)
-
-
-State 13
-
-  120 type: TK_PR_BOOL •
+  120 type: TK_PR_INT •
 
     $default  reduce using rule 120 (type)
 
 
-State 14
+State 12
 
-  122 type: TK_PR_STRING •
+  121 type: TK_PR_FLOAT •
+
+    $default  reduce using rule 121 (type)
+
+
+State 13
+
+  122 type: TK_PR_BOOL •
 
     $default  reduce using rule 122 (type)
 
 
+State 14
+
+  124 type: TK_PR_STRING •
+
+    $default  reduce using rule 124 (type)
+
+
 State 15
 
-  121 type: TK_PR_CHAR •
+  123 type: TK_PR_CHAR •
 
-    $default  reduce using rule 121 (type)
+    $default  reduce using rule 123 (type)
 
 
 State 16
@@ -566,48 +577,16 @@ State 16
     6 global_variable_body: static type • id vector_declaration global_fotter ';'
    15 func_header: static type • id list
 
-    TK_IDENTIFICADOR  shift, and go to state 19
+    TK_IDENTIFICADOR  shift, and go to state 20
 
-    id  go to state 20
+    id  go to state 21
 
 
 State 17
 
-   22 command_block: '{' • command '}'
+   23 open_block: '{' •
 
-    TK_IDENTIFICADOR  shift, and go to state 19
-    TK_PR_IF          shift, and go to state 21
-    TK_PR_WHILE       shift, and go to state 22
-    TK_PR_INPUT       shift, and go to state 23
-    TK_PR_OUTPUT      shift, and go to state 24
-    TK_PR_RETURN      shift, and go to state 25
-    TK_PR_STATIC      shift, and go to state 1
-    TK_PR_FOR         shift, and go to state 26
-    TK_PR_BREAK       shift, and go to state 27
-    TK_PR_CONTINUE    shift, and go to state 28
-    '{'               shift, and go to state 17
-
-    '}'       reduce using rule 25 (command)
-    $default  reduce using rule 12 (static)
-
-    static              go to state 29
-    id                  go to state 30
-    command_block       go to state 31
-    command             go to state 32
-    simple_command      go to state 33
-    local_variable      go to state 34
-    attribution         go to state 35
-    vector_attribution  go to state 36
-    flux_control        go to state 37
-    conditional         go to state 38
-    iterative           go to state 39
-    input               go to state 40
-    output              go to state 41
-    return              go to state 42
-    break               go to state 43
-    continue            go to state 44
-    shift               go to state 45
-    func_call           go to state 46
+    $default  reduce using rule 23 (open_block)
 
 
 State 18
@@ -619,926 +598,968 @@ State 18
 
 State 19
 
+   22 command_block: open_block • command close_block
+
+    TK_IDENTIFICADOR  shift, and go to state 20
+    TK_PR_IF          shift, and go to state 22
+    TK_PR_WHILE       shift, and go to state 23
+    TK_PR_INPUT       shift, and go to state 24
+    TK_PR_OUTPUT      shift, and go to state 25
+    TK_PR_RETURN      shift, and go to state 26
+    TK_PR_STATIC      shift, and go to state 1
+    TK_PR_FOR         shift, and go to state 27
+    TK_PR_BREAK       shift, and go to state 28
+    TK_PR_CONTINUE    shift, and go to state 29
+    '{'               shift, and go to state 17
+
+    '}'       reduce using rule 27 (command)
+    $default  reduce using rule 12 (static)
+
+    static              go to state 30
+    id                  go to state 31
+    command_block       go to state 32
+    open_block          go to state 19
+    command             go to state 33
+    simple_command      go to state 34
+    local_variable      go to state 35
+    attribution         go to state 36
+    vector_attribution  go to state 37
+    flux_control        go to state 38
+    conditional         go to state 39
+    iterative           go to state 40
+    input               go to state 41
+    output              go to state 42
+    return              go to state 43
+    break               go to state 44
+    continue            go to state 45
+    shift               go to state 46
+    func_call           go to state 47
+
+
+State 20
+
    13 id: TK_IDENTIFICADOR •
 
     $default  reduce using rule 13 (id)
 
 
-State 20
+State 21
 
     6 global_variable_body: static type id • vector_declaration global_fotter ';'
    15 func_header: static type id • list
 
-    '('  shift, and go to state 47
-    '['  shift, and go to state 48
+    '('  shift, and go to state 48
+    '['  shift, and go to state 49
 
     $default  reduce using rule 10 (vector_declaration)
 
-    vector_declaration  go to state 49
-    list                go to state 50
-
-
-State 21
-
-   93 conditional: TK_PR_IF • '(' expr ')' command_block
-   94            | TK_PR_IF • '(' expr ')' command_block TK_PR_ELSE command_block
-
-    '('  shift, and go to state 51
+    vector_declaration  go to state 50
+    list                go to state 51
 
 
 State 22
 
-   96 iterative: TK_PR_WHILE • '(' expr ')' TK_PR_DO command_block
+   95 conditional: TK_PR_IF • '(' expr ')' command_block
+   96            | TK_PR_IF • '(' expr ')' command_block TK_PR_ELSE command_block
 
     '('  shift, and go to state 52
 
 
 State 23
 
-   97 input: TK_PR_INPUT • id
+   98 iterative: TK_PR_WHILE • '(' expr ')' TK_PR_DO command_block
 
-    TK_IDENTIFICADOR  shift, and go to state 19
-
-    id  go to state 53
+    '('  shift, and go to state 53
 
 
 State 24
 
-   98 output: TK_PR_OUTPUT • id
-   99       | TK_PR_OUTPUT • literal
+   99 input: TK_PR_INPUT • id
 
-    TK_LIT_UINT       shift, and go to state 54
-    TK_LIT_INT        shift, and go to state 55
-    TK_LIT_FLOAT      shift, and go to state 56
-    TK_LIT_FALSE      shift, and go to state 57
-    TK_LIT_TRUE       shift, and go to state 58
-    TK_LIT_CHAR       shift, and go to state 59
-    TK_LIT_STRING     shift, and go to state 60
-    TK_IDENTIFICADOR  shift, and go to state 19
+    TK_IDENTIFICADOR  shift, and go to state 20
 
-    id       go to state 61
-    literal  go to state 62
+    id  go to state 54
 
 
 State 25
 
-  100 return: TK_PR_RETURN • expr
+  100 output: TK_PR_OUTPUT • id
+  101       | TK_PR_OUTPUT • literal
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 55
+    TK_LIT_INT        shift, and go to state 56
+    TK_LIT_FLOAT      shift, and go to state 57
+    TK_LIT_FALSE      shift, and go to state 58
+    TK_LIT_TRUE       shift, and go to state 59
+    TK_LIT_CHAR       shift, and go to state 60
+    TK_LIT_STRING     shift, and go to state 61
+    TK_IDENTIFICADOR  shift, and go to state 20
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    expr                go to state 78
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id       go to state 62
+    literal  go to state 63
 
 
 State 26
 
-   95 iterative: TK_PR_FOR • '(' attribution ':' expr ':' attribution ')' command_block
+  102 return: TK_PR_RETURN • expr
 
-    '('  shift, and go to state 94
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    expr                go to state 79
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 27
 
-  101 break: TK_PR_BREAK •
+   97 iterative: TK_PR_FOR • '(' attribution ':' expr ':' attribution ')' command_block
 
-    $default  reduce using rule 101 (break)
+    '('  shift, and go to state 95
 
 
 State 28
 
-  102 continue: TK_PR_CONTINUE •
+  103 break: TK_PR_BREAK •
 
-    $default  reduce using rule 102 (continue)
+    $default  reduce using rule 103 (break)
 
 
 State 29
 
-   36 local_variable: static • const type id_list
+  104 continue: TK_PR_CONTINUE •
 
-    TK_PR_CONST  shift, and go to state 95
-
-    $default  reduce using rule 21 (const)
-
-    const  go to state 96
+    $default  reduce using rule 104 (continue)
 
 
 State 30
 
-   49 attribution: id • '=' expr
-   51 vector_attribution: id • '[' expr ']'
-  103 shift: id • TK_OC_SL TK_LIT_UINT
-  104      | id • TK_OC_SR TK_LIT_UINT
-  107 func_call: id • '(' args ')'
+   38 local_variable: static • const type id_list
 
-    TK_OC_SL  shift, and go to state 97
-    TK_OC_SR  shift, and go to state 98
-    '('       shift, and go to state 99
-    '['       shift, and go to state 100
-    '='       shift, and go to state 101
+    TK_PR_CONST  shift, and go to state 96
+
+    $default  reduce using rule 21 (const)
+
+    const  go to state 97
 
 
 State 31
 
-   31 simple_command: command_block •
+   51 attribution: id • '=' expr
+   53 vector_attribution: id • '[' expr ']'
+  105 shift: id • TK_OC_SL TK_LIT_UINT
+  106      | id • TK_OC_SR TK_LIT_UINT
+  109 func_call: id • '(' args ')'
 
-    $default  reduce using rule 31 (simple_command)
+    TK_OC_SL  shift, and go to state 98
+    TK_OC_SR  shift, and go to state 99
+    '('       shift, and go to state 100
+    '['       shift, and go to state 101
+    '='       shift, and go to state 102
 
 
 State 32
 
-   22 command_block: '{' command • '}'
-
-    '}'  shift, and go to state 102
-
-
-State 33
-
-   23 command: simple_command • ';' command
-
-    ';'  shift, and go to state 103
-
-
-State 34
-
-   26 simple_command: local_variable •
-
-    $default  reduce using rule 26 (simple_command)
-
-
-State 35
-
-   27 simple_command: attribution •
-
-    $default  reduce using rule 27 (simple_command)
-
-
-State 36
-
-   50 attribution: vector_attribution • '=' expr
-  105 shift: vector_attribution • TK_OC_SL TK_LIT_UINT
-  106      | vector_attribution • TK_OC_SR TK_LIT_UINT
-
-    TK_OC_SL  shift, and go to state 104
-    TK_OC_SR  shift, and go to state 105
-    '='       shift, and go to state 106
-
-
-State 37
-
-   24 command: flux_control • ';' command
-
-    ';'  shift, and go to state 107
-
-
-State 38
-
-   91 flux_control: conditional •
-
-    $default  reduce using rule 91 (flux_control)
-
-
-State 39
-
-   92 flux_control: iterative •
-
-    $default  reduce using rule 92 (flux_control)
-
-
-State 40
-
-   28 simple_command: input •
-
-    $default  reduce using rule 28 (simple_command)
-
-
-State 41
-
-   29 simple_command: output •
-
-    $default  reduce using rule 29 (simple_command)
-
-
-State 42
-
-   30 simple_command: return •
-
-    $default  reduce using rule 30 (simple_command)
-
-
-State 43
-
-   33 simple_command: break •
+   33 simple_command: command_block •
 
     $default  reduce using rule 33 (simple_command)
 
 
-State 44
+State 33
 
-   34 simple_command: continue •
+   22 command_block: open_block command • close_block
 
-    $default  reduce using rule 34 (simple_command)
+    '}'  shift, and go to state 103
+
+    close_block  go to state 104
 
 
-State 45
+State 34
 
-   32 simple_command: shift •
+   25 command: simple_command • ';' command
+
+    ';'  shift, and go to state 105
+
+
+State 35
+
+   28 simple_command: local_variable •
+
+    $default  reduce using rule 28 (simple_command)
+
+
+State 36
+
+   29 simple_command: attribution •
+
+    $default  reduce using rule 29 (simple_command)
+
+
+State 37
+
+   52 attribution: vector_attribution • '=' expr
+  107 shift: vector_attribution • TK_OC_SL TK_LIT_UINT
+  108      | vector_attribution • TK_OC_SR TK_LIT_UINT
+
+    TK_OC_SL  shift, and go to state 106
+    TK_OC_SR  shift, and go to state 107
+    '='       shift, and go to state 108
+
+
+State 38
+
+   26 command: flux_control • ';' command
+
+    ';'  shift, and go to state 109
+
+
+State 39
+
+   93 flux_control: conditional •
+
+    $default  reduce using rule 93 (flux_control)
+
+
+State 40
+
+   94 flux_control: iterative •
+
+    $default  reduce using rule 94 (flux_control)
+
+
+State 41
+
+   30 simple_command: input •
+
+    $default  reduce using rule 30 (simple_command)
+
+
+State 42
+
+   31 simple_command: output •
+
+    $default  reduce using rule 31 (simple_command)
+
+
+State 43
+
+   32 simple_command: return •
 
     $default  reduce using rule 32 (simple_command)
 
 
-State 46
+State 44
 
-   35 simple_command: func_call •
+   35 simple_command: break •
 
     $default  reduce using rule 35 (simple_command)
 
 
+State 45
+
+   36 simple_command: continue •
+
+    $default  reduce using rule 36 (simple_command)
+
+
+State 46
+
+   34 simple_command: shift •
+
+    $default  reduce using rule 34 (simple_command)
+
+
 State 47
 
-   16 list: '(' • parameters ')'
-   17     | '(' • ')'
+   37 simple_command: func_call •
 
-    TK_PR_CONST  shift, and go to state 95
-    ')'          shift, and go to state 108
-
-    $default  reduce using rule 21 (const)
-
-    parameters  go to state 109
-    const       go to state 110
+    $default  reduce using rule 37 (simple_command)
 
 
 State 48
 
-    9 vector_declaration: '[' • TK_LIT_UINT ']'
+   16 list: '(' • parameters ')'
+   17     | '(' • ')'
 
-    TK_LIT_UINT  shift, and go to state 111
+    TK_PR_CONST  shift, and go to state 96
+    ')'          shift, and go to state 110
+
+    $default  reduce using rule 21 (const)
+
+    parameters  go to state 111
+    const       go to state 112
 
 
 State 49
 
-    6 global_variable_body: static type id vector_declaration • global_fotter ';'
+    9 vector_declaration: '[' • TK_LIT_UINT ']'
 
-    ','  shift, and go to state 112
-
-    $default  reduce using rule 8 (global_fotter)
-
-    global_fotter  go to state 113
+    TK_LIT_UINT  shift, and go to state 113
 
 
 State 50
+
+    6 global_variable_body: static type id vector_declaration • global_fotter ';'
+
+    ','  shift, and go to state 114
+
+    $default  reduce using rule 8 (global_fotter)
+
+    global_fotter  go to state 115
+
+
+State 51
 
    15 func_header: static type id list •
 
     $default  reduce using rule 15 (func_header)
 
 
-State 51
-
-   93 conditional: TK_PR_IF '(' • expr ')' command_block
-   94            | TK_PR_IF '(' • expr ')' command_block TK_PR_ELSE command_block
-
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    expr                go to state 114
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
-
-
 State 52
 
-   96 iterative: TK_PR_WHILE '(' • expr ')' TK_PR_DO command_block
+   95 conditional: TK_PR_IF '(' • expr ')' command_block
+   96            | TK_PR_IF '(' • expr ')' command_block TK_PR_ELSE command_block
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    expr                go to state 115
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    expr                go to state 116
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 53
 
-   97 input: TK_PR_INPUT id •
+   98 iterative: TK_PR_WHILE '(' • expr ')' TK_PR_DO command_block
 
-    $default  reduce using rule 97 (input)
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    expr                go to state 117
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 54
 
-   42 literal: TK_LIT_UINT •
+   99 input: TK_PR_INPUT id •
 
-    $default  reduce using rule 42 (literal)
+    $default  reduce using rule 99 (input)
 
 
 State 55
 
-   43 literal: TK_LIT_INT •
-
-    $default  reduce using rule 43 (literal)
-
-
-State 56
-
-   44 literal: TK_LIT_FLOAT •
+   44 literal: TK_LIT_UINT •
 
     $default  reduce using rule 44 (literal)
 
 
-State 57
+State 56
 
-   45 literal: TK_LIT_FALSE •
+   45 literal: TK_LIT_INT •
 
     $default  reduce using rule 45 (literal)
 
 
-State 58
+State 57
 
-   46 literal: TK_LIT_TRUE •
+   46 literal: TK_LIT_FLOAT •
 
     $default  reduce using rule 46 (literal)
 
 
-State 59
+State 58
 
-   47 literal: TK_LIT_CHAR •
+   47 literal: TK_LIT_FALSE •
 
     $default  reduce using rule 47 (literal)
 
 
-State 60
+State 59
 
-   48 literal: TK_LIT_STRING •
+   48 literal: TK_LIT_TRUE •
 
     $default  reduce using rule 48 (literal)
 
 
+State 60
+
+   49 literal: TK_LIT_CHAR •
+
+    $default  reduce using rule 49 (literal)
+
+
 State 61
 
-   98 output: TK_PR_OUTPUT id •
+   50 literal: TK_LIT_STRING •
 
-    $default  reduce using rule 98 (output)
+    $default  reduce using rule 50 (literal)
 
 
 State 62
 
-   99 output: TK_PR_OUTPUT literal •
+  100 output: TK_PR_OUTPUT id •
 
-    $default  reduce using rule 99 (output)
+    $default  reduce using rule 100 (output)
 
 
 State 63
 
-  112 operand_arit: TK_LIT_UINT •
+  101 output: TK_PR_OUTPUT literal •
 
-    $default  reduce using rule 112 (operand_arit)
+    $default  reduce using rule 101 (output)
 
 
 State 64
 
-  113 operand_arit: TK_LIT_INT •
-
-    $default  reduce using rule 113 (operand_arit)
-
-
-State 65
-
-  114 operand_arit: TK_LIT_FLOAT •
+  114 operand_arit: TK_LIT_UINT •
 
     $default  reduce using rule 114 (operand_arit)
 
 
+State 65
+
+  115 operand_arit: TK_LIT_INT •
+
+    $default  reduce using rule 115 (operand_arit)
+
+
 State 66
 
-  116 operand_arit: TK_LIT_FALSE •
+  116 operand_arit: TK_LIT_FLOAT •
 
     $default  reduce using rule 116 (operand_arit)
 
 
 State 67
 
-  115 operand_arit: TK_LIT_TRUE •
+  118 operand_arit: TK_LIT_FALSE •
 
-    $default  reduce using rule 115 (operand_arit)
+    $default  reduce using rule 118 (operand_arit)
 
 
 State 68
 
-   89 parenthesis: '(' • expr ')'
-
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    expr                go to state 116
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
-
-
-State 69
-
-   56 unary_minus: '-' • unary_minus
-
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    unary_minus         go to state 117
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
-
-
-State 70
-
-   55 unary_minus: '+' • unary_minus
-
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    unary_minus         go to state 118
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
-
-
-State 71
-
-   86 unary: '?' • unary
-
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    unary               go to state 119
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
-
-
-State 72
-
-   83 unary: '*' • unary
-
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    unary               go to state 120
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
-
-
-State 73
-
-   87 unary: '!' • unary
-
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    unary               go to state 121
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
-
-
-State 74
-
-   84 unary: '&' • unary
-
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    unary               go to state 122
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
-
-
-State 75
-
-   85 unary: '#' • unary
-
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    unary               go to state 123
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
-
-
-State 76
-
-   51 vector_attribution: id • '[' expr ']'
-  107 func_call: id • '(' args ')'
-  111 operand_arit: id •
-
-    '('  shift, and go to state 99
-    '['  shift, and go to state 100
-
-    $default  reduce using rule 111 (operand_arit)
-
-
-State 77
-
-  110 operand_arit: vector_attribution •
-
-    $default  reduce using rule 110 (operand_arit)
-
-
-State 78
-
-  100 return: TK_PR_RETURN expr •
-
-    $default  reduce using rule 100 (return)
-
-
-State 79
-
-   52 expr: ternary •
-   53 ternary: ternary • '?' ternary ':' or
-
-    '?'  shift, and go to state 124
-
-    $default  reduce using rule 52 (expr)
-
-
-State 80
-
-   54 ternary: unary_minus •
-
-    $default  reduce using rule 54 (ternary)
-
-
-State 81
-
-   57 unary_minus: or •
-   58 or: or • TK_OC_OR and
-
-    TK_OC_OR  shift, and go to state 125
-
-    $default  reduce using rule 57 (unary_minus)
-
-
-State 82
-
-   59 or: and •
-   60 and: and • TK_OC_AND or_log
-
-    TK_OC_AND  shift, and go to state 126
-
-    $default  reduce using rule 59 (or)
-
-
-State 83
-
-   61 and: or_log •
-   62 or_log: or_log • '|' and_log
-
-    '|'  shift, and go to state 127
-
-    $default  reduce using rule 61 (and)
-
-
-State 84
-
-   63 or_log: and_log •
-   64 and_log: and_log • '&' equal
-
-    '&'  shift, and go to state 128
-
-    $default  reduce using rule 63 (or_log)
-
-
-State 85
-
-   65 and_log: equal •
-   66 equal: equal • TK_OC_EQ rel
-   67      | equal • TK_OC_NE rel
-
-    TK_OC_EQ  shift, and go to state 129
-    TK_OC_NE  shift, and go to state 130
-
-    $default  reduce using rule 65 (and_log)
-
-
-State 86
-
-   68 equal: rel •
-   69 rel: rel • TK_OC_LE soma_sub
-   70    | rel • TK_OC_GE soma_sub
-   71    | rel • '>' soma_sub
-   72    | rel • '<' soma_sub
-
-    TK_OC_LE  shift, and go to state 131
-    TK_OC_GE  shift, and go to state 132
-    '>'       shift, and go to state 133
-    '<'       shift, and go to state 134
-
-    $default  reduce using rule 68 (equal)
-
-
-State 87
-
-   73 rel: soma_sub •
-   74 soma_sub: soma_sub • '+' mult_div
-   75         | soma_sub • '-' mult_div
-
-    '-'  shift, and go to state 135
-    '+'  shift, and go to state 136
-
-    $default  reduce using rule 73 (rel)
-
-
-State 88
-
-   76 soma_sub: mult_div •
-   77 mult_div: mult_div • '*' unary
-   78         | mult_div • '/' unary
-   79         | mult_div • '%' unary
-
-    '*'  shift, and go to state 137
-    '/'  shift, and go to state 138
-    '%'  shift, and go to state 139
-
-    $default  reduce using rule 76 (soma_sub)
-
-
-State 89
-
-   80 mult_div: exponential •
-   81 exponential: exponential • '^' unary
-
-    '^'  shift, and go to state 140
-
-    $default  reduce using rule 80 (mult_div)
-
-
-State 90
-
-   82 exponential: unary •
-
-    $default  reduce using rule 82 (exponential)
-
-
-State 91
-
-   88 unary: parenthesis •
-
-    $default  reduce using rule 88 (unary)
-
-
-State 92
-
-  117 operand_arit: func_call •
+  117 operand_arit: TK_LIT_TRUE •
 
     $default  reduce using rule 117 (operand_arit)
 
 
+State 69
+
+   91 parenthesis: '(' • expr ')'
+
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    expr                go to state 118
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
+
+
+State 70
+
+   58 unary_minus: '-' • unary_minus
+
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    unary_minus         go to state 119
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
+
+
+State 71
+
+   57 unary_minus: '+' • unary_minus
+
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    unary_minus         go to state 120
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
+
+
+State 72
+
+   88 unary: '?' • unary
+
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    unary               go to state 121
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
+
+
+State 73
+
+   85 unary: '*' • unary
+
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    unary               go to state 122
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
+
+
+State 74
+
+   89 unary: '!' • unary
+
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    unary               go to state 123
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
+
+
+State 75
+
+   86 unary: '&' • unary
+
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    unary               go to state 124
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
+
+
+State 76
+
+   87 unary: '#' • unary
+
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    unary               go to state 125
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
+
+
+State 77
+
+   53 vector_attribution: id • '[' expr ']'
+  109 func_call: id • '(' args ')'
+  113 operand_arit: id •
+
+    '('  shift, and go to state 100
+    '['  shift, and go to state 101
+
+    $default  reduce using rule 113 (operand_arit)
+
+
+State 78
+
+  112 operand_arit: vector_attribution •
+
+    $default  reduce using rule 112 (operand_arit)
+
+
+State 79
+
+  102 return: TK_PR_RETURN expr •
+
+    $default  reduce using rule 102 (return)
+
+
+State 80
+
+   54 expr: ternary •
+   55 ternary: ternary • '?' ternary ':' or
+
+    '?'  shift, and go to state 126
+
+    $default  reduce using rule 54 (expr)
+
+
+State 81
+
+   56 ternary: unary_minus •
+
+    $default  reduce using rule 56 (ternary)
+
+
+State 82
+
+   59 unary_minus: or •
+   60 or: or • TK_OC_OR and
+
+    TK_OC_OR  shift, and go to state 127
+
+    $default  reduce using rule 59 (unary_minus)
+
+
+State 83
+
+   61 or: and •
+   62 and: and • TK_OC_AND or_log
+
+    TK_OC_AND  shift, and go to state 128
+
+    $default  reduce using rule 61 (or)
+
+
+State 84
+
+   63 and: or_log •
+   64 or_log: or_log • '|' and_log
+
+    '|'  shift, and go to state 129
+
+    $default  reduce using rule 63 (and)
+
+
+State 85
+
+   65 or_log: and_log •
+   66 and_log: and_log • '&' equal
+
+    '&'  shift, and go to state 130
+
+    $default  reduce using rule 65 (or_log)
+
+
+State 86
+
+   67 and_log: equal •
+   68 equal: equal • TK_OC_EQ rel
+   69      | equal • TK_OC_NE rel
+
+    TK_OC_EQ  shift, and go to state 131
+    TK_OC_NE  shift, and go to state 132
+
+    $default  reduce using rule 67 (and_log)
+
+
+State 87
+
+   70 equal: rel •
+   71 rel: rel • TK_OC_LE soma_sub
+   72    | rel • TK_OC_GE soma_sub
+   73    | rel • '>' soma_sub
+   74    | rel • '<' soma_sub
+
+    TK_OC_LE  shift, and go to state 133
+    TK_OC_GE  shift, and go to state 134
+    '>'       shift, and go to state 135
+    '<'       shift, and go to state 136
+
+    $default  reduce using rule 70 (equal)
+
+
+State 88
+
+   75 rel: soma_sub •
+   76 soma_sub: soma_sub • '+' mult_div
+   77         | soma_sub • '-' mult_div
+
+    '-'  shift, and go to state 137
+    '+'  shift, and go to state 138
+
+    $default  reduce using rule 75 (rel)
+
+
+State 89
+
+   78 soma_sub: mult_div •
+   79 mult_div: mult_div • '*' unary
+   80         | mult_div • '/' unary
+   81         | mult_div • '%' unary
+
+    '*'  shift, and go to state 139
+    '/'  shift, and go to state 140
+    '%'  shift, and go to state 141
+
+    $default  reduce using rule 78 (soma_sub)
+
+
+State 90
+
+   82 mult_div: exponential •
+   83 exponential: exponential • '^' unary
+
+    '^'  shift, and go to state 142
+
+    $default  reduce using rule 82 (mult_div)
+
+
+State 91
+
+   84 exponential: unary •
+
+    $default  reduce using rule 84 (exponential)
+
+
+State 92
+
+   90 unary: parenthesis •
+
+    $default  reduce using rule 90 (unary)
+
+
 State 93
 
-   90 parenthesis: operand_arit •
+  119 operand_arit: func_call •
 
-    $default  reduce using rule 90 (parenthesis)
+    $default  reduce using rule 119 (operand_arit)
 
 
 State 94
 
-   95 iterative: TK_PR_FOR '(' • attribution ':' expr ':' attribution ')' command_block
+   92 parenthesis: operand_arit •
 
-    TK_IDENTIFICADOR  shift, and go to state 19
-
-    id                  go to state 141
-    attribution         go to state 142
-    vector_attribution  go to state 143
+    $default  reduce using rule 92 (parenthesis)
 
 
 State 95
+
+   97 iterative: TK_PR_FOR '(' • attribution ':' expr ':' attribution ')' command_block
+
+    TK_IDENTIFICADOR  shift, and go to state 20
+
+    id                  go to state 143
+    attribution         go to state 144
+    vector_attribution  go to state 145
+
+
+State 96
 
    20 const: TK_PR_CONST •
 
     $default  reduce using rule 20 (const)
 
 
-State 96
+State 97
 
-   36 local_variable: static const • type id_list
+   38 local_variable: static const • type id_list
 
     TK_PR_INT     shift, and go to state 11
     TK_PR_FLOAT   shift, and go to state 12
@@ -1546,296 +1567,305 @@ State 96
     TK_PR_STRING  shift, and go to state 14
     TK_PR_CHAR    shift, and go to state 15
 
-    type  go to state 144
-
-
-State 97
-
-  103 shift: id TK_OC_SL • TK_LIT_UINT
-
-    TK_LIT_UINT  shift, and go to state 145
+    type  go to state 146
 
 
 State 98
 
-  104 shift: id TK_OC_SR • TK_LIT_UINT
+  105 shift: id TK_OC_SL • TK_LIT_UINT
 
-    TK_LIT_UINT  shift, and go to state 146
+    TK_LIT_UINT  shift, and go to state 147
 
 
 State 99
 
-  107 func_call: id '(' • args ')'
+  106 shift: id TK_OC_SR • TK_LIT_UINT
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    expr                go to state 147
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    args                go to state 148
-    operand_arit        go to state 93
+    TK_LIT_UINT  shift, and go to state 148
 
 
 State 100
 
-   51 vector_attribution: id '[' • expr ']'
+  109 func_call: id '(' • args ')'
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
+    id                  go to state 77
+    vector_attribution  go to state 78
     expr                go to state 149
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    args                go to state 150
+    operand_arit        go to state 94
 
 
 State 101
 
-   49 attribution: id '=' • expr
+   53 vector_attribution: id '[' • expr ']'
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    expr                go to state 150
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    expr                go to state 151
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 102
 
-   22 command_block: '{' command '}' •
+   51 attribution: id '=' • expr
 
-    $default  reduce using rule 22 (command_block)
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    expr                go to state 152
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 103
 
-   23 command: simple_command ';' • command
+   24 close_block: '}' •
 
-    TK_IDENTIFICADOR  shift, and go to state 19
-    TK_PR_IF          shift, and go to state 21
-    TK_PR_WHILE       shift, and go to state 22
-    TK_PR_INPUT       shift, and go to state 23
-    TK_PR_OUTPUT      shift, and go to state 24
-    TK_PR_RETURN      shift, and go to state 25
-    TK_PR_STATIC      shift, and go to state 1
-    TK_PR_FOR         shift, and go to state 26
-    TK_PR_BREAK       shift, and go to state 27
-    TK_PR_CONTINUE    shift, and go to state 28
-    '{'               shift, and go to state 17
-
-    '}'       reduce using rule 25 (command)
-    $default  reduce using rule 12 (static)
-
-    static              go to state 29
-    id                  go to state 30
-    command_block       go to state 31
-    command             go to state 151
-    simple_command      go to state 33
-    local_variable      go to state 34
-    attribution         go to state 35
-    vector_attribution  go to state 36
-    flux_control        go to state 37
-    conditional         go to state 38
-    iterative           go to state 39
-    input               go to state 40
-    output              go to state 41
-    return              go to state 42
-    break               go to state 43
-    continue            go to state 44
-    shift               go to state 45
-    func_call           go to state 46
+    $default  reduce using rule 24 (close_block)
 
 
 State 104
 
-  105 shift: vector_attribution TK_OC_SL • TK_LIT_UINT
+   22 command_block: open_block command close_block •
 
-    TK_LIT_UINT  shift, and go to state 152
+    $default  reduce using rule 22 (command_block)
 
 
 State 105
 
-  106 shift: vector_attribution TK_OC_SR • TK_LIT_UINT
+   25 command: simple_command ';' • command
 
-    TK_LIT_UINT  shift, and go to state 153
+    TK_IDENTIFICADOR  shift, and go to state 20
+    TK_PR_IF          shift, and go to state 22
+    TK_PR_WHILE       shift, and go to state 23
+    TK_PR_INPUT       shift, and go to state 24
+    TK_PR_OUTPUT      shift, and go to state 25
+    TK_PR_RETURN      shift, and go to state 26
+    TK_PR_STATIC      shift, and go to state 1
+    TK_PR_FOR         shift, and go to state 27
+    TK_PR_BREAK       shift, and go to state 28
+    TK_PR_CONTINUE    shift, and go to state 29
+    '{'               shift, and go to state 17
+
+    '}'       reduce using rule 27 (command)
+    $default  reduce using rule 12 (static)
+
+    static              go to state 30
+    id                  go to state 31
+    command_block       go to state 32
+    open_block          go to state 19
+    command             go to state 153
+    simple_command      go to state 34
+    local_variable      go to state 35
+    attribution         go to state 36
+    vector_attribution  go to state 37
+    flux_control        go to state 38
+    conditional         go to state 39
+    iterative           go to state 40
+    input               go to state 41
+    output              go to state 42
+    return              go to state 43
+    break               go to state 44
+    continue            go to state 45
+    shift               go to state 46
+    func_call           go to state 47
 
 
 State 106
 
-   50 attribution: vector_attribution '=' • expr
+  107 shift: vector_attribution TK_OC_SL • TK_LIT_UINT
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    expr                go to state 154
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    TK_LIT_UINT  shift, and go to state 154
 
 
 State 107
 
-   24 command: flux_control ';' • command
+  108 shift: vector_attribution TK_OC_SR • TK_LIT_UINT
 
-    TK_IDENTIFICADOR  shift, and go to state 19
-    TK_PR_IF          shift, and go to state 21
-    TK_PR_WHILE       shift, and go to state 22
-    TK_PR_INPUT       shift, and go to state 23
-    TK_PR_OUTPUT      shift, and go to state 24
-    TK_PR_RETURN      shift, and go to state 25
-    TK_PR_STATIC      shift, and go to state 1
-    TK_PR_FOR         shift, and go to state 26
-    TK_PR_BREAK       shift, and go to state 27
-    TK_PR_CONTINUE    shift, and go to state 28
-    '{'               shift, and go to state 17
-
-    '}'       reduce using rule 25 (command)
-    $default  reduce using rule 12 (static)
-
-    static              go to state 29
-    id                  go to state 30
-    command_block       go to state 31
-    command             go to state 155
-    simple_command      go to state 33
-    local_variable      go to state 34
-    attribution         go to state 35
-    vector_attribution  go to state 36
-    flux_control        go to state 37
-    conditional         go to state 38
-    iterative           go to state 39
-    input               go to state 40
-    output              go to state 41
-    return              go to state 42
-    break               go to state 43
-    continue            go to state 44
-    shift               go to state 45
-    func_call           go to state 46
+    TK_LIT_UINT  shift, and go to state 155
 
 
 State 108
+
+   52 attribution: vector_attribution '=' • expr
+
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    expr                go to state 156
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
+
+
+State 109
+
+   26 command: flux_control ';' • command
+
+    TK_IDENTIFICADOR  shift, and go to state 20
+    TK_PR_IF          shift, and go to state 22
+    TK_PR_WHILE       shift, and go to state 23
+    TK_PR_INPUT       shift, and go to state 24
+    TK_PR_OUTPUT      shift, and go to state 25
+    TK_PR_RETURN      shift, and go to state 26
+    TK_PR_STATIC      shift, and go to state 1
+    TK_PR_FOR         shift, and go to state 27
+    TK_PR_BREAK       shift, and go to state 28
+    TK_PR_CONTINUE    shift, and go to state 29
+    '{'               shift, and go to state 17
+
+    '}'       reduce using rule 27 (command)
+    $default  reduce using rule 12 (static)
+
+    static              go to state 30
+    id                  go to state 31
+    command_block       go to state 32
+    open_block          go to state 19
+    command             go to state 157
+    simple_command      go to state 34
+    local_variable      go to state 35
+    attribution         go to state 36
+    vector_attribution  go to state 37
+    flux_control        go to state 38
+    conditional         go to state 39
+    iterative           go to state 40
+    input               go to state 41
+    output              go to state 42
+    return              go to state 43
+    break               go to state 44
+    continue            go to state 45
+    shift               go to state 46
+    func_call           go to state 47
+
+
+State 110
 
    17 list: '(' ')' •
 
     $default  reduce using rule 17 (list)
 
 
-State 109
+State 111
 
    16 list: '(' parameters • ')'
    18 parameters: parameters • ',' const type id
 
-    ')'  shift, and go to state 156
-    ','  shift, and go to state 157
+    ')'  shift, and go to state 158
+    ','  shift, and go to state 159
 
 
-State 110
+State 112
 
    19 parameters: const • type id
 
@@ -1845,1083 +1875,1084 @@ State 110
     TK_PR_STRING  shift, and go to state 14
     TK_PR_CHAR    shift, and go to state 15
 
-    type  go to state 158
-
-
-State 111
-
-    9 vector_declaration: '[' TK_LIT_UINT • ']'
-
-    ']'  shift, and go to state 159
-
-
-State 112
-
-    7 global_fotter: ',' • id vector_declaration global_fotter
-
-    TK_IDENTIFICADOR  shift, and go to state 19
-
-    id  go to state 160
+    type  go to state 160
 
 
 State 113
 
-    6 global_variable_body: static type id vector_declaration global_fotter • ';'
+    9 vector_declaration: '[' TK_LIT_UINT • ']'
 
-    ';'  shift, and go to state 161
+    ']'  shift, and go to state 161
 
 
 State 114
 
-   93 conditional: TK_PR_IF '(' expr • ')' command_block
-   94            | TK_PR_IF '(' expr • ')' command_block TK_PR_ELSE command_block
+    7 global_fotter: ',' • id vector_declaration global_fotter
 
-    ')'  shift, and go to state 162
+    TK_IDENTIFICADOR  shift, and go to state 20
+
+    id  go to state 162
 
 
 State 115
 
-   96 iterative: TK_PR_WHILE '(' expr • ')' TK_PR_DO command_block
+    6 global_variable_body: static type id vector_declaration global_fotter • ';'
 
-    ')'  shift, and go to state 163
+    ';'  shift, and go to state 163
 
 
 State 116
 
-   89 parenthesis: '(' expr • ')'
+   95 conditional: TK_PR_IF '(' expr • ')' command_block
+   96            | TK_PR_IF '(' expr • ')' command_block TK_PR_ELSE command_block
 
     ')'  shift, and go to state 164
 
 
 State 117
 
-   56 unary_minus: '-' unary_minus •
+   98 iterative: TK_PR_WHILE '(' expr • ')' TK_PR_DO command_block
 
-    $default  reduce using rule 56 (unary_minus)
+    ')'  shift, and go to state 165
 
 
 State 118
 
-   55 unary_minus: '+' unary_minus •
+   91 parenthesis: '(' expr • ')'
 
-    $default  reduce using rule 55 (unary_minus)
+    ')'  shift, and go to state 166
 
 
 State 119
 
-   86 unary: '?' unary •
+   58 unary_minus: '-' unary_minus •
 
-    $default  reduce using rule 86 (unary)
+    $default  reduce using rule 58 (unary_minus)
 
 
 State 120
 
-   83 unary: '*' unary •
+   57 unary_minus: '+' unary_minus •
 
-    $default  reduce using rule 83 (unary)
+    $default  reduce using rule 57 (unary_minus)
 
 
 State 121
 
-   87 unary: '!' unary •
+   88 unary: '?' unary •
 
-    $default  reduce using rule 87 (unary)
+    $default  reduce using rule 88 (unary)
 
 
 State 122
 
-   84 unary: '&' unary •
-
-    $default  reduce using rule 84 (unary)
-
-
-State 123
-
-   85 unary: '#' unary •
+   85 unary: '*' unary •
 
     $default  reduce using rule 85 (unary)
 
 
+State 123
+
+   89 unary: '!' unary •
+
+    $default  reduce using rule 89 (unary)
+
+
 State 124
 
-   53 ternary: ternary '?' • ternary ':' or
+   86 unary: '&' unary •
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    ternary             go to state 165
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    $default  reduce using rule 86 (unary)
 
 
 State 125
 
-   58 or: or TK_OC_OR • and
+   87 unary: '#' unary •
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    and                 go to state 166
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    $default  reduce using rule 87 (unary)
 
 
 State 126
 
-   60 and: and TK_OC_AND • or_log
+   55 ternary: ternary '?' • ternary ':' or
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    or_log              go to state 167
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    ternary             go to state 167
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 127
 
-   62 or_log: or_log '|' • and_log
+   60 or: or TK_OC_OR • and
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    and_log             go to state 168
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    and                 go to state 168
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 128
 
-   64 and_log: and_log '&' • equal
+   62 and: and TK_OC_AND • or_log
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    equal               go to state 169
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    or_log              go to state 169
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 129
 
-   66 equal: equal TK_OC_EQ • rel
+   64 or_log: or_log '|' • and_log
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    rel                 go to state 170
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    and_log             go to state 170
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 130
 
-   67 equal: equal TK_OC_NE • rel
+   66 and_log: and_log '&' • equal
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    rel                 go to state 171
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    equal               go to state 171
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 131
 
-   69 rel: rel TK_OC_LE • soma_sub
+   68 equal: equal TK_OC_EQ • rel
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    soma_sub            go to state 172
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    rel                 go to state 172
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 132
 
-   70 rel: rel TK_OC_GE • soma_sub
+   69 equal: equal TK_OC_NE • rel
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    soma_sub            go to state 173
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    rel                 go to state 173
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 133
 
-   71 rel: rel '>' • soma_sub
+   71 rel: rel TK_OC_LE • soma_sub
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
+    id                  go to state 77
+    vector_attribution  go to state 78
     soma_sub            go to state 174
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 134
 
-   72 rel: rel '<' • soma_sub
+   72 rel: rel TK_OC_GE • soma_sub
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
+    id                  go to state 77
+    vector_attribution  go to state 78
     soma_sub            go to state 175
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 135
 
-   75 soma_sub: soma_sub '-' • mult_div
+   73 rel: rel '>' • soma_sub
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    mult_div            go to state 176
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    soma_sub            go to state 176
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 136
 
-   74 soma_sub: soma_sub '+' • mult_div
+   74 rel: rel '<' • soma_sub
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    mult_div            go to state 177
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    soma_sub            go to state 177
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 137
 
-   77 mult_div: mult_div '*' • unary
+   77 soma_sub: soma_sub '-' • mult_div
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    unary               go to state 178
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    mult_div            go to state 178
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 138
 
-   78 mult_div: mult_div '/' • unary
+   76 soma_sub: soma_sub '+' • mult_div
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    unary               go to state 179
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    id                  go to state 77
+    vector_attribution  go to state 78
+    mult_div            go to state 179
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 139
 
-   79 mult_div: mult_div '%' • unary
+   79 mult_div: mult_div '*' • unary
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
+    id                  go to state 77
+    vector_attribution  go to state 78
     unary               go to state 180
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 140
 
-   81 exponential: exponential '^' • unary
+   80 mult_div: mult_div '/' • unary
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id                  go to state 76
-    vector_attribution  go to state 77
+    id                  go to state 77
+    vector_attribution  go to state 78
     unary               go to state 181
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 141
 
-   49 attribution: id • '=' expr
-   51 vector_attribution: id • '[' expr ']'
+   81 mult_div: mult_div '%' • unary
 
-    '['  shift, and go to state 100
-    '='  shift, and go to state 101
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    unary               go to state 182
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 142
 
-   95 iterative: TK_PR_FOR '(' attribution • ':' expr ':' attribution ')' command_block
+   83 exponential: exponential '^' • unary
 
-    ':'  shift, and go to state 182
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    unary               go to state 183
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 143
 
-   50 attribution: vector_attribution • '=' expr
+   51 attribution: id • '=' expr
+   53 vector_attribution: id • '[' expr ']'
 
-    '='  shift, and go to state 106
+    '['  shift, and go to state 101
+    '='  shift, and go to state 102
 
 
 State 144
 
-   36 local_variable: static const type • id_list
+   97 iterative: TK_PR_FOR '(' attribution • ':' expr ':' attribution ')' command_block
 
-    TK_IDENTIFICADOR  shift, and go to state 19
-
-    id       go to state 183
-    id_list  go to state 184
+    ':'  shift, and go to state 184
 
 
 State 145
 
-  103 shift: id TK_OC_SL TK_LIT_UINT •
+   52 attribution: vector_attribution • '=' expr
 
-    $default  reduce using rule 103 (shift)
+    '='  shift, and go to state 108
 
 
 State 146
 
-  104 shift: id TK_OC_SR TK_LIT_UINT •
+   38 local_variable: static const type • id_list
 
-    $default  reduce using rule 104 (shift)
+    TK_IDENTIFICADOR  shift, and go to state 20
+
+    id       go to state 185
+    id_list  go to state 186
 
 
 State 147
 
-  108 args: expr • ',' args
-  109     | expr •
-
-    ','  shift, and go to state 185
-
-    $default  reduce using rule 109 (args)
-
-
-State 148
-
-  107 func_call: id '(' args • ')'
-
-    ')'  shift, and go to state 186
-
-
-State 149
-
-   51 vector_attribution: id '[' expr • ']'
-
-    ']'  shift, and go to state 187
-
-
-State 150
-
-   49 attribution: id '=' expr •
-
-    $default  reduce using rule 49 (attribution)
-
-
-State 151
-
-   23 command: simple_command ';' command •
-
-    $default  reduce using rule 23 (command)
-
-
-State 152
-
-  105 shift: vector_attribution TK_OC_SL TK_LIT_UINT •
+  105 shift: id TK_OC_SL TK_LIT_UINT •
 
     $default  reduce using rule 105 (shift)
 
 
-State 153
+State 148
 
-  106 shift: vector_attribution TK_OC_SR TK_LIT_UINT •
+  106 shift: id TK_OC_SR TK_LIT_UINT •
 
     $default  reduce using rule 106 (shift)
 
 
+State 149
+
+  110 args: expr • ',' args
+  111     | expr •
+
+    ','  shift, and go to state 187
+
+    $default  reduce using rule 111 (args)
+
+
+State 150
+
+  109 func_call: id '(' args • ')'
+
+    ')'  shift, and go to state 188
+
+
+State 151
+
+   53 vector_attribution: id '[' expr • ']'
+
+    ']'  shift, and go to state 189
+
+
+State 152
+
+   51 attribution: id '=' expr •
+
+    $default  reduce using rule 51 (attribution)
+
+
+State 153
+
+   25 command: simple_command ';' command •
+
+    $default  reduce using rule 25 (command)
+
+
 State 154
 
-   50 attribution: vector_attribution '=' expr •
+  107 shift: vector_attribution TK_OC_SL TK_LIT_UINT •
 
-    $default  reduce using rule 50 (attribution)
+    $default  reduce using rule 107 (shift)
 
 
 State 155
 
-   24 command: flux_control ';' command •
+  108 shift: vector_attribution TK_OC_SR TK_LIT_UINT •
 
-    $default  reduce using rule 24 (command)
+    $default  reduce using rule 108 (shift)
 
 
 State 156
+
+   52 attribution: vector_attribution '=' expr •
+
+    $default  reduce using rule 52 (attribution)
+
+
+State 157
+
+   26 command: flux_control ';' command •
+
+    $default  reduce using rule 26 (command)
+
+
+State 158
 
    16 list: '(' parameters ')' •
 
     $default  reduce using rule 16 (list)
 
 
-State 157
+State 159
 
    18 parameters: parameters ',' • const type id
 
-    TK_PR_CONST  shift, and go to state 95
+    TK_PR_CONST  shift, and go to state 96
 
     $default  reduce using rule 21 (const)
 
-    const  go to state 188
+    const  go to state 190
 
 
-State 158
+State 160
 
    19 parameters: const type • id
 
-    TK_IDENTIFICADOR  shift, and go to state 19
+    TK_IDENTIFICADOR  shift, and go to state 20
 
-    id  go to state 189
+    id  go to state 191
 
 
-State 159
+State 161
 
     9 vector_declaration: '[' TK_LIT_UINT ']' •
 
     $default  reduce using rule 9 (vector_declaration)
 
 
-State 160
+State 162
 
     7 global_fotter: ',' id • vector_declaration global_fotter
 
-    '['  shift, and go to state 48
+    '['  shift, and go to state 49
 
     $default  reduce using rule 10 (vector_declaration)
 
-    vector_declaration  go to state 190
+    vector_declaration  go to state 192
 
 
-State 161
+State 163
 
     6 global_variable_body: static type id vector_declaration global_fotter ';' •
 
     $default  reduce using rule 6 (global_variable_body)
 
 
-State 162
+State 164
 
-   93 conditional: TK_PR_IF '(' expr ')' • command_block
-   94            | TK_PR_IF '(' expr ')' • command_block TK_PR_ELSE command_block
+   95 conditional: TK_PR_IF '(' expr ')' • command_block
+   96            | TK_PR_IF '(' expr ')' • command_block TK_PR_ELSE command_block
 
     '{'  shift, and go to state 17
 
-    command_block  go to state 191
-
-
-State 163
-
-   96 iterative: TK_PR_WHILE '(' expr ')' • TK_PR_DO command_block
-
-    TK_PR_DO  shift, and go to state 192
-
-
-State 164
-
-   89 parenthesis: '(' expr ')' •
-
-    $default  reduce using rule 89 (parenthesis)
+    command_block  go to state 193
+    open_block     go to state 19
 
 
 State 165
 
-   53 ternary: ternary • '?' ternary ':' or
-   53        | ternary '?' ternary • ':' or
+   98 iterative: TK_PR_WHILE '(' expr ')' • TK_PR_DO command_block
 
-    '?'  shift, and go to state 124
-    ':'  shift, and go to state 193
+    TK_PR_DO  shift, and go to state 194
 
 
 State 166
 
-   58 or: or TK_OC_OR and •
-   60 and: and • TK_OC_AND or_log
+   91 parenthesis: '(' expr ')' •
 
-    TK_OC_AND  shift, and go to state 126
-
-    $default  reduce using rule 58 (or)
+    $default  reduce using rule 91 (parenthesis)
 
 
 State 167
 
-   60 and: and TK_OC_AND or_log •
-   62 or_log: or_log • '|' and_log
+   55 ternary: ternary • '?' ternary ':' or
+   55        | ternary '?' ternary • ':' or
 
-    '|'  shift, and go to state 127
-
-    $default  reduce using rule 60 (and)
+    '?'  shift, and go to state 126
+    ':'  shift, and go to state 195
 
 
 State 168
 
-   62 or_log: or_log '|' and_log •
-   64 and_log: and_log • '&' equal
+   60 or: or TK_OC_OR and •
+   62 and: and • TK_OC_AND or_log
 
-    '&'  shift, and go to state 128
+    TK_OC_AND  shift, and go to state 128
 
-    $default  reduce using rule 62 (or_log)
+    $default  reduce using rule 60 (or)
 
 
 State 169
 
-   64 and_log: and_log '&' equal •
-   66 equal: equal • TK_OC_EQ rel
-   67      | equal • TK_OC_NE rel
+   62 and: and TK_OC_AND or_log •
+   64 or_log: or_log • '|' and_log
 
-    TK_OC_EQ  shift, and go to state 129
-    TK_OC_NE  shift, and go to state 130
+    '|'  shift, and go to state 129
 
-    $default  reduce using rule 64 (and_log)
+    $default  reduce using rule 62 (and)
 
 
 State 170
 
-   66 equal: equal TK_OC_EQ rel •
-   69 rel: rel • TK_OC_LE soma_sub
-   70    | rel • TK_OC_GE soma_sub
-   71    | rel • '>' soma_sub
-   72    | rel • '<' soma_sub
+   64 or_log: or_log '|' and_log •
+   66 and_log: and_log • '&' equal
 
-    TK_OC_LE  shift, and go to state 131
-    TK_OC_GE  shift, and go to state 132
-    '>'       shift, and go to state 133
-    '<'       shift, and go to state 134
+    '&'  shift, and go to state 130
 
-    $default  reduce using rule 66 (equal)
+    $default  reduce using rule 64 (or_log)
 
 
 State 171
 
-   67 equal: equal TK_OC_NE rel •
-   69 rel: rel • TK_OC_LE soma_sub
-   70    | rel • TK_OC_GE soma_sub
-   71    | rel • '>' soma_sub
-   72    | rel • '<' soma_sub
+   66 and_log: and_log '&' equal •
+   68 equal: equal • TK_OC_EQ rel
+   69      | equal • TK_OC_NE rel
 
-    TK_OC_LE  shift, and go to state 131
-    TK_OC_GE  shift, and go to state 132
-    '>'       shift, and go to state 133
-    '<'       shift, and go to state 134
+    TK_OC_EQ  shift, and go to state 131
+    TK_OC_NE  shift, and go to state 132
 
-    $default  reduce using rule 67 (equal)
+    $default  reduce using rule 66 (and_log)
 
 
 State 172
 
-   69 rel: rel TK_OC_LE soma_sub •
-   74 soma_sub: soma_sub • '+' mult_div
-   75         | soma_sub • '-' mult_div
+   68 equal: equal TK_OC_EQ rel •
+   71 rel: rel • TK_OC_LE soma_sub
+   72    | rel • TK_OC_GE soma_sub
+   73    | rel • '>' soma_sub
+   74    | rel • '<' soma_sub
 
-    '-'  shift, and go to state 135
-    '+'  shift, and go to state 136
+    TK_OC_LE  shift, and go to state 133
+    TK_OC_GE  shift, and go to state 134
+    '>'       shift, and go to state 135
+    '<'       shift, and go to state 136
 
-    $default  reduce using rule 69 (rel)
+    $default  reduce using rule 68 (equal)
 
 
 State 173
 
-   70 rel: rel TK_OC_GE soma_sub •
-   74 soma_sub: soma_sub • '+' mult_div
-   75         | soma_sub • '-' mult_div
+   69 equal: equal TK_OC_NE rel •
+   71 rel: rel • TK_OC_LE soma_sub
+   72    | rel • TK_OC_GE soma_sub
+   73    | rel • '>' soma_sub
+   74    | rel • '<' soma_sub
 
-    '-'  shift, and go to state 135
-    '+'  shift, and go to state 136
+    TK_OC_LE  shift, and go to state 133
+    TK_OC_GE  shift, and go to state 134
+    '>'       shift, and go to state 135
+    '<'       shift, and go to state 136
 
-    $default  reduce using rule 70 (rel)
+    $default  reduce using rule 69 (equal)
 
 
 State 174
 
-   71 rel: rel '>' soma_sub •
-   74 soma_sub: soma_sub • '+' mult_div
-   75         | soma_sub • '-' mult_div
+   71 rel: rel TK_OC_LE soma_sub •
+   76 soma_sub: soma_sub • '+' mult_div
+   77         | soma_sub • '-' mult_div
 
-    '-'  shift, and go to state 135
-    '+'  shift, and go to state 136
+    '-'  shift, and go to state 137
+    '+'  shift, and go to state 138
 
     $default  reduce using rule 71 (rel)
 
 
 State 175
 
-   72 rel: rel '<' soma_sub •
-   74 soma_sub: soma_sub • '+' mult_div
-   75         | soma_sub • '-' mult_div
+   72 rel: rel TK_OC_GE soma_sub •
+   76 soma_sub: soma_sub • '+' mult_div
+   77         | soma_sub • '-' mult_div
 
-    '-'  shift, and go to state 135
-    '+'  shift, and go to state 136
+    '-'  shift, and go to state 137
+    '+'  shift, and go to state 138
 
     $default  reduce using rule 72 (rel)
 
 
 State 176
 
-   75 soma_sub: soma_sub '-' mult_div •
-   77 mult_div: mult_div • '*' unary
-   78         | mult_div • '/' unary
-   79         | mult_div • '%' unary
+   73 rel: rel '>' soma_sub •
+   76 soma_sub: soma_sub • '+' mult_div
+   77         | soma_sub • '-' mult_div
 
-    '*'  shift, and go to state 137
-    '/'  shift, and go to state 138
-    '%'  shift, and go to state 139
+    '-'  shift, and go to state 137
+    '+'  shift, and go to state 138
 
-    $default  reduce using rule 75 (soma_sub)
+    $default  reduce using rule 73 (rel)
 
 
 State 177
 
-   74 soma_sub: soma_sub '+' mult_div •
-   77 mult_div: mult_div • '*' unary
-   78         | mult_div • '/' unary
-   79         | mult_div • '%' unary
+   74 rel: rel '<' soma_sub •
+   76 soma_sub: soma_sub • '+' mult_div
+   77         | soma_sub • '-' mult_div
 
-    '*'  shift, and go to state 137
-    '/'  shift, and go to state 138
-    '%'  shift, and go to state 139
+    '-'  shift, and go to state 137
+    '+'  shift, and go to state 138
 
-    $default  reduce using rule 74 (soma_sub)
+    $default  reduce using rule 74 (rel)
 
 
 State 178
 
-   77 mult_div: mult_div '*' unary •
+   77 soma_sub: soma_sub '-' mult_div •
+   79 mult_div: mult_div • '*' unary
+   80         | mult_div • '/' unary
+   81         | mult_div • '%' unary
 
-    $default  reduce using rule 77 (mult_div)
+    '*'  shift, and go to state 139
+    '/'  shift, and go to state 140
+    '%'  shift, and go to state 141
+
+    $default  reduce using rule 77 (soma_sub)
 
 
 State 179
 
-   78 mult_div: mult_div '/' unary •
+   76 soma_sub: soma_sub '+' mult_div •
+   79 mult_div: mult_div • '*' unary
+   80         | mult_div • '/' unary
+   81         | mult_div • '%' unary
 
-    $default  reduce using rule 78 (mult_div)
+    '*'  shift, and go to state 139
+    '/'  shift, and go to state 140
+    '%'  shift, and go to state 141
+
+    $default  reduce using rule 76 (soma_sub)
 
 
 State 180
 
-   79 mult_div: mult_div '%' unary •
+   79 mult_div: mult_div '*' unary •
 
     $default  reduce using rule 79 (mult_div)
 
 
 State 181
 
-   81 exponential: exponential '^' unary •
+   80 mult_div: mult_div '/' unary •
 
-    $default  reduce using rule 81 (exponential)
+    $default  reduce using rule 80 (mult_div)
 
 
 State 182
 
-   95 iterative: TK_PR_FOR '(' attribution ':' • expr ':' attribution ')' command_block
+   81 mult_div: mult_div '%' unary •
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
-
-    id                  go to state 76
-    vector_attribution  go to state 77
-    expr                go to state 194
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    $default  reduce using rule 81 (mult_div)
 
 
 State 183
 
-   37 id_list: id • initialization
-   39        | id •
+   83 exponential: exponential '^' unary •
 
-    TK_OC_LE  shift, and go to state 195
-
-    $default  reduce using rule 39 (id_list)
-
-    initialization  go to state 196
+    $default  reduce using rule 83 (exponential)
 
 
 State 184
 
-   36 local_variable: static const type id_list •
-   38 id_list: id_list • ',' id initialization
+   97 iterative: TK_PR_FOR '(' attribution ':' • expr ':' attribution ')' command_block
 
-    ','  shift, and go to state 197
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    $default  reduce using rule 36 (local_variable)
+    id                  go to state 77
+    vector_attribution  go to state 78
+    expr                go to state 196
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 185
 
-  108 args: expr ',' • args
+   39 id_list: id • initialization
+   41        | id •
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '-'               shift, and go to state 69
-    '+'               shift, and go to state 70
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_OC_LE  shift, and go to state 197
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    expr                go to state 147
-    ternary             go to state 79
-    unary_minus         go to state 80
-    or                  go to state 81
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    args                go to state 198
-    operand_arit        go to state 93
+    $default  reduce using rule 41 (id_list)
+
+    initialization  go to state 198
 
 
 State 186
 
-  107 func_call: id '(' args ')' •
+   38 local_variable: static const type id_list •
+   40 id_list: id_list • ',' id initialization
 
-    $default  reduce using rule 107 (func_call)
+    ','  shift, and go to state 199
+
+    $default  reduce using rule 38 (local_variable)
 
 
 State 187
 
-   51 vector_attribution: id '[' expr ']' •
+  110 args: expr ',' • args
 
-    $default  reduce using rule 51 (vector_attribution)
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '-'               shift, and go to state 70
+    '+'               shift, and go to state 71
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
+
+    id                  go to state 77
+    vector_attribution  go to state 78
+    expr                go to state 149
+    ternary             go to state 80
+    unary_minus         go to state 81
+    or                  go to state 82
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    args                go to state 200
+    operand_arit        go to state 94
 
 
 State 188
+
+  109 func_call: id '(' args ')' •
+
+    $default  reduce using rule 109 (func_call)
+
+
+State 189
+
+   53 vector_attribution: id '[' expr ']' •
+
+    $default  reduce using rule 53 (vector_attribution)
+
+
+State 190
 
    18 parameters: parameters ',' const • type id
 
@@ -2931,243 +2962,246 @@ State 188
     TK_PR_STRING  shift, and go to state 14
     TK_PR_CHAR    shift, and go to state 15
 
-    type  go to state 199
+    type  go to state 201
 
 
-State 189
+State 191
 
    19 parameters: const type id •
 
     $default  reduce using rule 19 (parameters)
 
 
-State 190
+State 192
 
     7 global_fotter: ',' id vector_declaration • global_fotter
 
-    ','  shift, and go to state 112
+    ','  shift, and go to state 114
 
     $default  reduce using rule 8 (global_fotter)
 
-    global_fotter  go to state 200
-
-
-State 191
-
-   93 conditional: TK_PR_IF '(' expr ')' command_block •
-   94            | TK_PR_IF '(' expr ')' command_block • TK_PR_ELSE command_block
-
-    TK_PR_ELSE  shift, and go to state 201
-
-    $default  reduce using rule 93 (conditional)
-
-
-State 192
-
-   96 iterative: TK_PR_WHILE '(' expr ')' TK_PR_DO • command_block
-
-    '{'  shift, and go to state 17
-
-    command_block  go to state 202
+    global_fotter  go to state 202
 
 
 State 193
 
-   53 ternary: ternary '?' ternary ':' • or
+   95 conditional: TK_PR_IF '(' expr ')' command_block •
+   96            | TK_PR_IF '(' expr ')' command_block • TK_PR_ELSE command_block
 
-    TK_LIT_UINT       shift, and go to state 63
-    TK_LIT_INT        shift, and go to state 64
-    TK_LIT_FLOAT      shift, and go to state 65
-    TK_LIT_FALSE      shift, and go to state 66
-    TK_LIT_TRUE       shift, and go to state 67
-    TK_IDENTIFICADOR  shift, and go to state 19
-    '('               shift, and go to state 68
-    '?'               shift, and go to state 71
-    '*'               shift, and go to state 72
-    '!'               shift, and go to state 73
-    '&'               shift, and go to state 74
-    '#'               shift, and go to state 75
+    TK_PR_ELSE  shift, and go to state 203
 
-    id                  go to state 76
-    vector_attribution  go to state 77
-    or                  go to state 203
-    and                 go to state 82
-    or_log              go to state 83
-    and_log             go to state 84
-    equal               go to state 85
-    rel                 go to state 86
-    soma_sub            go to state 87
-    mult_div            go to state 88
-    exponential         go to state 89
-    unary               go to state 90
-    parenthesis         go to state 91
-    func_call           go to state 92
-    operand_arit        go to state 93
+    $default  reduce using rule 95 (conditional)
 
 
 State 194
 
-   95 iterative: TK_PR_FOR '(' attribution ':' expr • ':' attribution ')' command_block
+   98 iterative: TK_PR_WHILE '(' expr ')' TK_PR_DO • command_block
 
-    ':'  shift, and go to state 204
+    '{'  shift, and go to state 17
+
+    command_block  go to state 204
+    open_block     go to state 19
 
 
 State 195
 
-   40 initialization: TK_OC_LE • id
-   41               | TK_OC_LE • literal
+   55 ternary: ternary '?' ternary ':' • or
 
-    TK_LIT_UINT       shift, and go to state 54
-    TK_LIT_INT        shift, and go to state 55
-    TK_LIT_FLOAT      shift, and go to state 56
-    TK_LIT_FALSE      shift, and go to state 57
-    TK_LIT_TRUE       shift, and go to state 58
-    TK_LIT_CHAR       shift, and go to state 59
-    TK_LIT_STRING     shift, and go to state 60
-    TK_IDENTIFICADOR  shift, and go to state 19
+    TK_LIT_UINT       shift, and go to state 64
+    TK_LIT_INT        shift, and go to state 65
+    TK_LIT_FLOAT      shift, and go to state 66
+    TK_LIT_FALSE      shift, and go to state 67
+    TK_LIT_TRUE       shift, and go to state 68
+    TK_IDENTIFICADOR  shift, and go to state 20
+    '('               shift, and go to state 69
+    '?'               shift, and go to state 72
+    '*'               shift, and go to state 73
+    '!'               shift, and go to state 74
+    '&'               shift, and go to state 75
+    '#'               shift, and go to state 76
 
-    id       go to state 205
-    literal  go to state 206
+    id                  go to state 77
+    vector_attribution  go to state 78
+    or                  go to state 205
+    and                 go to state 83
+    or_log              go to state 84
+    and_log             go to state 85
+    equal               go to state 86
+    rel                 go to state 87
+    soma_sub            go to state 88
+    mult_div            go to state 89
+    exponential         go to state 90
+    unary               go to state 91
+    parenthesis         go to state 92
+    func_call           go to state 93
+    operand_arit        go to state 94
 
 
 State 196
 
-   37 id_list: id initialization •
+   97 iterative: TK_PR_FOR '(' attribution ':' expr • ':' attribution ')' command_block
 
-    $default  reduce using rule 37 (id_list)
+    ':'  shift, and go to state 206
 
 
 State 197
 
-   38 id_list: id_list ',' • id initialization
+   42 initialization: TK_OC_LE • id
+   43               | TK_OC_LE • literal
 
-    TK_IDENTIFICADOR  shift, and go to state 19
+    TK_LIT_UINT       shift, and go to state 55
+    TK_LIT_INT        shift, and go to state 56
+    TK_LIT_FLOAT      shift, and go to state 57
+    TK_LIT_FALSE      shift, and go to state 58
+    TK_LIT_TRUE       shift, and go to state 59
+    TK_LIT_CHAR       shift, and go to state 60
+    TK_LIT_STRING     shift, and go to state 61
+    TK_IDENTIFICADOR  shift, and go to state 20
 
-    id  go to state 207
+    id       go to state 207
+    literal  go to state 208
 
 
 State 198
 
-  108 args: expr ',' args •
+   39 id_list: id initialization •
 
-    $default  reduce using rule 108 (args)
+    $default  reduce using rule 39 (id_list)
 
 
 State 199
 
-   18 parameters: parameters ',' const type • id
+   40 id_list: id_list ',' • id initialization
 
-    TK_IDENTIFICADOR  shift, and go to state 19
+    TK_IDENTIFICADOR  shift, and go to state 20
 
-    id  go to state 208
+    id  go to state 209
 
 
 State 200
+
+  110 args: expr ',' args •
+
+    $default  reduce using rule 110 (args)
+
+
+State 201
+
+   18 parameters: parameters ',' const type • id
+
+    TK_IDENTIFICADOR  shift, and go to state 20
+
+    id  go to state 210
+
+
+State 202
 
     7 global_fotter: ',' id vector_declaration global_fotter •
 
     $default  reduce using rule 7 (global_fotter)
 
 
-State 201
+State 203
 
-   94 conditional: TK_PR_IF '(' expr ')' command_block TK_PR_ELSE • command_block
+   96 conditional: TK_PR_IF '(' expr ')' command_block TK_PR_ELSE • command_block
 
     '{'  shift, and go to state 17
 
-    command_block  go to state 209
-
-
-State 202
-
-   96 iterative: TK_PR_WHILE '(' expr ')' TK_PR_DO command_block •
-
-    $default  reduce using rule 96 (iterative)
-
-
-State 203
-
-   53 ternary: ternary '?' ternary ':' or •
-   58 or: or • TK_OC_OR and
-
-    TK_OC_OR  shift, and go to state 125
-
-    $default  reduce using rule 53 (ternary)
+    command_block  go to state 211
+    open_block     go to state 19
 
 
 State 204
 
-   95 iterative: TK_PR_FOR '(' attribution ':' expr ':' • attribution ')' command_block
+   98 iterative: TK_PR_WHILE '(' expr ')' TK_PR_DO command_block •
 
-    TK_IDENTIFICADOR  shift, and go to state 19
-
-    id                  go to state 141
-    attribution         go to state 210
-    vector_attribution  go to state 143
+    $default  reduce using rule 98 (iterative)
 
 
 State 205
 
-   40 initialization: TK_OC_LE id •
+   55 ternary: ternary '?' ternary ':' or •
+   60 or: or • TK_OC_OR and
 
-    $default  reduce using rule 40 (initialization)
+    TK_OC_OR  shift, and go to state 127
+
+    $default  reduce using rule 55 (ternary)
 
 
 State 206
 
-   41 initialization: TK_OC_LE literal •
+   97 iterative: TK_PR_FOR '(' attribution ':' expr ':' • attribution ')' command_block
 
-    $default  reduce using rule 41 (initialization)
+    TK_IDENTIFICADOR  shift, and go to state 20
+
+    id                  go to state 143
+    attribution         go to state 212
+    vector_attribution  go to state 145
 
 
 State 207
 
-   38 id_list: id_list ',' id • initialization
+   42 initialization: TK_OC_LE id •
 
-    TK_OC_LE  shift, and go to state 195
-
-    initialization  go to state 211
+    $default  reduce using rule 42 (initialization)
 
 
 State 208
+
+   43 initialization: TK_OC_LE literal •
+
+    $default  reduce using rule 43 (initialization)
+
+
+State 209
+
+   40 id_list: id_list ',' id • initialization
+
+    TK_OC_LE  shift, and go to state 197
+
+    initialization  go to state 213
+
+
+State 210
 
    18 parameters: parameters ',' const type id •
 
     $default  reduce using rule 18 (parameters)
 
 
-State 209
-
-   94 conditional: TK_PR_IF '(' expr ')' command_block TK_PR_ELSE command_block •
-
-    $default  reduce using rule 94 (conditional)
-
-
-State 210
-
-   95 iterative: TK_PR_FOR '(' attribution ':' expr ':' attribution • ')' command_block
-
-    ')'  shift, and go to state 212
-
-
 State 211
 
-   38 id_list: id_list ',' id initialization •
+   96 conditional: TK_PR_IF '(' expr ')' command_block TK_PR_ELSE command_block •
 
-    $default  reduce using rule 38 (id_list)
+    $default  reduce using rule 96 (conditional)
 
 
 State 212
 
-   95 iterative: TK_PR_FOR '(' attribution ':' expr ':' attribution ')' • command_block
+   97 iterative: TK_PR_FOR '(' attribution ':' expr ':' attribution • ')' command_block
 
-    '{'  shift, and go to state 17
-
-    command_block  go to state 213
+    ')'  shift, and go to state 214
 
 
 State 213
 
-   95 iterative: TK_PR_FOR '(' attribution ':' expr ':' attribution ')' command_block •
+   40 id_list: id_list ',' id initialization •
 
-    $default  reduce using rule 95 (iterative)
+    $default  reduce using rule 40 (id_list)
+
+
+State 214
+
+   97 iterative: TK_PR_FOR '(' attribution ':' expr ':' attribution ')' • command_block
+
+    '{'  shift, and go to state 17
+
+    command_block  go to state 215
+    open_block     go to state 19
+
+
+State 215
+
+   97 iterative: TK_PR_FOR '(' attribution ':' expr ':' attribution ')' command_block •
+
+    $default  reduce using rule 97 (iterative)

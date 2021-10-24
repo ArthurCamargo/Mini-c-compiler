@@ -1,17 +1,21 @@
 %{
 #include "tree.h"
+#include "stack.h"
+#include "symbol_table.h"
+
 int yylex(void); void yyerror (char const *s);
 extern tree* arvore;
+extern stack* st;
 %}
 
 %start start
 
 %union {
-    symbol valor_lexico;
+    token_value valor_lexico;
     tree* ast;
 }
 
-%type<ast> start program declaration global_variable_body global_fotter vector_declaration
+%type<ast> start program declaration global_variable_body global_fotter vector_declaration close_block open_block
 %type<ast> static id function func_header list parameters const command_block command
 %type<ast> simple_command local_variable id_list initialization literal attribution
 %type<ast> operand_arit expr ternary unary_minus or and or_log and_log equal rel soma_sub mult_div
@@ -40,20 +44,21 @@ start:
      program {arvore = $1;}
 
 program
-    : declaration program {$$ = $1; $$ = insert_child($$, $2);}//c
+    : declaration program {$$ = $1; $$ = insert_child($$, $2);}
     |                     {$$ = NULL;}
     ;
 
 declaration
-    : function             {$$ = $1;} | global_variable_body {$$ = NULL;}
+    : function             {$$ = $1;}
+    | global_variable_body {$$ = NULL;}
     ;
 
 global_variable_body
-    : static type id vector_declaration global_fotter ';' {$$ = NULL;} //declare
+    : static type id vector_declaration global_fotter ';' {insert_symbol();} //declare
     ;
 
 global_fotter
-    : ',' id vector_declaration global_fotter {$$ = NULL;} //declare
+    : ',' id vector_declaration global_fotter {insert_symbol(st.table, create_symbol() );} //declare
     |       {$$ = NULL;}
     ;
 
@@ -95,7 +100,15 @@ const
     ;
 
 command_block
-    : '{' command '}'     {$$ = $2;}
+    : open_block command close_block     {$$ = $2;}
+    ;
+
+open_block
+    : '{'                         {push(st, create_table());}
+    ;
+
+close_block
+    : '}'                         {pop(st);}
     ;
 
 command
