@@ -2,10 +2,12 @@
 #include "tree.h"
 #include "stack.h"
 #include "symbol_table.h"
+#include "error.h"
 
-int yylex(void); void yyerror (char const *s);
+int yylex(void); int yyerror (char const* s);
 extern tree* arvore;
 extern stack* st;
+
 %}
 
 %start start
@@ -15,12 +17,13 @@ extern stack* st;
     tree* ast;
 }
 
-%type<ast> start program declaration global_variable_body global_fotter vector_declaration close_block open_block
+%type<ast> start program declaration global_variable_body global_fotter close_block open_block
 %type<ast> static id function func_header list parameters const command_block command
 %type<ast> simple_command local_variable id_list initialization literal attribution
 %type<ast> operand_arit expr ternary unary_minus or and or_log and_log equal rel soma_sub mult_div
 %type<ast> exponential unary parenthesis flux_control conditional iterative vector_attribution
 %type<ast> input output return break continue shift func_call args type
+%type<valor_lexico> vector_declaration
 
 //Literals
 %token<valor_lexico> TK_LIT_UINT  TK_LIT_INT TK_LIT_FLOAT TK_LIT_FALSE TK_LIT_TRUE TK_LIT_CHAR TK_LIT_STRING
@@ -54,17 +57,20 @@ declaration
     ;
 
 global_variable_body
-    : static type id vector_declaration global_fotter ';' {insert_symbol();} //declare
+    : static type id vector_declaration global_fotter ';' { symbol s = create_symbol($4.lv.v.vui, NULL, $3->data);
+                                                           insert_symbol(st->table, s);} //declare
     ;
 
 global_fotter
-    : ',' id vector_declaration global_fotter {insert_symbol(st.table, create_symbol() );} //declare
+    : ',' id vector_declaration global_fotter {symbol s = create_symbol($3.lv.v.vui, NULL, $2->data);
+                                               insert_symbol(st->table, s);
+                                               } //declare
     |       {$$ = NULL;}
     ;
 
 vector_declaration
-    : '[' TK_LIT_UINT ']' {$$ = NULL;}
-    |                     {$$ = NULL;}
+    : '[' TK_LIT_UINT ']' {$$ = $2;}
+    |                     {}
     ;
 
 static
@@ -100,15 +106,15 @@ const
     ;
 
 command_block
-    : open_block command close_block     {$$ = $2;}
+    : open_block command  close_block {$$ = $2;}
     ;
 
 open_block
-    : '{'                         {push(st, create_table());}
+    : '{'                         {symbol_table table = create_table(); push(&st, &table);}
     ;
 
 close_block
-    : '}'                         {pop(st);}
+    : '}'                         {pop(&st);}
     ;
 
 command
@@ -136,9 +142,16 @@ local_variable
     ;
 
 id_list
-    : id initialization              {$$ = $2; $$ = insert_child($$, $1);}
-    | id_list ',' id  initialization {$$ = $3; $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | id                             {$$ = NULL;}
+    : id initialization              {$$ = $2; $$ = insert_child($$, $1);
+                                      symbol s = create_symbol(1, NULL, $1->data);
+                                      insert_symbol(st->table, s);}
+
+    | id_list ',' id  initialization {$$ = $3; $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                                      symbol s = create_symbol(1, NULL, $3->data);
+                                      insert_symbol(st->table, s);}
+
+    | id                             { symbol s = create_symbol(1, NULL, $1->data);
+                                               insert_symbol(st->table, s);}
     ;
 
 initialization
@@ -157,7 +170,9 @@ literal
     ;
 
 attribution
-    : id '=' expr   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : id '=' expr   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                     if(!search(st, $1->data.lv.v.vs)) {printf("Variável não declarada %s: line (%d)", $1->data.lv.v.vs, $1->data.line); exit(10);}
+                     }
     | vector_attribution '=' expr  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
     ;
 
@@ -309,6 +324,7 @@ func_call
 args
     : expr ',' args  {$$ = $1; $$ = insert_child($$, $3);}
     | expr           {$$ = $1;}
+    |                {$$ = NULL;}
     ;
 
 operand_arit

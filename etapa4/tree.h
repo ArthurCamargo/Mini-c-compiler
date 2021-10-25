@@ -2,6 +2,7 @@
 #define TREE_H
 
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -21,9 +22,7 @@ typedef enum token_type
     COMPOSE_OP,
     ID,
     LITERAL,
-    FUNCTION,
 }token_type;
-
 
 typedef union value
 {
@@ -56,7 +55,9 @@ typedef struct tree
 } tree;
 
 token_value create_token(int line, token_type t, type literal);
-token_value create_token_value_int_uint_bool(int line, token_type t, type literal, int n);
+token_value create_token_value_int(int line, token_type t, type literal, int n);
+token_value create_token_value_uint(int line, token_type t, type literal, uint n);
+token_value create_token_value_bool(int line, token_type t, type literal, bool n);
 token_value create_token_value_char(int line, token_type t, type literal, char n);
 token_value create_token_value_string(int line, token_type t, type literal, char* n);
 token_value create_token_value_float(int line, token_type t, type literal, float n);

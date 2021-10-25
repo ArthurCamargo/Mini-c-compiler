@@ -141,7 +141,25 @@ token_value create_token_value(int line, token_type t, type literal)
     return s;
 }
 
-token_value create_token_value_int_uint_bool(int line, token_type t, type literal, int n)
+token_value create_token_value_uint(int line, token_type t, type literal, uint n)
+{ token_value s;
+    s.token_t = t;
+    s.lv.lt = literal;
+    s.lv.v.vui = n;
+
+    return s;
+}
+
+token_value create_token_value_int(int line, token_type t, type literal, int n)
+{ token_value s;
+    s.token_t = t;
+    s.lv.lt = literal;
+    s.lv.v.vi = n;
+
+    return s;
+}
+
+token_value create_token_value_bool(int line, token_type t, type literal, bool n)
 { token_value s;
     s.token_t = t;
     s.lv.lt = literal;

@@ -4,6 +4,7 @@
 #include "tree.h"
 #include "stack.h"
 #include "symbol_table.h"
+#include "error.h"
 #include "parser.tab.h"
 #define YYSTYPE tree
 
@@ -97,19 +98,19 @@ white [ \t]+
 "<<" { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_SR;  }
 
-{positiveInteger}  { yylval.valor_lexico = create_token_value_int_uint_bool(get_line_number(), LITERAL, TYPE_UINT, atoi(yytext));
+{positiveInteger}  { yylval.valor_lexico = create_token_value_uint(get_line_number(), LITERAL, TYPE_UINT, atoi(yytext));
                          return TK_LIT_UINT;}
 
-{integer}          { yylval.valor_lexico = create_token_value_int_uint_bool(get_line_number(), LITERAL, TYPE_INT, atoi(yytext));
+{integer}          { yylval.valor_lexico = create_token_value_int(get_line_number(), LITERAL, TYPE_INT, atoi(yytext));
                          return TK_LIT_INT;}
 
 {float}            { yylval.valor_lexico = create_token_value_float(get_line_number(), LITERAL, TYPE_FLOAT, atof(yytext));
                          return TK_LIT_FLOAT;}
 
-"true"             { yylval.valor_lexico = create_token_value_int_uint_bool(get_line_number(), LITERAL, TYPE_BOOL, 1);
+"true"             { yylval.valor_lexico = create_token_value_bool(get_line_number(), LITERAL, TYPE_BOOL, true);
                          return TK_LIT_TRUE;}
 
-"false"            { yylval.valor_lexico = create_token_value_int_uint_bool(get_line_number(), LITERAL, TYPE_BOOL, 0);
+"false"            { yylval.valor_lexico = create_token_value_bool(get_line_number(), LITERAL, TYPE_BOOL, false);
                          return TK_LIT_FALSE;}
 
 "'".?"'"           { yylval.valor_lexico = create_token_value_char(get_line_number(), LITERAL, TYPE_CHAR, yytext[1]);

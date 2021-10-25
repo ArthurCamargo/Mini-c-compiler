@@ -10,14 +10,35 @@ arguments create_args(int n, token_type _type, arguments * _next)
     return args;
 }
 
-symbol create_symbol(int location, int nature, int type, int size, arguments args, token_value tv)
+symbol create_symbol(int size_mult, arguments *args, token_value tv)
 {
     symbol s;
-    s.location = location;
-    s.nature = nature;
-    s.t_type = type ;
-    s.size = size ;
-    s.args = args;
+    s.location = tv.line;
+    s.nature = tv.token_t;
+    s.t_type = tv.lv.lt;
+    switch(s.tv.lv.lt)
+    {
+        case TYPE_UINT:
+            s.size = 32 * size_mult;
+            break;
+        case TYPE_INT:
+            s.size = 32 * size_mult;
+            break;
+        case TYPE_BOOL:
+            s.size = 8 * size_mult;
+            break;
+        case TYPE_FLOAT:
+            s.size = 64 * size_mult;
+            break;
+        case TYPE_CHAR:
+            s.size = 8 * size_mult;
+            break;
+        case TYPE_STRING:
+            s.size = 1 * size_mult;
+            break;
+    }
+
+    //s.args = *args;
     s.tv = tv;
 
     return s;
@@ -29,7 +50,7 @@ symbol_table create_table()
     for(int i = 0; i < MAX_SIZE; i ++)
     {
         table.key[i]  = NULL;
-        table.data[i] = NULL;
+        table.data[i].location = -1;
     }
 
     return table;
@@ -38,29 +59,38 @@ void insert_symbol(symbol_table * table, symbol sym)
 {
     int pos = hash(sym.tv.lv.v.vs);
 
-    while(table->data[pos] != NULL)
+    while(table->data[pos].location != - 1)
     {
         pos ++;
         pos = pos % MAX_SIZE;
     }
-    table->data[pos] = &sym;
+    table->data[pos] = sym;
 }
 
-int get_symbol(symbol_table *table, char *string, symbol *new_symbol)
+uint verify_symbol(symbol_table *table, char *string)
 {
     uint key = hash(string);
-    while(table->data[key] != NULL && table->data[key]->tv.lv.v.vs != string)
+
+    while(table->data[key].location != -1 && strcmp(table->data[key].tv.lv.v.vs, string))
     {
         key ++;
         key = key % MAX_SIZE;
     }
-    if(table->data[key] == NULL)
+    if(table->data[key].location == -1)
         return 0;
     else
     {
-        new_symbol = table->data[key];
-        return 1;
+        return key;
     }
+}
+
+symbol get_symbol(symbol_table *table, char *string)
+{
+    uint key;
+    if((key = verify_symbol(table, string)))
+       return table->data[key];
+
+    return table->data[0];
 }
 
 uint hash(char *str)
@@ -68,8 +98,9 @@ uint hash(char *str)
     uint hash = 5381;
     uint c;
 
-    while ((c = *str++))
-        hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+    int n = strlen(str);
+    for(int i = 0; i < n; i ++)
+        hash = (hash * 33) + str[n]; /* hash * 33 + c */
 
-    return hash;
+    return hash % MAX_SIZE;
 }

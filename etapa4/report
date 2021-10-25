@@ -178,21 +178,22 @@ Grammar
 
   110 args: expr ',' args
   111     | expr
+  112     | ε
 
-  112 operand_arit: vector_attribution
-  113             | id
-  114             | TK_LIT_UINT
-  115             | TK_LIT_INT
-  116             | TK_LIT_FLOAT
-  117             | TK_LIT_TRUE
-  118             | TK_LIT_FALSE
-  119             | func_call
+  113 operand_arit: vector_attribution
+  114             | id
+  115             | TK_LIT_UINT
+  116             | TK_LIT_INT
+  117             | TK_LIT_FLOAT
+  118             | TK_LIT_TRUE
+  119             | TK_LIT_FALSE
+  120             | func_call
 
-  120 type: TK_PR_INT
-  121     | TK_PR_FLOAT
-  122     | TK_PR_BOOL
-  123     | TK_PR_CHAR
-  124     | TK_PR_STRING
+  121 type: TK_PR_INT
+  122     | TK_PR_FLOAT
+  123     | TK_PR_BOOL
+  124     | TK_PR_CHAR
+  125     | TK_PR_STRING
 
 
 Terminals, with rules where they appear
@@ -224,19 +225,19 @@ Terminals, with rules where they appear
     '|' <valor_lexico> (124) 64
     '}' <valor_lexico> (125) 24
     error (256)
-    TK_LIT_UINT <valor_lexico> (258) 9 44 105 106 107 108 114
-    TK_LIT_INT <valor_lexico> (259) 45 115
-    TK_LIT_FLOAT <valor_lexico> (260) 46 116
-    TK_LIT_FALSE <valor_lexico> (261) 47 118
-    TK_LIT_TRUE <valor_lexico> (262) 48 117
+    TK_LIT_UINT <valor_lexico> (258) 9 44 105 106 107 108 115
+    TK_LIT_INT <valor_lexico> (259) 45 116
+    TK_LIT_FLOAT <valor_lexico> (260) 46 117
+    TK_LIT_FALSE <valor_lexico> (261) 47 119
+    TK_LIT_TRUE <valor_lexico> (262) 48 118
     TK_LIT_CHAR <valor_lexico> (263) 49
     TK_LIT_STRING <valor_lexico> (264) 50
     TK_IDENTIFICADOR <valor_lexico> (265) 13
-    TK_PR_INT <valor_lexico> (266) 120
-    TK_PR_FLOAT <valor_lexico> (267) 121
-    TK_PR_BOOL <valor_lexico> (268) 122
-    TK_PR_STRING <valor_lexico> (269) 124
-    TK_PR_CHAR <valor_lexico> (270) 123
+    TK_PR_INT <valor_lexico> (266) 121
+    TK_PR_FLOAT <valor_lexico> (267) 122
+    TK_PR_BOOL <valor_lexico> (268) 123
+    TK_PR_STRING <valor_lexico> (269) 125
+    TK_PR_CHAR <valor_lexico> (270) 124
     TK_PR_IF <valor_lexico> (271) 95 96
     TK_PR_THEN <valor_lexico> (272)
     TK_PR_ELSE <valor_lexico> (273) 96
@@ -289,7 +290,7 @@ Nonterminals, with rules where they appear
     global_fotter <ast> (77)
         on left: 7 8
         on right: 6 7
-    vector_declaration <ast> (78)
+    vector_declaration <valor_lexico> (78)
         on left: 9 10
         on right: 6 7
     static <ast> (79)
@@ -297,7 +298,7 @@ Nonterminals, with rules where they appear
         on right: 6 15 38
     id <ast> (80)
         on left: 13
-        on right: 6 7 15 18 19 39 40 41 42 51 53 99 100 105 106 109 113
+        on right: 6 7 15 18 19 39 40 41 42 51 53 99 100 105 106 109 114
     function <ast> (81)
         on left: 14
         on right: 4
@@ -345,7 +346,7 @@ Nonterminals, with rules where they appear
         on right: 29 97
     vector_attribution <ast> (96)
         on left: 53
-        on right: 52 107 108 112
+        on right: 52 107 108 113
     expr <ast> (97)
         on left: 54
         on right: 51 52 53 91 95 96 97 98 102 110 111
@@ -417,15 +418,15 @@ Nonterminals, with rules where they appear
         on right: 34
     func_call <ast> (120)
         on left: 109
-        on right: 37 119
+        on right: 37 120
     args <ast> (121)
-        on left: 110 111
+        on left: 110 111 112
         on right: 109 110
     operand_arit <ast> (122)
-        on left: 112 113 114 115 116 117 118 119
+        on left: 113 114 115 116 117 118 119 120
         on right: 92
     type <ast> (123)
-        on left: 120 121 122 123 124
+        on left: 121 122 123 124 125
         on right: 6 15 18 19 38
 
 
@@ -539,37 +540,37 @@ State 10
 
 State 11
 
-  120 type: TK_PR_INT •
-
-    $default  reduce using rule 120 (type)
-
-
-State 12
-
-  121 type: TK_PR_FLOAT •
+  121 type: TK_PR_INT •
 
     $default  reduce using rule 121 (type)
 
 
-State 13
+State 12
 
-  122 type: TK_PR_BOOL •
+  122 type: TK_PR_FLOAT •
 
     $default  reduce using rule 122 (type)
 
 
+State 13
+
+  123 type: TK_PR_BOOL •
+
+    $default  reduce using rule 123 (type)
+
+
 State 14
 
-  124 type: TK_PR_STRING •
+  125 type: TK_PR_STRING •
 
-    $default  reduce using rule 124 (type)
+    $default  reduce using rule 125 (type)
 
 
 State 15
 
-  123 type: TK_PR_CHAR •
+  124 type: TK_PR_CHAR •
 
-    $default  reduce using rule 123 (type)
+    $default  reduce using rule 124 (type)
 
 
 State 16
@@ -1093,37 +1094,37 @@ State 63
 
 State 64
 
-  114 operand_arit: TK_LIT_UINT •
-
-    $default  reduce using rule 114 (operand_arit)
-
-
-State 65
-
-  115 operand_arit: TK_LIT_INT •
+  115 operand_arit: TK_LIT_UINT •
 
     $default  reduce using rule 115 (operand_arit)
 
 
-State 66
+State 65
 
-  116 operand_arit: TK_LIT_FLOAT •
+  116 operand_arit: TK_LIT_INT •
 
     $default  reduce using rule 116 (operand_arit)
 
 
+State 66
+
+  117 operand_arit: TK_LIT_FLOAT •
+
+    $default  reduce using rule 117 (operand_arit)
+
+
 State 67
 
-  118 operand_arit: TK_LIT_FALSE •
+  119 operand_arit: TK_LIT_FALSE •
 
-    $default  reduce using rule 118 (operand_arit)
+    $default  reduce using rule 119 (operand_arit)
 
 
 State 68
 
-  117 operand_arit: TK_LIT_TRUE •
+  118 operand_arit: TK_LIT_TRUE •
 
-    $default  reduce using rule 117 (operand_arit)
+    $default  reduce using rule 118 (operand_arit)
 
 
 State 69
@@ -1368,19 +1369,19 @@ State 77
 
    53 vector_attribution: id • '[' expr ']'
   109 func_call: id • '(' args ')'
-  113 operand_arit: id •
+  114 operand_arit: id •
 
     '('  shift, and go to state 100
     '['  shift, and go to state 101
 
-    $default  reduce using rule 113 (operand_arit)
+    $default  reduce using rule 114 (operand_arit)
 
 
 State 78
 
-  112 operand_arit: vector_attribution •
+  113 operand_arit: vector_attribution •
 
-    $default  reduce using rule 112 (operand_arit)
+    $default  reduce using rule 113 (operand_arit)
 
 
 State 79
@@ -1527,9 +1528,9 @@ State 92
 
 State 93
 
-  119 operand_arit: func_call •
+  120 operand_arit: func_call •
 
-    $default  reduce using rule 119 (operand_arit)
+    $default  reduce using rule 120 (operand_arit)
 
 
 State 94
@@ -1602,6 +1603,8 @@ State 100
     '!'               shift, and go to state 74
     '&'               shift, and go to state 75
     '#'               shift, and go to state 76
+
+    $default  reduce using rule 112 (args)
 
     id                  go to state 77
     vector_attribution  go to state 78
@@ -2916,6 +2919,8 @@ State 187
     '!'               shift, and go to state 74
     '&'               shift, and go to state 75
     '#'               shift, and go to state 76
+
+    $default  reduce using rule 112 (args)
 
     id                  go to state 77
     vector_attribution  go to state 78

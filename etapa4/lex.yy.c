@@ -552,6 +552,7 @@ char *yytext;
 #include "tree.h"
 #include "stack.h"
 #include "symbol_table.h"
+#include "error.h"
 #include "parser.tab.h"
 #define YYSTYPE tree
 
@@ -562,8 +563,8 @@ int get_line_number()
     return g_line_number;
 }
 
-#line 565 "lex.yy.c"
 #line 566 "lex.yy.c"
+#line 567 "lex.yy.c"
 
 #define INITIAL 0
 
@@ -780,9 +781,9 @@ YY_DECL
 		}
 
 	{
-#line 28 "scanner.l"
+#line 29 "scanner.l"
 
-#line 785 "lex.yy.c"
+#line 786 "lex.yy.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -841,165 +842,165 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 29 "scanner.l"
+#line 30 "scanner.l"
 {}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 30 "scanner.l"
+#line 31 "scanner.l"
 {}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 31 "scanner.l"
+#line 32 "scanner.l"
 {}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 33 "scanner.l"
+#line 34 "scanner.l"
 { return TK_PR_INT;      }
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 34 "scanner.l"
+#line 35 "scanner.l"
 { return TK_PR_FLOAT;    }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 35 "scanner.l"
+#line 36 "scanner.l"
 { return TK_PR_BOOL;     }
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 36 "scanner.l"
+#line 37 "scanner.l"
 { return TK_PR_CHAR;     }
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 37 "scanner.l"
+#line 38 "scanner.l"
 { return TK_PR_STRING;   }
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 39 "scanner.l"
+#line 40 "scanner.l"
 {  yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
     return TK_PR_IF;       }
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 41 "scanner.l"
+#line 42 "scanner.l"
 { return TK_PR_THEN;     }
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 42 "scanner.l"
+#line 43 "scanner.l"
 { return TK_PR_ELSE;     }
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 44 "scanner.l"
+#line 45 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
                 return TK_PR_WHILE;   }
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 47 "scanner.l"
+#line 48 "scanner.l"
 { return TK_PR_DO;       }
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 49 "scanner.l"
+#line 50 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
                 return TK_PR_INPUT;   }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 52 "scanner.l"
+#line 53 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
                 return TK_PR_OUTPUT;   }
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 55 "scanner.l"
+#line 56 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
                 return TK_PR_RETURN;   }
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 58 "scanner.l"
+#line 59 "scanner.l"
 { return TK_PR_CONST;    }
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 59 "scanner.l"
+#line 60 "scanner.l"
 { return TK_PR_STATIC;   }
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 60 "scanner.l"
+#line 61 "scanner.l"
 { return TK_PR_FOREACH;  }
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 62 "scanner.l"
+#line 63 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
                 return TK_PR_FOR;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 65 "scanner.l"
+#line 66 "scanner.l"
 { return TK_PR_SWITCH;   }
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 66 "scanner.l"
+#line 67 "scanner.l"
 { return TK_PR_CASE;     }
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 67 "scanner.l"
+#line 68 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
                 return TK_PR_BREAK;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 69 "scanner.l"
+#line 70 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
                 return TK_PR_CONTINUE; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 71 "scanner.l"
+#line 72 "scanner.l"
 { return TK_PR_CLASS;    }
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 72 "scanner.l"
+#line 73 "scanner.l"
 { return TK_PR_PRIVATE;  }
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 73 "scanner.l"
+#line 74 "scanner.l"
 { return TK_PR_PUBLIC;   }
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 74 "scanner.l"
+#line 75 "scanner.l"
 { return TK_PR_PROTECTED;}
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 75 "scanner.l"
+#line 76 "scanner.l"
 { return TK_PR_END;      }
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 76 "scanner.l"
+#line 77 "scanner.l"
 { return TK_PR_DEFAULT;  }
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 78 "scanner.l"
+#line 79 "scanner.l"
 {
     yylval.valor_lexico = create_token_value_char(get_line_number(), SPECIAL_CHAR, TYPE_CHAR, yytext[0]);
     return yytext[0];
@@ -1007,117 +1008,117 @@ YY_RULE_SETUP
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 83 "scanner.l"
+#line 84 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_LE;}
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 85 "scanner.l"
+#line 86 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_GE;  }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 87 "scanner.l"
+#line 88 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_EQ;  }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 89 "scanner.l"
+#line 90 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_NE;  }
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 91 "scanner.l"
+#line 92 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_AND; }
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 93 "scanner.l"
+#line 94 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_OR;  }
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 95 "scanner.l"
+#line 96 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_SL;  }
 	YY_BREAK
 case 39:
 YY_RULE_SETUP
-#line 97 "scanner.l"
+#line 98 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_SR;  }
 	YY_BREAK
 case 40:
 YY_RULE_SETUP
-#line 100 "scanner.l"
-{ yylval.valor_lexico = create_token_value_int_uint_bool(get_line_number(), LITERAL, TYPE_UINT, atoi(yytext));
+#line 101 "scanner.l"
+{ yylval.valor_lexico = create_token_value_uint(get_line_number(), LITERAL, TYPE_UINT, atoi(yytext));
                          return TK_LIT_UINT;}
 	YY_BREAK
 case 41:
 YY_RULE_SETUP
-#line 103 "scanner.l"
-{ yylval.valor_lexico = create_token_value_int_uint_bool(get_line_number(), LITERAL, TYPE_INT, atoi(yytext));
+#line 104 "scanner.l"
+{ yylval.valor_lexico = create_token_value_int(get_line_number(), LITERAL, TYPE_INT, atoi(yytext));
                          return TK_LIT_INT;}
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 106 "scanner.l"
+#line 107 "scanner.l"
 { yylval.valor_lexico = create_token_value_float(get_line_number(), LITERAL, TYPE_FLOAT, atof(yytext));
                          return TK_LIT_FLOAT;}
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 109 "scanner.l"
-{ yylval.valor_lexico = create_token_value_int_uint_bool(get_line_number(), LITERAL, TYPE_BOOL, 1);
+#line 110 "scanner.l"
+{ yylval.valor_lexico = create_token_value_bool(get_line_number(), LITERAL, TYPE_BOOL, true);
                          return TK_LIT_TRUE;}
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 112 "scanner.l"
-{ yylval.valor_lexico = create_token_value_int_uint_bool(get_line_number(), LITERAL, TYPE_BOOL, 0);
+#line 113 "scanner.l"
+{ yylval.valor_lexico = create_token_value_bool(get_line_number(), LITERAL, TYPE_BOOL, false);
                          return TK_LIT_FALSE;}
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 115 "scanner.l"
+#line 116 "scanner.l"
 { yylval.valor_lexico = create_token_value_char(get_line_number(), LITERAL, TYPE_CHAR, yytext[1]);
                         return TK_LIT_CHAR;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 118 "scanner.l"
+#line 119 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), LITERAL, TYPE_STRING, strdup(yytext));
                         return TK_LIT_STRING;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 121 "scanner.l"
+#line 122 "scanner.l"
 { yylval.valor_lexico = create_token_value_string(get_line_number(), ID, TYPE_STRING, strdup(yytext));
                                             return TK_IDENTIFICADOR;}
 	YY_BREAK
 case 48:
 /* rule 48 can match eol */
 YY_RULE_SETUP
-#line 124 "scanner.l"
+#line 125 "scanner.l"
 {g_line_number++;}
 	YY_BREAK
 case 49:
 YY_RULE_SETUP
-#line 126 "scanner.l"
+#line 127 "scanner.l"
 { return TOKEN_ERRO; }
 	YY_BREAK
 case 50:
 YY_RULE_SETUP
-#line 128 "scanner.l"
+#line 129 "scanner.l"
 ECHO;
 	YY_BREAK
-#line 1120 "lex.yy.c"
+#line 1121 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -2122,6 +2123,6 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 128 "scanner.l"
+#line 129 "scanner.l"
 
 

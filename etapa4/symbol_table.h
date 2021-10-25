@@ -4,7 +4,7 @@
 #include "tree.h"
 #include <limits.h>
 
-#define MAX_SIZE 100000
+#define MAX_SIZE 10
 
 typedef struct arguments
 {
@@ -26,7 +26,7 @@ typedef struct symbol
 typedef struct symbol_table
 {
     char* key[MAX_SIZE];    // key
-    symbol* data[MAX_SIZE]; // symbol of the table
+    symbol data[MAX_SIZE]; // symbol of the table
 }symbol_table;
 
 
@@ -36,7 +36,8 @@ symbol_table create_table();
 symbol create_symbol();
 uint hash(char * str);
 void insert_symbol();
-int get_symbol(symbol_table *table, char * string, symbol* new_symbol);
+symbol get_symbol(symbol_table *table, char * string);
+uint verify_symbol(symbol_table *table, char *string);
 
 #endif
 
