@@ -10,7 +10,12 @@
 
 extern int yyparse(void);
 extern int yylex_destroy(void);
-extern int yyerror(char const* str);
+
+int yyerror(const char *s)
+{
+    fprintf(stderr, "%s\n",s);
+    return 0;
+}
 
 tree *arvore = NULL;
 stack *st = NULL;

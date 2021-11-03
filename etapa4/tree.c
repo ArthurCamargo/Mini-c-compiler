@@ -97,13 +97,13 @@ void exporta(tree* arvore)
     switch(arvore->data.token_t)
     {
         case SPECIAL_CHAR:
-            printf("%p [label=\"%c\"];\n", arvore, arvore->data.lv.v.vc);
+            printf("%p [label=\"%s\"];\n", arvore, arvore->data.lexeme);
             break;
         case COMPOSE_OP:
-            printf("%p [label=\"%s\"];\n", arvore, arvore->data.lv.v.vs);
+            printf("%p [label=\"%s\"];\n", arvore, arvore->data.lexeme);
             break;
         case ID:
-            printf("%p [label=\"%s\"];\n", arvore, arvore->data.lv.v.vs);
+            printf("%p [label=\"%s\"];\n", arvore, arvore->data.lexeme);
             break;
         case LITERAL:
             switch(arvore->data.lv.lt)
@@ -131,73 +131,87 @@ void exporta(tree* arvore)
     }
 }
 
-token_value create_token_value(int line, token_type t, type literal)
+token_value create_token_value(int line, token_type t, char *lexeme)
 {
     token_value s;
     s.line = line;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lexeme = lexeme;
 
     return s;
 }
 
-token_value create_token_value_uint(int line, token_type t, type literal, uint n)
-{ token_value s;
+token_value create_token_value_uint(int line, token_type t, type lexeme_type, char* lexeme, uint n)
+{
+    token_value s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.lt = lexeme_type;
+    s.lexeme = lexeme;
     s.lv.v.vui = n;
+    s.t_type = TYPE_UINT;
 
     return s;
 }
 
-token_value create_token_value_int(int line, token_type t, type literal, int n)
-{ token_value s;
+token_value create_token_value_int(int line, token_type t, type lexeme_type, char *lexeme,  int n)
+{
+    token_value s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.lt = lexeme_type;
+    s.lexeme = lexeme;
     s.lv.v.vi = n;
+    s.t_type = TYPE_INT;
 
     return s;
 }
 
-token_value create_token_value_bool(int line, token_type t, type literal, bool n)
-{ token_value s;
+token_value create_token_value_bool(int line, token_type t, type lexeme_type, char *lexeme, bool n)
+{
+    token_value s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.lt = lexeme_type;
+    s.lexeme = lexeme;
     s.lv.v.vb = n;
+    s.t_type = TYPE_BOOL;
 
     return s;
 }
 
-token_value create_token_value_char(int line, token_type t, type literal, char n)
+token_value create_token_value_char(int line, token_type t, type lexeme_type, char *lexeme, char n)
 {
     token_value s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.lt = lexeme_type;
+    s.lexeme = lexeme;
     s.lv.v.vc = n;
+    s.t_type = TYPE_CHAR;
 
     return s;
 }
 
-token_value create_token_value_string(int line, token_type t, type literal, char* n)
+token_value create_token_value_string(int line, token_type t, type lexeme_type, char *lexeme, char* n)
 {
     token_value s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.lt = lexeme_type;
+    s.lexeme = lexeme;
     s.lv.v.vs = n;
+    s.t_type = TYPE_STRING;
 
     return s;
 }
 
-token_value create_token_value_float(int line, token_type t, type literal, float n)
+token_value create_token_value_float(int line, token_type t, type lexeme_type, char *lexeme, float n)
 {
     token_value s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.lt = lexeme_type;
+    s.lexeme = lexeme;
+    s.t_type = TYPE_FLOAT;
     s.lv.v.vf = n;
 
     return s;
 }
-
 
 void libera(tree * t)
 {
@@ -209,8 +223,9 @@ void libera(tree * t)
         libera(t->child[i]);
     }
 
-    if(t->data.lv.lt == TYPE_STRING || t->data.token_t == ID)
+    if(t->data.lv.lt == TYPE_STRING)
         free(t->data.lv.v.vs);
+    free(t->data.lexeme);
     free(t->child);
     free(t);
 }

@@ -21,24 +21,11 @@
 #define ERR_WRONG_PAR_SHIFT  53
 
 #include <stdio.h>
-#include "symbol_table.h"
+#include "stack.h"
 
 
-
-int yyerror (char const * s) {
-    fprintf(stderr, "%s", s);
-    return 1;
-}
-
-int error_and_exit(int error_number, token_value tk)
-{
-    switch(error_number)
-    {
-        case ERR_UNDECLARED:
-            printf("Variável não declarada %s: line (%d)", tk.lv.v.vs, tk.line);
-            break;
-    }
-    exit(error_number);
-}
+int check_errors_attribution();
+int check_errors_declaration();
+int error_and_exit();
 
 #endif

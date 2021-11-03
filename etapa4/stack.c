@@ -23,8 +23,6 @@ symbol_table* pop(stack **s)
     return table;
 }
 
-
-
 void push(stack **s, symbol_table *table)
 {
     stack *temp;
@@ -38,20 +36,23 @@ int search(stack *s, char* string)
 {
     stack *temp;
     temp = s;
-    while(!verify_symbol(s->table, string))
+    bool verifing = true;
+    while(verifing)
     {
-        s = s->next;
+        if(s)
+        {
+            verifing = verify_symbol(s->table, string);
+            s = s->next;
+        }
+        else
+        {
+            verifing = false;
+            s = temp;
+            return 0;
+        }
     }
-    if(s)
-    {
-        s = temp;
-        return 1;
-    }
-    else
-    {
-        s = temp;
-        return 0;
-    }
+    s = temp;
+    return 1;
 }
 
 void destroy_stack(stack *s)

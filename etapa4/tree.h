@@ -8,6 +8,7 @@
 
 typedef enum type
 {
+    TYPE_UNKNOWN,
     TYPE_UINT,
     TYPE_INT,
     TYPE_FLOAT,
@@ -22,7 +23,7 @@ typedef enum token_type
     COMPOSE_OP,
     ID,
     LITERAL,
-}token_type;
+} token_type;
 
 typedef union value
 {
@@ -32,18 +33,20 @@ typedef union value
     int vb;           //bool
     char* vs;         //string
     char vc;          //char
-}value;
+} value;
 
 typedef struct literal_value
 {
     type lt;
     value v;
-}literal_value;
+} literal_value;
 
 typedef struct token_value
 {
     int line;
     token_type token_t;
+    type t_type;
+    char * lexeme;
     literal_value lv;
 } token_value;
 
@@ -54,13 +57,13 @@ typedef struct tree
     struct tree** child;
 } tree;
 
-token_value create_token(int line, token_type t, type literal);
-token_value create_token_value_int(int line, token_type t, type literal, int n);
-token_value create_token_value_uint(int line, token_type t, type literal, uint n);
-token_value create_token_value_bool(int line, token_type t, type literal, bool n);
-token_value create_token_value_char(int line, token_type t, type literal, char n);
-token_value create_token_value_string(int line, token_type t, type literal, char* n);
-token_value create_token_value_float(int line, token_type t, type literal, float n);
+token_value create_token_value(int line, token_type t, char *lexeme);
+token_value create_token_value_int(int line, token_type t, type lexeme_type, char *lexeme,  int n);
+token_value create_token_value_uint(int line, token_type t, type lexeme_type, char *lexeme,  uint n);
+token_value create_token_value_bool(int line, token_type t, type lexeme_type, char *lexeme,  bool n);
+token_value create_token_value_char(int line, token_type t, type lexeme_type, char *lexeme,  char n);
+token_value create_token_value_string(int line, token_type t, type lexeme_type, char *lexeme,  char* n);
+token_value create_token_value_float(int line, token_type t, type lexeme_type, char *lexeme,  float n);
 tree* empty_tree();
 tree* insert_leaf(token_value data);
 tree* insert_child(tree* t, tree* tc);

@@ -67,37 +67,38 @@ extern int yydebug;
     TK_PR_BOOL = 268,              /* TK_PR_BOOL  */
     TK_PR_STRING = 269,            /* TK_PR_STRING  */
     TK_PR_CHAR = 270,              /* TK_PR_CHAR  */
-    TK_PR_IF = 271,                /* TK_PR_IF  */
-    TK_PR_THEN = 272,              /* TK_PR_THEN  */
-    TK_PR_ELSE = 273,              /* TK_PR_ELSE  */
-    TK_PR_WHILE = 274,             /* TK_PR_WHILE  */
-    TK_PR_DO = 275,                /* TK_PR_DO  */
-    TK_PR_INPUT = 276,             /* TK_PR_INPUT  */
-    TK_PR_OUTPUT = 277,            /* TK_PR_OUTPUT  */
-    TK_PR_RETURN = 278,            /* TK_PR_RETURN  */
-    TK_PR_CONST = 279,             /* TK_PR_CONST  */
-    TK_PR_STATIC = 280,            /* TK_PR_STATIC  */
-    TK_PR_FOREACH = 281,           /* TK_PR_FOREACH  */
-    TK_PR_FOR = 282,               /* TK_PR_FOR  */
-    TK_PR_SWITCH = 283,            /* TK_PR_SWITCH  */
-    TK_PR_CASE = 284,              /* TK_PR_CASE  */
-    TK_PR_BREAK = 285,             /* TK_PR_BREAK  */
-    TK_PR_CONTINUE = 286,          /* TK_PR_CONTINUE  */
-    TK_PR_CLASS = 287,             /* TK_PR_CLASS  */
-    TK_PR_PRIVATE = 288,           /* TK_PR_PRIVATE  */
-    TK_PR_PUBLIC = 289,            /* TK_PR_PUBLIC  */
-    TK_PR_PROTECTED = 290,         /* TK_PR_PROTECTED  */
-    TK_PR_END = 291,               /* TK_PR_END  */
-    TK_PR_DEFAULT = 292,           /* TK_PR_DEFAULT  */
-    TK_OC_LE = 293,                /* TK_OC_LE  */
-    TK_OC_GE = 294,                /* TK_OC_GE  */
-    TK_OC_EQ = 295,                /* TK_OC_EQ  */
-    TK_OC_NE = 296,                /* TK_OC_NE  */
-    TK_OC_AND = 297,               /* TK_OC_AND  */
-    TK_OC_OR = 298,                /* TK_OC_OR  */
-    TK_OC_SL = 299,                /* TK_OC_SL  */
-    TK_OC_SR = 300,                /* TK_OC_SR  */
-    TOKEN_ERRO = 301               /* TOKEN_ERRO  */
+    TK_PR_UINT = 271,              /* TK_PR_UINT  */
+    TK_PR_IF = 272,                /* TK_PR_IF  */
+    TK_PR_THEN = 273,              /* TK_PR_THEN  */
+    TK_PR_ELSE = 274,              /* TK_PR_ELSE  */
+    TK_PR_WHILE = 275,             /* TK_PR_WHILE  */
+    TK_PR_DO = 276,                /* TK_PR_DO  */
+    TK_PR_INPUT = 277,             /* TK_PR_INPUT  */
+    TK_PR_OUTPUT = 278,            /* TK_PR_OUTPUT  */
+    TK_PR_RETURN = 279,            /* TK_PR_RETURN  */
+    TK_PR_CONST = 280,             /* TK_PR_CONST  */
+    TK_PR_STATIC = 281,            /* TK_PR_STATIC  */
+    TK_PR_FOREACH = 282,           /* TK_PR_FOREACH  */
+    TK_PR_FOR = 283,               /* TK_PR_FOR  */
+    TK_PR_SWITCH = 284,            /* TK_PR_SWITCH  */
+    TK_PR_CASE = 285,              /* TK_PR_CASE  */
+    TK_PR_BREAK = 286,             /* TK_PR_BREAK  */
+    TK_PR_CONTINUE = 287,          /* TK_PR_CONTINUE  */
+    TK_PR_CLASS = 288,             /* TK_PR_CLASS  */
+    TK_PR_PRIVATE = 289,           /* TK_PR_PRIVATE  */
+    TK_PR_PUBLIC = 290,            /* TK_PR_PUBLIC  */
+    TK_PR_PROTECTED = 291,         /* TK_PR_PROTECTED  */
+    TK_PR_END = 292,               /* TK_PR_END  */
+    TK_PR_DEFAULT = 293,           /* TK_PR_DEFAULT  */
+    TK_OC_LE = 294,                /* TK_OC_LE  */
+    TK_OC_GE = 295,                /* TK_OC_GE  */
+    TK_OC_EQ = 296,                /* TK_OC_EQ  */
+    TK_OC_NE = 297,                /* TK_OC_NE  */
+    TK_OC_AND = 298,               /* TK_OC_AND  */
+    TK_OC_OR = 299,                /* TK_OC_OR  */
+    TK_OC_SL = 300,                /* TK_OC_SL  */
+    TK_OC_SR = 301,                /* TK_OC_SR  */
+    TOKEN_ERRO = 302               /* TOKEN_ERRO  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -106,12 +107,13 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 15 "parser.y"
+#line 16 "parser.y"
 
     token_value valor_lexico;
     tree* ast;
+    type tipo;
 
-#line 115 "parser.tab.h"
+#line 117 "parser.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;
