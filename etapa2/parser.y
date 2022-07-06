@@ -49,183 +49,273 @@ void yyerror (char const *s);
 %token TOKEN_ERRO
 
 %%
+start:
+     program;
+
+program
+    : declaration program
+    |
+    ;
+
+declaration
+    : function
+    | global_variable_body
+    ;
+
+global_variable_body
+    : static type id vector_declaration global_fotter ';'
+    ;
+
+global_fotter
+    : ',' id vector_declaration global_fotter
+    |
+    ;
+
+vector_declaration
+    : '[' TK_LIT_UINT ']'
+    |
+    ;
+
+static
+    : TK_PR_STATIC
+    |
+    ;
+
+id
+    : TK_IDENTIFICADOR
+    ;
+
+function
+    : func_header command_block
+    ;
+
+func_header
+    : static type id list
+    ;
+
+list
+    : '(' parameters ')'
+    | '(' ')'
+    ;
+
+parameters
+    : parameters ',' const type id
+    | const type id
+    ;
+
+const
+    : TK_PR_CONST
+    |
+    ;
+
+command_block
+    : '{' command '}'
+    ;
+
+command
+    : simple_command ';' command
+
+    | flux_control ';' command
+    |
+    ;
+
+simple_command
+    : local_variable
+    | attribution
+    | input
+    | output
+    | return
+    | command_block
+    | shift
+    | break
+    | continue
+    | func_call
+    ;
+
+local_variable
+    : static const type id_list
+    ;
+
+id_list
+    : id initialization
+    | id_list ',' id  initialization
+    | id
+    ;
+
+initialization
+    : TK_OC_LE id
+    | TK_OC_LE literal
+    ;
+
+literal
+    : TK_LIT_UINT
+    | TK_LIT_INT
+    | TK_LIT_FLOAT
+    | TK_LIT_FALSE
+    | TK_LIT_TRUE
+    | TK_LIT_CHAR
+    | TK_LIT_STRING
+    ;
+
+attribution
+    : id '=' expr
+    | vector_attribution '=' expr
+    ;
+
+vector_attribution
+    : id '[' expr ']'
+    ;
 
 
-program: declaration program| ;
+expr
+    : ternary
+    ;
 
-declaration: global_variable_body |
-             function;
+ternary
+    : ternary '?' ternary ':' or
+    | unary_minus
+    ;
 
-global_variable_body: static type id vector_declaration global_fotter ';';
+unary_minus
+    : '+' unary_minus
+    | '-' unary_minus
+    | or
+    ;
 
-global_fotter: ',' id vector_declaration global_fotter | ;
+or
+    : or TK_OC_OR and
+    | and
+    ;
 
-vector_declaration: '[' TK_LIT_UINT ']'| ;
+and
+    : and TK_OC_AND or_log
+    | or_log
+    ;
 
-static: TK_PR_STATIC| ;
+or_log
+    : or_log '|' and_log
+    | and_log
+    ;
 
-id: TK_IDENTIFICADOR;
+and_log
+    : and_log '&' equal
+    | equal
+    ;
 
-function: func_header command_block;
+equal
+    : equal TK_OC_EQ rel
+    | equal TK_OC_NE rel
+    | rel
+    ;
 
-func_header: static type id list;
+rel
+    : rel TK_OC_LE soma_sub
+    | rel TK_OC_GE soma_sub
+    | rel '>' soma_sub
+    | rel '<' soma_sub
+    | soma_sub
+    ;
 
-list: '(' parameters ')'|
-      '(' ')';
+soma_sub
+    : soma_sub '+' mult_div
+    | soma_sub '-' mult_div
+    | mult_div
+    ;
 
-parameters: const type id ',' parameters |
-            const type id;
+mult_div
+    : mult_div '*' unary
+    | mult_div '/' unary
+    | mult_div '%' unary
+    | exponential
+    ;
 
-const: TK_PR_CONST| ;
+exponential
+    : exponential '^' unary
+    | unary
+    ;
 
-command_block: '{' command '}';
+unary
+    : '*' unary
+    | '&' unary
+    | '#' unary
+    | '?' unary
+    | '!' unary
+    | parenthesis
+    ;
 
-command: simple_command';' command|
-         flux_control ';' command| ;
+parenthesis
+    : '(' expr ')'
+    | operand_arit
+    ;
 
-simple_command: local_variable |
-                attribution |
-                input |
-                output |
-                return |
-                command_block|
-                shift |
-                break |
-                continue|
-                func_call;
+flux_control
+    : conditional
+    | iterative
+    ;
 
-local_variable: static const type id_list;
+conditional
+    : TK_PR_IF '(' expr ')' command_block
+    | TK_PR_IF '(' expr ')' command_block TK_PR_ELSE command_block
+    ;
 
-id_list: id initialization | id initialization ',' id_list;
+iterative
+    : TK_PR_FOR '(' attribution ':' expr ':' attribution ')' command_block
+    | TK_PR_WHILE '(' expr ')' TK_PR_DO command_block
+    ;
 
-initialization:
-    TK_OC_LE id |
-    TK_OC_LE literal| ;
+input
+    : TK_PR_INPUT id
+    ;
 
-literal:
-       TK_LIT_INT   |
-       TK_LIT_FLOAT |
-       TK_LIT_FALSE |
-       TK_LIT_TRUE  |
-       TK_LIT_CHAR  |
-       TK_LIT_STRING;
+output
+    : TK_PR_OUTPUT id
+    | TK_PR_OUTPUT literal
+    ;
 
-attribution: id '=' expr|
-             id '[' expr ']' '=' expr ;
+return
+    : TK_PR_RETURN expr
+    ;
 
-operand_arit: id vector_expr |
-              TK_LIT_INT |
-              TK_LIT_FLOAT |
-              TK_LIT_TRUE |
-              TK_LIT_FALSE|
-              func_call;
+break
+    : TK_PR_BREAK
+    ;
 
-expr: ternary
+continue
+    : TK_PR_CONTINUE
+    ;
 
+shift
+    : id TK_OC_SL TK_LIT_UINT
+    | id TK_OC_SR TK_LIT_UINT
+    | vector_attribution TK_OC_SL TK_LIT_UINT
+    | vector_attribution TK_OC_SR TK_LIT_UINT
+    ;
 
-ternary:
-    ternary'?' ternary':' or|
-    unary_minus;
+func_call
+    : id '(' args ')'
+    ;
 
-unary_minus:
-    '+' unary_minus |
-    '-' unary_minus |
-    or;
+args
+    : expr ',' args
+    | expr
+    ;
 
-or:
-    or TK_OC_OR and |
-    and;
+operand_arit
+    : vector_attribution
+    | id
+    | TK_LIT_UINT
+    | TK_LIT_INT
+    | TK_LIT_FLOAT
+    | TK_LIT_TRUE
+    | TK_LIT_FALSE
+    | func_call
+    ;
 
-and:
-    and TK_OC_AND or_log|
-    or_log;
-
-or_log:
-    or_log '|' and_log|
-    and_log;
-
-and_log:
-    and_log '&' equal|
-    equal;
-
-equal:
-    equal TK_OC_EQ rel|
-    equal TK_OC_NE rel|
-    rel;
-
-rel:
-    rel TK_OC_LE soma_sub|
-    rel TK_OC_GE soma_sub|
-    rel '>' soma_sub|
-    rel '<' soma_sub|
-    soma_sub;
-
-soma_sub:
-    soma_sub '+' mult_div|
-    soma_sub '-' mult_div|
-    mult_div;
-
-mult_div:
-    mult_div '*' unary|
-    mult_div '/' unary|
-    mult_div '%' unary|
-    exponential;
-
-exponential:
-    exponential '^' unary|
-    unary;
-
-unary:
-    '*' unary|
-    '&' unary|
-    '#' unary|
-    '?' unary|
-    '!' unary|
-    parenthesis;
-
-
-parenthesis:
-    '(' expr ')'|
-    operand_arit;
-
-vector_expr:
-           '[' expr ']'
-           | ;
-
-flux_control:
-            conditional |
-            iterative;
-
-conditional:
-           TK_PR_IF '(' expr ')' command_block |
-           TK_PR_IF '(' expr ')' command_block TK_PR_ELSE command_block;
-
-iterative:
-         TK_PR_FOR '(' attribution ':' expr ':' attribution ')' command_block|
-         TK_PR_WHILE '(' expr ')' TK_PR_DO command_block;
-
-input: TK_PR_INPUT id;
-
-output: TK_PR_OUTPUT id | TK_PR_OUTPUT literal;
-
-return: TK_PR_RETURN expr;
-
-break: TK_PR_BREAK;
-
-continue: TK_PR_CONTINUE;
-
-shift: id TK_OC_SL TK_LIT_INT |
-       id TK_OC_SR TK_LIT_INT;
-
-func_call: id '(' args ')';
-
-args: expr ',' args |
-      expr;
-
-type: TK_PR_INT    |
-      TK_PR_FLOAT  |
-      TK_PR_BOOL   |
-      TK_PR_CHAR   |
-      TK_PR_STRING;
-
+type
+    : TK_PR_INT
+    | TK_PR_FLOAT
+    | TK_PR_BOOL
+    | TK_PR_CHAR
+    | TK_PR_STRING
+    ;
 %%

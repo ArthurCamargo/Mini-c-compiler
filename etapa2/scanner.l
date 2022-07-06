@@ -14,17 +14,17 @@ int get_line_number()
 
 numbers [0-9]
 letters [a-zA-Z]
-integer ("-")?{numbers}+
-positiveInteger {numbers}+
+integer ("-"|"+")?{numbers}+
+unsigned_integer {numbers}+
 expoent [eE]{integer}
-float {integer}("."{integer})?{expoent}?
+float {integer}("."{integer}){expoent}?
 bool ("false"|"true")
 white [ \t]+
+%x IN_COMMENT
 
 %%
+
 {white} {}
-"//".* {}
-"/*".*"*/" {}
 
 "int"       { return TK_PR_INT;      }
 "float"     { return TK_PR_FLOAT;    }
@@ -78,10 +78,9 @@ white [ \t]+
 "^" { return (int)'^'; }
 "." { return (int)'.'; }
 "$" { return (int)'$'; }
-"?" { return (int)'?'; }
 
 "<=" { return TK_OC_LE;  }
-"=>" { return TK_OC_GE;  }
+">=" { return TK_OC_GE;  }
 "==" { return TK_OC_EQ;  }
 "!=" { return TK_OC_NE;  }
 "&&" { return TK_OC_AND; }
@@ -89,15 +88,29 @@ white [ \t]+
 ">>" { return TK_OC_SL;  }
 "<<" { return TK_OC_SR;  }
 
-{integer}          { return TK_LIT_INT;   }
-{positiveInteger}  { return TK_LIT_UINT;  }
-{float}            { return TK_LIT_FLOAT; }
-"true"             { return TK_LIT_TRUE;  }
-"false"            { return TK_LIT_FALSE; }
-"'".?"'"           { return TK_LIT_CHAR;  }
-"\"".*"\""         { return TK_LIT_STRING;}
+{unsigned_integer} { return TK_LIT_UINT;}
+{integer}   { return TK_LIT_INT;   }
+{float}     { return TK_LIT_FLOAT; }
+"true"      { return TK_LIT_TRUE;  }
+"false"     { return TK_LIT_FALSE; }
+"'".?"'"    { return TK_LIT_CHAR;  }
+"\"".*"\""  { return TK_LIT_STRING;}
 
 ({letters}|"_")({letters}|{numbers}|"_")* { return TK_IDENTIFICADOR;}
+
+"//".*"\n" {g_line_number ++;}
+
+
+<INITIAL>{
+"/*"              BEGIN(IN_COMMENT);
+}
+
+<IN_COMMENT>{
+"*/"      BEGIN(INITIAL);
+[^*\n]+   // eat comment in chunks ;
+"*"       // eat the lone star
+\n        g_line_number++;
+}
 
 "\n" {g_line_number++;}
 
