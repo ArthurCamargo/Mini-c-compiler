@@ -113,7 +113,7 @@
 ../../tests/etapa2_tests/asl142
 ✓
 ../../tests/etapa2_tests/asl143
-x
+✓
 ../../tests/etapa2_tests/asl144
 ✓
 ../../tests/etapa2_tests/asl145
@@ -129,13 +129,13 @@ x
 ../../tests/etapa2_tests/asl15
 ✓
 ../../tests/etapa2_tests/asl150
-x
+✓
 ../../tests/etapa2_tests/asl151
-x
+✓
 ../../tests/etapa2_tests/asl152
 ✓
 ../../tests/etapa2_tests/asl153
-x
+✓
 ../../tests/etapa2_tests/asl154
 ✓
 ../../tests/etapa2_tests/asl155
@@ -243,7 +243,7 @@ x
 ../../tests/etapa2_tests/asl52
 ✓
 ../../tests/etapa2_tests/asl53
-x
+✓
 ../../tests/etapa2_tests/asl54
 ✓
 ../../tests/etapa2_tests/asl55

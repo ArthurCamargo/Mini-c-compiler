@@ -14,7 +14,7 @@ int get_line_number()
 
 numbers [0-9]
 letters [a-zA-Z]
-integer ("-"|"+")?{numbers}+
+integer {numbers}+
 unsigned_integer {numbers}+
 expoent [eE]{integer}
 float {integer}("."{integer}){expoent}?
@@ -78,6 +78,7 @@ white [ \t]+
 "^" { return (int)'^'; }
 "." { return (int)'.'; }
 "$" { return (int)'$'; }
+"?" { return (int)'?'; }
 
 "<=" { return TK_OC_LE;  }
 ">=" { return TK_OC_GE;  }
@@ -88,7 +89,6 @@ white [ \t]+
 ">>" { return TK_OC_SL;  }
 "<<" { return TK_OC_SR;  }
 
-{unsigned_integer} { return TK_LIT_UINT;}
 {integer}   { return TK_LIT_INT;   }
 {float}     { return TK_LIT_FLOAT; }
 "true"      { return TK_LIT_TRUE;  }

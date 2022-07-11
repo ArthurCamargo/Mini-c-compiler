@@ -8,9 +8,6 @@ Este arquivo será posterioremente substituído, não acrescente nada.
 extern int yylex_destroy(void);
 extern void yyerror(char const *s);
 
-void yyerror (char const *s) {
-   fprintf (stderr, "%s\n", s);
-}
 
 int main (int argc, char **argv)
 {

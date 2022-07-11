@@ -1,6 +1,14 @@
 %{
+#include <stdio.h>
+
 int yylex(void);
-void yyerror (char const *s);
+int get_line_number(void);
+
+void yyerror (char const *s) {
+   int n = get_line_number();
+   fprintf (stderr, "[!] %s -- line:%d\n", s, n);
+}
+
 %}
 
 %token TK_PR_INT
@@ -39,7 +47,6 @@ void yyerror (char const *s);
 %token TK_OC_SL
 %token TK_OC_SR
 %token TK_LIT_INT
-%token TK_LIT_UINT
 %token TK_LIT_FLOAT
 %token TK_LIT_FALSE
 %token TK_LIT_TRUE
@@ -53,16 +60,16 @@ start:
      program;
 
 program
-    : declaration program
+    :  declaration program
     |
     ;
 
 declaration
     : function
-    | global_variable_body
+    | global_variable
     ;
 
-global_variable_body
+global_variable
     : static type id vector_declaration global_fotter ';'
     ;
 
@@ -72,7 +79,7 @@ global_fotter
     ;
 
 vector_declaration
-    : '[' TK_LIT_UINT ']'
+    : '[' TK_LIT_INT ']'
     |
     ;
 
@@ -139,6 +146,7 @@ local_variable
 id_list
     : id initialization
     | id_list ',' id  initialization
+    | id_list ',' id
     | id
     ;
 
@@ -148,8 +156,7 @@ initialization
     ;
 
 literal
-    : TK_LIT_UINT
-    | TK_LIT_INT
+    : TK_LIT_INT
     | TK_LIT_FLOAT
     | TK_LIT_FALSE
     | TK_LIT_TRUE
@@ -172,7 +179,7 @@ expr
     ;
 
 ternary
-    : ternary '?' ternary ':' or
+    : unary_minus '?' unary_minus ':' ternary
     | unary_minus
     ;
 
@@ -285,10 +292,10 @@ continue
     ;
 
 shift
-    : id TK_OC_SL TK_LIT_UINT
-    | id TK_OC_SR TK_LIT_UINT
-    | vector_attribution TK_OC_SL TK_LIT_UINT
-    | vector_attribution TK_OC_SR TK_LIT_UINT
+    : id TK_OC_SL TK_LIT_INT
+    | id TK_OC_SR TK_LIT_INT
+    | vector_attribution TK_OC_SL TK_LIT_INT
+    | vector_attribution TK_OC_SR TK_LIT_INT
     ;
 
 func_call
@@ -298,12 +305,12 @@ func_call
 args
     : expr ',' args
     | expr
+    |
     ;
 
 operand_arit
     : vector_attribution
     | id
-    | TK_LIT_UINT
     | TK_LIT_INT
     | TK_LIT_FLOAT
     | TK_LIT_TRUE

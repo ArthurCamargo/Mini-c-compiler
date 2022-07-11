@@ -81,14 +81,13 @@ extern int yydebug;
     TK_OC_SL = 291,
     TK_OC_SR = 292,
     TK_LIT_INT = 293,
-    TK_LIT_UINT = 294,
-    TK_LIT_FLOAT = 295,
-    TK_LIT_FALSE = 296,
-    TK_LIT_TRUE = 297,
-    TK_LIT_CHAR = 298,
-    TK_LIT_STRING = 299,
-    TK_IDENTIFICADOR = 300,
-    TOKEN_ERRO = 301
+    TK_LIT_FLOAT = 294,
+    TK_LIT_FALSE = 295,
+    TK_LIT_TRUE = 296,
+    TK_LIT_CHAR = 297,
+    TK_LIT_STRING = 298,
+    TK_IDENTIFICADOR = 299,
+    TOKEN_ERRO = 300
   };
 #endif
 
