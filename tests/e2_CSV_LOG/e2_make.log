@@ -1,0 +1,300 @@
+
+GrupoA
+
+~/ensino/private/comp/e2/GrupoA ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -d parser.y
+flex -o scanner.lex.c  scanner.l
+gcc -Wall -o etapa2 scanner.lex.c parser.tab.c main.c -lfl
+scanner.lex.c:1486:16: warning: ‘input’ defined but not used [-Wunused-function]
+ 1486 |     static int input  (void)
+      |                ^~~~~
+scanner.lex.c:1443:17: warning: ‘yyunput’ defined but not used [-Wunused-function]
+ 1443 |     static void yyunput (int c, char * yy_bp )
+      |                 ^~~~~~~
+~/ensino/private/comp/e2
+
+GrupoB
+
+~/ensino/private/comp/e2/GrupoB ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -d parser.y
+flex scanner.l
+gcc -c lex.yy.c
+gcc -c main.c
+gcc -o etapa2 lex.yy.o main.o -lfl parser.tab.c parser.tab.h
+~/ensino/private/comp/e2
+
+GrupoC
+
+~/ensino/private/comp/e2/GrupoC ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+Group sent the binary already compiled :( , so remove it.
+removed 'etapa2'
+bison -d parser.y
+flex scanner.l
+gcc main.c lex.yy.c parser.tab.c -o etapa2 -lfl
+~/ensino/private/comp/e2
+
+GrupoE
+
+~/ensino/private/comp/e2/GrupoE ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+rm -f etapa2
+rm -f lex.yy.c
+rm -f parser.tab.h
+rm -f parser.tab.c
+rm -f parser.output
+rm -f test.c
+flex scanner.l
+bison -d parser.y
+parser.y: warning: 320 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: warning: 17 reduce/reduce conflicts [-Wconflicts-rr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+parser.y:92.7-12: warning: rule useless in parser due to conflicts [-Wother]
+   92 |     : %empty
+      |       ^~~~~~
+parser.y:133.7-12: warning: rule useless in parser due to conflicts [-Wother]
+  133 |     : %empty
+      |       ^~~~~~
+parser.y:218.7-12: warning: rule useless in parser due to conflicts [-Wother]
+  218 |     : %empty
+      |       ^~~~~~
+gcc -o etapa2 parser.tab.c lex.yy.c main.c -I.
+~/ensino/private/comp/e2
+
+GrupoF
+
+~/ensino/private/comp/e2/GrupoF ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -d -v parser.y
+parser.y:63.1-14: warning: deprecated directive: ‘%error-verbose’, use ‘%define parse.error verbose’ [-Wdeprecated]
+   63 | %error-verbose
+      | ^~~~~~~~~~~~~~
+      | %define parse.error verbose
+parser.y: warning: 17 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: warning: 28 reduce/reduce conflicts [-Wconflicts-rr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+parser.y: warning: fix-its can be applied.  Rerun with option '--update'. [-Wother]
+gcc -c parser.tab.c
+flex scanner.l
+gcc -c lex.yy.c
+gcc -c -Wno-error=implicit-function-declaration main.c
+gcc -o etapa2 parser.tab.o lex.yy.o main.o
+~/ensino/private/comp/e2
+
+GrupoG
+
+~/ensino/private/comp/e2/GrupoG ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+cc    -c -o main.o main.c
+bison -d  parser.y
+parser.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+flex scanner.l
+gcc -c lex.yy.c parser.tab.c
+gcc -c main.c
+gcc -o etapa2 lex.yy.o parser.tab.o main.o -lfl
+~/ensino/private/comp/e2
+
+GrupoH
+
+~/ensino/private/comp/e2/GrupoH ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -v -d parser.y
+parser.y: warning: 3 nonterminals useless in grammar [-Wother]
+parser.y: warning: 19 rules useless in grammar [-Wother]
+parser.y:158.1-15: warning: nonterminal useless in grammar: unary_operators [-Wother]
+  158 | unary_operators
+      | ^~~~~~~~~~~~~~~
+parser.y:193.1-16: warning: nonterminal useless in grammar: binary_operators [-Wother]
+  193 | binary_operators
+      | ^~~~~~~~~~~~~~~~
+parser.y:207.1-17: warning: nonterminal useless in grammar: ternary_operators [-Wother]
+  207 | ternary_operators
+      | ^~~~~~~~~~~~~~~~~
+parser.y: warning: 19 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+flex -o lex.yy.c scanner.l
+gcc -o etapa2 parser.tab.c main.c lex.yy.c -ll
+~/ensino/private/comp/e2
+
+GrupoJ
+
+~/ensino/private/comp/e2/GrupoJ ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -d parser.y
+parser.y: warning: 5 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+flex scanner.l
+gcc -c lex.yy.c main.c parser.tab.c
+gcc -o etapa2 lex.yy.o parser.tab.o main.o -lfl
+~/ensino/private/comp/e2
+
+GrupoK
+
+~/ensino/private/comp/e2/GrupoK ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -d ./parser.y
+./parser.y: warning: 13 nonterminals useless in grammar [-Wother]
+./parser.y: warning: 46 rules useless in grammar [-Wother]
+./parser.y:99.1-4: warning: nonterminal useless in grammar: attr [-Wother]
+   99 | attr: simattr | vecattr;
+      | ^~~~
+./parser.y:100.1-7: warning: nonterminal useless in grammar: simattr [-Wother]
+  100 | simattr: TK_IDENTIFICADOR '=' expression;
+      | ^~~~~~~
+./parser.y:101.1-7: warning: nonterminal useless in grammar: vecattr [-Wother]
+  101 | vecattr: TK_IDENTIFICADOR '[' expression ']' '=' expression | TK_IDEN...
+      | ^~~~~~~
+./parser.y:113.1-3: warning: nonterminal useless in grammar: cfc [-Wother]
+  113 | cfc: ifelse | cffor | cfwhile;
+      | ^~~
+./parser.y:115.1-6: warning: nonterminal useless in grammar: ifelse [-Wother]
+  115 | ifelse : TK_PR_IF '(' expression ')' comblock | TK_PR_IF '(' expressi...
+      | ^~~~~~
+./parser.y:119.1-5: warning: nonterminal useless in grammar: cffor [-Wother]
+  119 | cffor: TK_PR_FOR '(' attr ':' expression ':' attr ')' comblock; // me...
+      | ^~~~~
+./parser.y:122.1-7: warning: nonterminal useless in grammar: cfwhile [-Wother]
+  122 | cfwhile: TK_PR_WHILE '(' expression ')' TK_PR_DO comblock; // mesma c...
+      | ^~~~~~~
+./parser.y:128.1-10: warning: nonterminal useless in grammar: expression [-Wother]
+  128 | expression: unary_expression | bin_expression | ternary_expression;
+      | ^~~~~~~~~~
+./parser.y:129.1-8: warning: nonterminal useless in grammar: unary_op [-Wother]
+  129 | unary_op: '+' | '-' | '!' | '&' | '*' | '?' | '#';
+      | ^~~~~~~~
+./parser.y:130.1-16: warning: nonterminal useless in grammar: unary_expression [-Wother]
+  130 | unary_expression: unary_op expression;
+      | ^~~~~~~~~~~~~~~~
+./parser.y:131.1-6: warning: nonterminal useless in grammar: bin_op [-Wother]
+  131 | bin_op: '+' | '-' | '*' | '/' | '%' | '|' | '&' | '^' | '>' | '<' | '...
+      | ^~~~~~
+./parser.y:132.1-14: warning: nonterminal useless in grammar: bin_expression [-Wother]
+  132 | bin_expression: expression bin_op expression;
+      | ^~~~~~~~~~~~~~
+./parser.y:133.1-18: warning: nonterminal useless in grammar: ternary_expression [-Wother]
+  133 | ternary_expression: expression '?' expression ':' expression;
+      | ^~~~~~~~~~~~~~~~~~
+./parser.y:91.12-15: warning: rule useless in grammar [-Wother]
+   91 | com: dvl | attr | cfc | input | output | ret | comblock | calls | shi...
+      |            ^~~~
+./parser.y:91.19-21: warning: rule useless in grammar [-Wother]
+   91 | com: dvl | attr | cfc | input | output | ret | comblock | calls | shi...
+      |                   ^~~
+./parser.y:109.40-49: warning: rule useless in grammar [-Wother]
+  109 | argument: TK_IDENTIFICADOR | literal | expression; 
+      |                                        ^~~~~~~~~~
+./parser.y:111.6-28: warning: rule useless in grammar [-Wother]
+  111 | ret: TK_PR_RETURN expression | TK_PR_BREAK | TK_PR_CONTINUE;
+      |      ^~~~~~~~~~~~~~~~~~~~~~~
+./parser.y:125.47-101: warning: rule useless in grammar [-Wother]
+  125 | shift: TK_IDENTIFICADOR shift_op TK_LIT_INT | TK_IDENTIFICADOR '[' ex...
+      |                                               ^~~~~~~~~~~~~~~~~~~~~~~
+./parser.y: warning: 1 reduce/reduce conflict [-Wconflicts-rr]
+./parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+flex ./scanner.l
+gcc -c main.c lex.yy.c parser.tab.c
+gcc main.o lex.yy.o parser.tab.o -o etapa2 -lfl
+~/ensino/private/comp/e2
+
+GrupoL
+
+~/ensino/private/comp/e2/GrupoL ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+Group sent the binary already compiled :( , so remove it.
+removed 'etapa2'
+bison -d parser.y
+parser.y: warning: 5 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+flex scanner.l
+gcc main.c lex.yy.c parser.tab.c -o etapa2 -lfl
+~/ensino/private/comp/e2
+
+GrupoM
+
+~/ensino/private/comp/e2/GrupoM ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -d  parser.y
+parser.y: warning: 24 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+lex scanner.l
+gcc lex.yy.c parser.tab.c main.c -o etapa2
+~/ensino/private/comp/e2
+
+GrupoO
+
+~/ensino/private/comp/e2/GrupoO ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -d parser.y
+parser.y: warning: 29 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+flex  scanner.l
+gcc -c lex.yy.c parser.tab.c main.c
+gcc -o etapa2 lex.yy.o parser.tab.o main.o -lfl
+~/ensino/private/comp/e2
+
+GrupoP
+
+~/ensino/private/comp/e2/GrupoP ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -t -d -v parser.y
+parser.y: warning: 1 shift/reduce conflict [-Wconflicts-sr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+flex scanner.l
+gcc -c lex.yy.c parser.tab.c main.c
+gcc -o parser lex.yy.o parser.tab.o main.o -lfl
+renamed 'parser' -> 'etapa2'
+~/ensino/private/comp/e2
+
+GrupoQ
+
+~/ensino/private/comp/e2/GrupoQ ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+flex scanner.l
+bison -d parser.y
+gcc main.c lex.yy.c parser.tab.c -o etapa2 -lfl
+~/ensino/private/comp/e2
+
+GrupoR
+
+~/ensino/private/comp/e2/GrupoR ~/ensino/private/comp/e2
+renamed 'etapa2/main.c' -> './main.c'
+renamed 'etapa2/makefile' -> './makefile'
+renamed 'etapa2/parser.tab.h' -> './parser.tab.h'
+renamed 'etapa2/parser.y' -> './parser.y'
+renamed 'etapa2/scanner.l' -> './scanner.l'
+removed directory 'etapa2'
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+flex scanner.l
+bison -d parser.y
+parser.y: warning: 4 nonterminals useless in grammar [-Wother]
+parser.y: warning: 8 rules useless in grammar [-Wother]
+parser.y:70.1-9: warning: nonterminal useless in grammar: argumento [-Wother]
+   70 | argumento: literal | TK_IDENTIFICADOR | expressao;
+      | ^~~~~~~~~
+parser.y:139.1-12: warning: nonterminal useless in grammar: chamada_func [-Wother]
+  139 | chamada_func: TK_IDENTIFICADOR '(' lista_argumentos ')' ;
+      | ^~~~~~~~~~~~
+parser.y:140.1-16: warning: nonterminal useless in grammar: lista_argumentos [-Wother]
+  140 | lista_argumentos: argumento lista_argumentos_cauda | ;
+      | ^~~~~~~~~~~~~~~~
+parser.y:141.1-22: warning: nonterminal useless in grammar: lista_argumentos_cauda [-Wother]
+  141 | lista_argumentos_cauda: ',' argumento lista_argumentos_cauda | ;
+      | ^~~~~~~~~~~~~~~~~~~~~~
+gcc -o etapa2 main.c lex.yy.c parser.tab.c parser.tab.h
+~/ensino/private/comp/e2
+
+GrupoW
+
+~/ensino/private/comp/e2/GrupoW ~/ensino/private/comp/e2
+'/home/schnorr/ensino/private/comp/e2/files/main.c' -> './main.c'
+bison -d  parser.y
+parser.y: warning: 29 shift/reduce conflicts [-Wconflicts-sr]
+parser.y: warning: 20 reduce/reduce conflicts [-Wconflicts-rr]
+parser.y: note: rerun with option '-Wcounterexamples' to generate conflict counterexamples
+lex scanner.l
+gcc lex.yy.c parser.tab.c main.c -o etapa2
+~/ensino/private/comp/e2

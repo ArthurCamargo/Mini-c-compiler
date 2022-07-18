@@ -1,0 +1,396 @@
+Grupo,Teste,Result,Esperado,Correto,Razao
+GrupoA,asl062,1,0,FALSE,"line 5: syntax error, unexpected ';' "
+GrupoA,asl063,1,0,FALSE,"line 7: syntax error, unexpected ';' "
+GrupoA,asl065,1,0,FALSE,"line 8: syntax error, unexpected ';' "
+GrupoA,asl066,1,0,FALSE,"line 7: syntax error, unexpected ';' "
+GrupoA,asl080,1,0,FALSE,"line 4: syntax error, unexpected ';' "
+GrupoA,asl129,1,0,FALSE,"line 7: syntax error, unexpected ';' "
+GrupoA,asl150,1,0,FALSE,"line 4: syntax error, unexpected TK_LIT_FLOAT "
+GrupoA,asl157,1,0,FALSE,"line 3: syntax error, unexpected TK_OC_AND "
+GrupoA,asl158,1,0,FALSE,"line 3: syntax error, unexpected TK_OC_OR "
+GrupoA,asl162,1,0,FALSE,"line 5: syntax error, unexpected TK_OC_AND "
+GrupoA,asl166,1,0,FALSE,"line 5: syntax error, unexpected TK_OC_NE, expecting ';' "
+GrupoA,asl168,1,0,FALSE,"line 8: syntax error, unexpected ';' "
+GrupoA,asl189,1,0,FALSE,"line 5: syntax error, unexpected TK_OC_AND "
+GrupoA,asl192,1,0,FALSE,"line 7: syntax error, unexpected ';' "
+GrupoC,asl160,0,1,FALSE,NA
+GrupoC,asl161,0,1,FALSE,NA
+GrupoC,asl163,0,1,FALSE,NA
+GrupoC,asl164,0,1,FALSE,NA
+GrupoC,asl167,0,1,FALSE,NA
+GrupoC,asl183,0,1,FALSE,NA
+GrupoC,asl184,0,1,FALSE,NA
+GrupoE,asl001,1,0,FALSE,syntax error on line 2 
+GrupoE,asl002,1,0,FALSE,syntax error on line 2 
+GrupoE,asl003,1,0,FALSE,syntax error on line 2 
+GrupoE,asl004,1,0,FALSE,syntax error on line 2 
+GrupoE,asl005,1,0,FALSE,syntax error on line 2 
+GrupoE,asl006,1,0,FALSE,syntax error on line 2 
+GrupoE,asl007,1,0,FALSE,syntax error on line 2 
+GrupoE,asl008,1,0,FALSE,syntax error on line 2 
+GrupoE,asl025,1,0,FALSE,syntax error on line 2 
+GrupoE,asl027,1,0,FALSE,syntax error on line 2 
+GrupoE,asl028,1,0,FALSE,syntax error on line 2 
+GrupoE,asl031,1,0,FALSE,syntax error on line 2 
+GrupoE,asl032,1,0,FALSE,syntax error on line 2 
+GrupoE,asl033,1,0,FALSE,syntax error on line 2 
+GrupoE,asl035,1,0,FALSE,syntax error on line 2 
+GrupoE,asl036,1,0,FALSE,syntax error on line 2 
+GrupoE,asl037,1,0,FALSE,syntax error on line 2 
+GrupoE,asl038,1,0,FALSE,syntax error on line 2 
+GrupoE,asl039,1,0,FALSE,syntax error on line 2 
+GrupoE,asl041,1,0,FALSE,syntax error on line 2 
+GrupoE,asl042,1,0,FALSE,syntax error on line 2 
+GrupoE,asl043,1,0,FALSE,syntax error on line 2 
+GrupoE,asl044,1,0,FALSE,syntax error on line 2 
+GrupoE,asl046,1,0,FALSE,syntax error on line 2 
+GrupoE,asl047,1,0,FALSE,syntax error on line 2 
+GrupoE,asl048,1,0,FALSE,syntax error on line 2 
+GrupoE,asl050,1,0,FALSE,syntax error on line 2 
+GrupoE,asl051,1,0,FALSE,syntax error on line 2 
+GrupoE,asl053,1,0,FALSE,syntax error on line 2 
+GrupoE,asl054,1,0,FALSE,syntax error on line 2 
+GrupoE,asl056,1,0,FALSE,syntax error on line 2 
+GrupoE,asl057,1,0,FALSE,syntax error on line 2 
+GrupoE,asl058,1,0,FALSE,syntax error on line 2 
+GrupoE,asl059,1,0,FALSE,syntax error on line 2 
+GrupoE,asl060,1,0,FALSE,syntax error on line 2 
+GrupoE,asl062,1,0,FALSE,syntax error on line 2 
+GrupoE,asl063,1,0,FALSE,syntax error on line 2 
+GrupoE,asl065,1,0,FALSE,syntax error on line 2 
+GrupoE,asl066,1,0,FALSE,syntax error on line 2 
+GrupoE,asl076,1,0,FALSE,syntax error on line 2 
+GrupoE,asl077,1,0,FALSE,syntax error on line 2 
+GrupoE,asl079,1,0,FALSE,syntax error on line 2 
+GrupoE,asl080,1,0,FALSE,syntax error on line 2 
+GrupoE,asl081,1,0,FALSE,syntax error on line 2 
+GrupoE,asl120,1,0,FALSE,syntax error on line 2 
+GrupoE,asl129,1,0,FALSE,syntax error on line 2 
+GrupoE,asl138,1,0,FALSE,syntax error on line 2 
+GrupoE,asl139,1,0,FALSE,syntax error on line 2 
+GrupoE,asl140,1,0,FALSE,syntax error on line 2 
+GrupoE,asl141,1,0,FALSE,syntax error on line 2 
+GrupoE,asl142,1,0,FALSE,syntax error on line 2 
+GrupoE,asl143,1,0,FALSE,syntax error on line 2 
+GrupoE,asl144,1,0,FALSE,syntax error on line 2 
+GrupoE,asl145,1,0,FALSE,syntax error on line 2 
+GrupoE,asl146,1,0,FALSE,syntax error on line 2 
+GrupoE,asl147,1,0,FALSE,syntax error on line 2 
+GrupoE,asl148,1,0,FALSE,syntax error on line 2 
+GrupoE,asl149,1,0,FALSE,syntax error on line 2 
+GrupoE,asl150,1,0,FALSE,syntax error on line 2 
+GrupoE,asl151,1,0,FALSE,syntax error on line 2 
+GrupoE,asl153,1,0,FALSE,syntax error on line 2 
+GrupoE,asl154,1,0,FALSE,syntax error on line 2 
+GrupoE,asl157,1,0,FALSE,syntax error on line 2 
+GrupoE,asl158,1,0,FALSE,syntax error on line 2 
+GrupoE,asl162,1,0,FALSE,syntax error on line 2 
+GrupoE,asl166,1,0,FALSE,syntax error on line 2 
+GrupoE,asl168,1,0,FALSE,syntax error on line 2 
+GrupoE,asl172,1,0,FALSE,syntax error on line 2 
+GrupoE,asl173,1,0,FALSE,syntax error on line 2 
+GrupoE,asl176,1,0,FALSE,syntax error on line 2 
+GrupoE,asl177,1,0,FALSE,syntax error on line 2 
+GrupoE,asl187,1,0,FALSE,syntax error on line 2 
+GrupoE,asl188,1,0,FALSE,syntax error on line 2 
+GrupoE,asl189,1,0,FALSE,syntax error on line 2 
+GrupoE,asl190,1,0,FALSE,syntax error on line 2 
+GrupoE,asl192,1,0,FALSE,syntax error on line 2 
+GrupoG,asl031,1,0,FALSE,"syntax error, unexpected '{' in line 4 syntax error, unexpected '}' in line 4 syntax error, unexpected ';' in line 4 syntax error, unexpected '}' in line 5 "
+GrupoG,asl032,1,0,FALSE,"syntax error, unexpected '{' in line 4 syntax error, unexpected '{' in line 5 syntax error, unexpected '{' in line 6 syntax error, unexpected '}' in line 6 syntax error, unexpected ';' in line 6 syntax error, unexpected '}' in line 7 syntax error, unexpected ';' in line 7 syntax error, unexpected '}' in line 8 syntax error, unexpected ';' in line 8 syntax error, unexpected '}' in line 9 "
+GrupoG,asl048,1,0,FALSE,"syntax error, unexpected TK_IDENTIFICADOR, expecting TK_LIT_INT in line 7 syntax error, unexpected '+' in line 7 syntax error, unexpected TK_IDENTIFICADOR in line 7 syntax error, unexpected ']' in line 7 syntax error, unexpected '=' in line 7 syntax error, unexpected TK_LIT_INT in line 7 syntax error, unexpected ';' in line 7 syntax error, unexpected '}' in line 8 "
+GrupoG,asl077,1,0,FALSE,"syntax error, unexpected '*', expecting ']' in line 4 syntax error, unexpected TK_IDENTIFICADOR in line 4 syntax error, unexpected '+' in line 4 syntax error, unexpected TK_IDENTIFICADOR in line 4 syntax error, unexpected ']' in line 4 syntax error, unexpected ';' in line 4 syntax error, unexpected '}' in line 5 "
+GrupoG,asl086,0,1,FALSE,NA
+GrupoG,asl140,1,0,FALSE,"syntax error, unexpected ';' in line 4 syntax error, unexpected '}' in line 5 "
+GrupoG,asl143,1,0,FALSE,"syntax error, unexpected TOKEN_ERRO in line 4 syntax error, unexpected TK_IDENTIFICADOR in line 4 syntax error, unexpected ';' in line 4 syntax error, unexpected '}' in line 5 "
+GrupoG,asl147,1,0,FALSE,"syntax error, unexpected ';' in line 4 syntax error, unexpected '}' in line 5 "
+GrupoG,asl148,1,0,FALSE,"syntax error, unexpected ';' in line 4 syntax error, unexpected '}' in line 5 "
+GrupoG,asl150,1,0,FALSE,"syntax error, unexpected TOKEN_ERRO in line 4 syntax error, unexpected TK_LIT_INT in line 4 syntax error, unexpected ':' in line 4 syntax error, unexpected TK_LIT_INT in line 4 syntax error, unexpected ';' in line 4 syntax error, unexpected '}' in line 5 "
+GrupoG,asl157,1,0,FALSE,"syntax error, unexpected '+', expecting ')' in line 3 syntax error, unexpected TK_IDENTIFICADOR in line 3 syntax error, unexpected ')' in line 3 syntax error, unexpected TK_OC_AND in line 3 syntax error, unexpected TK_LIT_INT in line 3 syntax error, unexpected ';' in line 3 syntax error, unexpected '}' in line 4 "
+GrupoG,asl158,1,0,FALSE,"syntax error, unexpected '+', expecting ')' in line 3 syntax error, unexpected TK_IDENTIFICADOR in line 3 syntax error, unexpected ')' in line 3 syntax error, unexpected TK_OC_OR in line 3 syntax error, unexpected TK_LIT_INT in line 3 syntax error, unexpected ';' in line 3 syntax error, unexpected '}' in line 4 "
+GrupoG,asl162,1,0,FALSE,"syntax error, unexpected TK_OC_AND in line 5 syntax error, unexpected TK_LIT_INT in line 5 syntax error, unexpected ';' in line 5 syntax error, unexpected TK_PR_RETURN in line 6 syntax error, unexpected TK_LIT_INT in line 6 syntax error, unexpected ';' in line 6 syntax error, unexpected '}' in line 7 "
+GrupoG,asl166,1,0,FALSE,"syntax error, unexpected TK_OC_NE in line 5 syntax error, unexpected TK_LIT_INT in line 5 syntax error, unexpected '+' in line 5 syntax error, unexpected TK_LIT_INT in line 5 syntax error, unexpected ';' in line 5 syntax error, unexpected '}' in line 6 "
+GrupoG,asl188,1,0,FALSE,"syntax error, unexpected '*', expecting TK_LIT_INT or TK_LIT_FLOAT or TK_IDENTIFICADOR in line 7 syntax error, unexpected '*' in line 7 syntax error, unexpected '*' in line 7 syntax error, unexpected '*' in line 7 syntax error, unexpected TK_IDENTIFICADOR in line 7 syntax error, unexpected ';' in line 7 syntax error, unexpected TK_PR_RETURN in line 8 syntax error, unexpected TK_LIT_INT in line 8 syntax error, unexpected ';' in line 8 syntax error, unexpected '}' in line 9 "
+GrupoG,asl189,1,0,FALSE,"syntax error, unexpected TK_OC_AND in line 5 syntax error, unexpected TK_LIT_INT in line 5 syntax error, unexpected TK_OC_OR in line 5 syntax error, unexpected TK_LIT_INT in line 5 syntax error, unexpected TK_OC_AND in line 5 syntax error, unexpected TK_LIT_INT in line 5 syntax error, unexpected ';' in line 5 syntax error, unexpected TK_PR_RETURN in line 6 syntax error, unexpected TK_LIT_INT in line 6 syntax error, unexpected ';' in line 6 syntax error, unexpected '}' in line 7 "
+GrupoH,asl065,1,0,FALSE,"line 8: syntax error, unexpected ';' "
+GrupoH,asl066,1,0,FALSE,"line 7: syntax error, unexpected ';' "
+GrupoH,asl079,1,0,FALSE,"line 5: syntax error, unexpected '(', expecting TK_LIT_INT or TK_LIT_FLOAT or TK_LIT_CHAR or TK_IDENTIFICADOR "
+GrupoH,asl080,1,0,FALSE,"line 5: syntax error, unexpected '(' "
+GrupoH,asl101,0,1,FALSE,NA
+GrupoH,asl138,1,0,FALSE,"line 4: syntax error, unexpected '+' "
+GrupoH,asl139,1,0,FALSE,"line 4: syntax error, unexpected ' ' "
+GrupoH,asl140,1,0,FALSE,"line 4: syntax error, unexpected '!' "
+GrupoH,asl141,1,0,FALSE,"line 4: syntax error, unexpected '&' "
+GrupoH,asl142,1,0,FALSE,"line 4: syntax error, unexpected '*' "
+GrupoH,asl143,1,0,FALSE,"line 4: syntax error, unexpected TOKEN_ERRO "
+GrupoH,asl144,1,0,FALSE,"line 4: syntax error, unexpected '#' "
+GrupoH,asl150,1,0,FALSE,"line 4: syntax error, unexpected TK_LIT_INT "
+GrupoH,asl157,1,0,FALSE,"line 3: syntax error, unexpected '(' "
+GrupoH,asl158,1,0,FALSE,"line 3: syntax error, unexpected '(' "
+GrupoH,asl159,0,1,FALSE,NA
+GrupoH,asl162,1,0,FALSE,"line 5: syntax error, unexpected TK_OC_AND "
+GrupoH,asl163,0,1,FALSE,NA
+GrupoH,asl164,0,1,FALSE,NA
+GrupoH,asl166,1,0,FALSE,"line 5: syntax error, unexpected TK_OC_NE "
+GrupoH,asl167,0,1,FALSE,NA
+GrupoH,asl168,1,0,FALSE,"line 5: syntax error, unexpected invalid token "
+GrupoH,asl170,0,1,FALSE,NA
+GrupoH,asl171,0,1,FALSE,NA
+GrupoH,asl182,0,1,FALSE,NA
+GrupoH,asl183,0,1,FALSE,NA
+GrupoH,asl184,0,1,FALSE,NA
+GrupoH,asl185,0,1,FALSE,NA
+GrupoH,asl186,0,1,FALSE,NA
+GrupoH,asl188,1,0,FALSE,"line 6: syntax error, unexpected '&' "
+GrupoH,asl189,1,0,FALSE,"line 5: syntax error, unexpected TK_OC_AND "
+GrupoJ,asl005,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl006,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl007,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl008,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl025,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl027,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl028,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl030,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl031,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl032,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl033,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl035,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl036,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl037,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl038,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl039,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl041,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl042,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl043,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl044,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl046,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl047,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl048,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl050,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl051,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl053,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl054,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl056,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl057,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl058,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl059,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl060,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl062,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl063,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl065,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl066,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl076,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl077,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl078,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl079,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl080,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl081,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl103,1,0,FALSE,"syntax error, unexpected TK_LIT_INT in line 4. "
+GrupoJ,asl114,1,0,FALSE,"syntax error, unexpected end of file in line 2. "
+GrupoJ,asl129,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl138,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl139,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl140,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl141,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl142,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl143,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl144,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl145,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl146,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl147,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl148,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl149,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl150,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl151,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl153,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl154,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 3. "
+GrupoJ,asl157,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting ';' in line 3. "
+GrupoJ,asl158,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting ';' in line 3. "
+GrupoJ,asl162,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl166,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl168,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl172,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl173,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl176,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoJ,asl177,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl187,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl188,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl189,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl190,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 4. "
+GrupoJ,asl192,1,0,FALSE,"syntax error, unexpected TK_LIT_CHAR, expecting TK_IDENTIFICADOR in line 2. "
+GrupoK,asl041,1,0,FALSE,syntax error em 3 
+GrupoK,asl043,1,0,FALSE,syntax error em 3 
+GrupoK,asl044,1,0,FALSE,syntax error em 3 
+GrupoK,asl046,1,0,FALSE,syntax error em 4 
+GrupoK,asl047,1,0,FALSE,syntax error em 4 
+GrupoK,asl048,1,0,FALSE,syntax error em 5 
+GrupoK,asl058,1,0,FALSE,syntax error em 4 
+GrupoK,asl062,1,0,FALSE,syntax error em 4 
+GrupoK,asl063,1,0,FALSE,syntax error em 3 
+GrupoK,asl065,1,0,FALSE,syntax error em 6 
+GrupoK,asl066,1,0,FALSE,syntax error em 6 
+GrupoK,asl076,1,0,FALSE,syntax error em 6 
+GrupoK,asl077,1,0,FALSE,syntax error em 3 
+GrupoK,asl078,1,0,FALSE,syntax error em 3 
+GrupoK,asl079,1,0,FALSE,syntax error em 4 
+GrupoK,asl080,1,0,FALSE,syntax error em 3 
+GrupoK,asl086,0,1,FALSE,NA
+GrupoK,asl103,1,0,FALSE,syntax error em 3 
+GrupoK,asl129,1,0,FALSE,syntax error em 4 
+GrupoK,asl138,1,0,FALSE,syntax error em 3 
+GrupoK,asl139,1,0,FALSE,syntax error em 3 
+GrupoK,asl140,1,0,FALSE,syntax error em 3 
+GrupoK,asl141,1,0,FALSE,syntax error em 3 
+GrupoK,asl142,1,0,FALSE,syntax error em 3 
+GrupoK,asl143,1,0,FALSE,syntax error em 3 
+GrupoK,asl144,1,0,FALSE,syntax error em 3 
+GrupoK,asl145,1,0,FALSE,syntax error em 3 
+GrupoK,asl146,1,0,FALSE,syntax error em 3 
+GrupoK,asl147,1,0,FALSE,syntax error em 3 
+GrupoK,asl148,1,0,FALSE,syntax error em 3 
+GrupoK,asl149,1,0,FALSE,syntax error em 3 
+GrupoK,asl150,1,0,FALSE,syntax error em 3 
+GrupoK,asl153,1,0,FALSE,syntax error em 2 
+GrupoK,asl154,1,0,FALSE,syntax error em 2 
+GrupoK,asl157,1,0,FALSE,syntax error em 2 
+GrupoK,asl158,1,0,FALSE,syntax error em 2 
+GrupoK,asl162,1,0,FALSE,syntax error em 4 
+GrupoK,asl166,1,0,FALSE,syntax error em 4 
+GrupoK,asl168,1,0,FALSE,syntax error em 3 
+GrupoK,asl172,1,0,FALSE,syntax error em 3 
+GrupoK,asl173,1,0,FALSE,syntax error em 3 
+GrupoK,asl177,1,0,FALSE,syntax error em 3 
+GrupoK,asl187,1,0,FALSE,syntax error em 5 
+GrupoK,asl188,1,0,FALSE,syntax error em 5 
+GrupoK,asl189,1,0,FALSE,syntax error em 4 
+GrupoK,asl190,1,0,FALSE,syntax error em 3 
+GrupoK,asl192,1,0,FALSE,syntax error em 3 
+GrupoL,asl001,1,0,FALSE, Erro na linha 2 
+GrupoL,asl003,1,0,FALSE, Erro na linha 2 
+GrupoL,asl005,1,0,FALSE, Erro na linha 2 
+GrupoL,asl006,1,0,FALSE, Erro na linha 2 
+GrupoL,asl007,1,0,FALSE, Erro na linha 2 
+GrupoL,asl008,1,0,FALSE, Erro na linha 2 
+GrupoL,asl011,0,1,FALSE,NA
+GrupoL,asl028,1,0,FALSE, Erro na linha 2 
+GrupoL,asl031,1,0,FALSE, Erro na linha 4 
+GrupoL,asl032,1,0,FALSE, Erro na linha 4 
+GrupoL,asl041,1,0,FALSE, Erro na linha 4 
+GrupoL,asl042,1,0,FALSE, Erro na linha 4 
+GrupoL,asl047,1,0,FALSE, Erro na linha 2 
+GrupoL,asl048,1,0,FALSE, Erro na linha 2 
+GrupoL,asl054,1,0,FALSE, Erro na linha 2 
+GrupoL,asl081,1,0,FALSE, Erro na linha 2 
+GrupoL,asl153,1,0,FALSE, Erro na linha 3 
+GrupoL,asl154,1,0,FALSE, Erro na linha 3 
+GrupoL,asl177,1,0,FALSE, Erro na linha 4 
+GrupoM,asl086,0,1,FALSE,NA
+GrupoM,asl143,1,0,FALSE,"Error syntax error, unexpected '?' Line: 4 "
+GrupoO,asl041,1,0,FALSE,"syntax error, unexpected TK_PR_CONST erro na linha 4 "
+GrupoO,asl114,1,0,FALSE,"syntax error, unexpected end of file erro na linha 2 "
+GrupoO,asl157,1,0,FALSE,"syntax error, unexpected TK_OC_AND, expecting ';' erro na linha 3 "
+GrupoO,asl158,1,0,FALSE,"syntax error, unexpected TK_OC_OR, expecting ';' erro na linha 3 "
+GrupoO,asl162,1,0,FALSE,"syntax error, unexpected TK_OC_AND, expecting ';' erro na linha 5 "
+GrupoO,asl163,0,1,FALSE,NA
+GrupoO,asl164,0,1,FALSE,NA
+GrupoO,asl166,1,0,FALSE,"syntax error, unexpected TK_OC_NE, expecting ';' erro na linha 5 "
+GrupoO,asl167,0,1,FALSE,NA
+GrupoO,asl168,1,0,FALSE,"syntax error, unexpected '<', expecting '?' or ':' erro na linha 5 "
+GrupoO,asl183,0,1,FALSE,NA
+GrupoO,asl184,0,1,FALSE,NA
+GrupoO,asl189,1,0,FALSE,"syntax error, unexpected TK_OC_AND, expecting ';' erro na linha 5 "
+GrupoP,asl003,1,0,FALSE,syntax error at line 2: > '2' 
+GrupoP,asl004,1,0,FALSE,syntax error at line 2: > '2' 
+GrupoP,asl047,1,0,FALSE,syntax error at line 2: > '10' 
+GrupoP,asl048,1,0,FALSE,syntax error at line 2: > '10' 
+GrupoP,asl056,1,0,FALSE,syntax error at line 5: > '<<' 
+GrupoP,asl057,1,0,FALSE,syntax error at line 5: > '>>' 
+GrupoP,asl077,1,0,FALSE,syntax error at line 4: > ';' 
+GrupoP,asl081,1,0,FALSE,syntax error at line 7: > '100' 
+GrupoP,asl143,1,0,FALSE,syntax error at line 4: > '?' 
+GrupoP,asl150,1,0,FALSE,syntax error at line 4: > '?' 
+GrupoP,asl176,1,0,FALSE,syntax error at line 2: > '12' 
+GrupoP,asl188,1,0,FALSE,syntax error at line 7: > '*' 
+GrupoP,asl192,1,0,FALSE,syntax error at line 4: > ')' 
+GrupoQ,asl159,0,1,FALSE,NA
+GrupoR,asl025,1,0,FALSE,error 
+GrupoR,asl027,1,0,FALSE,error 
+GrupoR,asl028,1,0,FALSE,error 
+GrupoR,asl030,1,0,FALSE,error 
+GrupoR,asl031,1,0,FALSE,error 
+GrupoR,asl032,1,0,FALSE,error 
+GrupoR,asl033,1,0,FALSE,error 
+GrupoR,asl035,1,0,FALSE,error 
+GrupoR,asl036,1,0,FALSE,error 
+GrupoR,asl037,1,0,FALSE,error 
+GrupoR,asl038,1,0,FALSE,error 
+GrupoR,asl039,1,0,FALSE,error 
+GrupoR,asl041,1,0,FALSE,error 
+GrupoR,asl042,1,0,FALSE,error 
+GrupoR,asl043,1,0,FALSE,error 
+GrupoR,asl044,1,0,FALSE,error 
+GrupoR,asl046,1,0,FALSE,error 
+GrupoR,asl047,1,0,FALSE,error 
+GrupoR,asl048,1,0,FALSE,error 
+GrupoR,asl050,1,0,FALSE,error 
+GrupoR,asl051,1,0,FALSE,error 
+GrupoR,asl053,1,0,FALSE,error 
+GrupoR,asl054,1,0,FALSE,error 
+GrupoR,asl056,1,0,FALSE,error 
+GrupoR,asl057,1,0,FALSE,error 
+GrupoR,asl058,1,0,FALSE,error 
+GrupoR,asl059,1,0,FALSE,error 
+GrupoR,asl060,1,0,FALSE,error 
+GrupoR,asl062,1,0,FALSE,error 
+GrupoR,asl063,1,0,FALSE,error 
+GrupoR,asl065,1,0,FALSE,error 
+GrupoR,asl066,1,0,FALSE,error 
+GrupoR,asl076,1,0,FALSE,error 
+GrupoR,asl077,1,0,FALSE,error 
+GrupoR,asl078,1,0,FALSE,error 
+GrupoR,asl079,1,0,FALSE,error 
+GrupoR,asl080,1,0,FALSE,error 
+GrupoR,asl081,1,0,FALSE,error 
+GrupoR,asl103,1,0,FALSE,error 
+GrupoR,asl120,1,0,FALSE,error 
+GrupoR,asl129,1,0,FALSE,error 
+GrupoR,asl138,1,0,FALSE,error 
+GrupoR,asl139,1,0,FALSE,error 
+GrupoR,asl140,1,0,FALSE,error 
+GrupoR,asl141,1,0,FALSE,error 
+GrupoR,asl142,1,0,FALSE,error 
+GrupoR,asl143,1,0,FALSE,error 
+GrupoR,asl144,1,0,FALSE,error 
+GrupoR,asl145,1,0,FALSE,error 
+GrupoR,asl146,1,0,FALSE,error 
+GrupoR,asl147,1,0,FALSE,error 
+GrupoR,asl148,1,0,FALSE,error 
+GrupoR,asl149,1,0,FALSE,error 
+GrupoR,asl150,1,0,FALSE,error 
+GrupoR,asl151,1,0,FALSE,error 
+GrupoR,asl153,1,0,FALSE,error 
+GrupoR,asl154,1,0,FALSE,error 
+GrupoR,asl157,1,0,FALSE,error 
+GrupoR,asl158,1,0,FALSE,error 
+GrupoR,asl159,0,1,FALSE,NA
+GrupoR,asl162,1,0,FALSE,error 
+GrupoR,asl166,1,0,FALSE,error 
+GrupoR,asl168,1,0,FALSE,error 
+GrupoR,asl172,1,0,FALSE,error 
+GrupoR,asl173,1,0,FALSE,error 
+GrupoR,asl177,1,0,FALSE,error 
+GrupoR,asl187,1,0,FALSE,error 
+GrupoR,asl188,1,0,FALSE,error 
+GrupoR,asl189,1,0,FALSE,error 
+GrupoR,asl190,1,0,FALSE,error 
+GrupoR,asl192,1,0,FALSE,error 
+GrupoW,asl086,0,1,FALSE,NA
+GrupoW,asl143,1,0,FALSE,syntax error at line 4 
+GrupoW,asl150,1,0,FALSE,syntax error at line 4 
+GrupoW,asl161,0,1,FALSE,NA
+GrupoW,asl163,0,1,FALSE,NA
+GrupoW,asl164,0,1,FALSE,NA
+GrupoW,asl167,0,1,FALSE,NA
+GrupoW,asl168,1,0,FALSE,syntax error at line 5 
+GrupoW,asl183,0,1,FALSE,NA
+GrupoW,asl184,0,1,FALSE,NA
