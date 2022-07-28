@@ -173,7 +173,6 @@ vector_attribution
     : id '[' expr ']'
     ;
 
-
 expr
     : ternary
     ;
@@ -313,8 +312,6 @@ operand_arit
     | id
     | TK_LIT_INT
     | TK_LIT_FLOAT
-    | TK_LIT_TRUE
-    | TK_LIT_FALSE
     | func_call
     ;
 

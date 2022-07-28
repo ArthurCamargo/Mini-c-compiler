@@ -7,7 +7,6 @@
 
 typedef enum literal_type
 {
-    TYPE_UINT,
     TYPE_INT,
     TYPE_FLOAT,
     TYPE_BOOL,
@@ -26,10 +25,9 @@ typedef enum token_type
 
 typedef union value
 {
-    unsigned int vui; //unsigned int
     int vi;           //int
     float vf;         //float
-    int vb;           //bool
+    int vb;           //bool (represented as int)
     char* vs;         //string
     char vc;          //char
 }value;
@@ -57,7 +55,7 @@ typedef struct tree
 
 
 symbol create_symbol(int line, token_type t, literal_type literal);
-symbol create_symbol_value_int_uint_bool(int line, token_type t, literal_type literal, int n);
+symbol create_symbol_value_int_bool(int line, token_type t, literal_type literal, int n);
 symbol create_symbol_value_char(int line, token_type t, literal_type literal, char n);
 symbol create_symbol_value_string(int line, token_type t, literal_type literal, char* n);
 symbol create_symbol_value_float(int line, token_type t, literal_type literal, float n);
@@ -69,5 +67,6 @@ void print_data(symbol data);
 void print_tree(tree * t);
 void libera(tree * t);
 void exporta(tree * t);
+char * prepend(char* string_var, const char* prepend_string);
 
 #endif

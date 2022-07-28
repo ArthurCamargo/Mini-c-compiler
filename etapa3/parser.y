@@ -11,15 +11,15 @@ extern tree* arvore;
     tree* ast;
 }
 
-%type<ast> start program declaration global_variable_body global_fotter vector_declaration
+%type<ast> start program declaration global_variable global_fotter vector_declaration
 %type<ast> static id function func_header list parameters const command_block command
-%type<ast> simple_command local_variable id_list initialization literal attribution
+%type<ast> simple_command local_variable id_list literal attribution
 %type<ast> operand_arit expr ternary unary_minus or and or_log and_log equal rel soma_sub mult_div
 %type<ast> exponential unary parenthesis flux_control conditional iterative vector_attribution
 %type<ast> input output return break continue shift func_call args type
 
 //Literals
-%token<valor_lexico> TK_LIT_UINT  TK_LIT_INT TK_LIT_FLOAT TK_LIT_FALSE TK_LIT_TRUE TK_LIT_CHAR TK_LIT_STRING
+%token<valor_lexico> TK_LIT_INT TK_LIT_FLOAT TK_LIT_FALSE TK_LIT_TRUE TK_LIT_CHAR TK_LIT_STRING
 
 //Identifiers
 %token<valor_lexico> TK_IDENTIFICADOR
@@ -46,10 +46,10 @@ program
 
 declaration
     : function             {$$ = $1;}
-    | global_variable_body {$$ = NULL;}
+    | global_variable {$$ = NULL;}
     ;
 
-global_variable_body
+global_variable
     : static type id vector_declaration global_fotter ';' {$$ = NULL;}
     ;
 
@@ -59,7 +59,7 @@ global_fotter
     ;
 
 vector_declaration
-    : '[' TK_LIT_UINT ']' {$$ = NULL;}
+    : '[' TK_LIT_INT ']'  {$$ = NULL;}
     |                     {$$ = NULL;}
     ;
 
@@ -86,8 +86,8 @@ list
     ;
 
 parameters
-    : parameters ',' const type id  {$$ = NULL;}
-    | const type id                 {$$ = NULL;}
+    : parameters ',' const type id  {$$ = NULL; libera($4);}
+    | const type id                 {$$ = NULL; libera($3);}
     ;
 
 const
@@ -124,19 +124,18 @@ local_variable
     ;
 
 id_list
-    : id initialization              {$$ = $2; $$ = insert_child($$, $1);}
-    | id_list ',' id  initialization {$$ = $3; $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | id                             {$$ = NULL;}
-    ;
-
-initialization
-    : TK_OC_LE id                    {$$ = insert_leaf($1); $$ = insert_child($$, $2);}
-    | TK_OC_LE literal               {$$ = insert_leaf($1); $$ = insert_child($$, $2);}
+    : id TK_OC_LE id {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    | id TK_OC_LE literal {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    | id_list ',' id  TK_OC_LE id {$$ = insert_leaf($4);  $$ = insert_child($$, $1);
+                                   $$ = insert_child($$, $3); $$ = insert_child($$, $5);}
+    | id_list ',' id  TK_OC_LE literal {$$ = insert_leaf($4);  $$ = insert_child($$, $1);
+                                        $$ = insert_child($$, $3); $$ = insert_child($$, $5);}
+    | id_list ',' id                 {$$ = insert_child($$, $1); libera($3);}
+    | id                             {$$ = NULL; libera($1);}
     ;
 
 literal
-    : TK_LIT_UINT   {$$ = insert_leaf($1); }
-    | TK_LIT_INT    {$$ = insert_leaf($1); }
+    : TK_LIT_INT    {$$ = insert_leaf($1); }
     | TK_LIT_FLOAT  {$$ = insert_leaf($1); }
     | TK_LIT_FALSE  {$$ = insert_leaf($1); }
     | TK_LIT_TRUE   {$$ = insert_leaf($1); }
@@ -150,16 +149,17 @@ attribution
     ;
 
 vector_attribution
-    : id '[' expr ']' {$$ = insert_leaf($2); $$->data.lv.v.vs = "[]"; $$->data.token_t = COMPOSE_OP;
+              : id '[' expr ']' {$$ = insert_leaf($2); $$->data.lv.v.vs = "[]"; $$->data.token_t = COMPOSE_OP;
                        $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
     ;
 
 
 expr
     : ternary       {$$ = $1;}
+    ;
 
 ternary
-        : ternary '?' ternary ':' or {$$ = insert_leaf($2); $$->data.lv.v.vs = "?:";
+        : unary_minus '?' unary_minus':' ternary {$$ = insert_leaf($2); $$->data.lv.v.vs = "?:";
                                        $$->data.token_t = COMPOSE_OP;
                                        $$ = insert_child($$, $1); $$ = insert_child($$, $3);
                                        $$ = insert_child($$, $5);}
@@ -284,29 +284,27 @@ continue
     ;
 
 shift
-    : id TK_OC_SL TK_LIT_UINT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
-    | id TK_OC_SR TK_LIT_UINT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
-    | vector_attribution TK_OC_SL TK_LIT_UINT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
-    | vector_attribution TK_OC_SR TK_LIT_UINT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
+    : id TK_OC_SL TK_LIT_INT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
+    | id TK_OC_SR TK_LIT_INT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
+    | vector_attribution TK_OC_SL TK_LIT_INT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
+    | vector_attribution TK_OC_SR TK_LIT_INT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
     ;
 
 func_call
-    : id '(' args ')' {$$ = $1; $$ = insert_child($$, $3);}
+    : id '(' args ')' {$$ = $1; $$->data.lv.v.vs = prepend($$->data.lv.v.vs, "call "); $$ = insert_child($$, $3);}
     ;
 
 args
     : expr ',' args  {$$ = $1; $$ = insert_child($$, $3);}
     | expr           {$$ = $1;}
+    |                {$$ = NULL;}
     ;
 
 operand_arit
     : vector_attribution { $$ = $1;}
     | id                 { $$ = $1;}
-    | TK_LIT_UINT        { $$ = insert_leaf($1);}
     | TK_LIT_INT         { $$ = insert_leaf($1);}
     | TK_LIT_FLOAT       { $$ = insert_leaf($1);}
-    | TK_LIT_TRUE        { $$ = insert_leaf($1);}
-    | TK_LIT_FALSE       { $$ = insert_leaf($1);}
     | func_call          { $$ = $1;}
     ;
 

@@ -15,7 +15,6 @@ int get_line_number()
 numbers [0-9]
 letters [a-zA-Z]
 integer {numbers}+
-unsigned_integer {numbers}+
 expoent [eE]{integer}
 float {integer}("."{integer}){expoent}?
 bool ("false"|"true")

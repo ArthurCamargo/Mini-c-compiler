@@ -1,0 +1,27 @@
+int main () {
+/*
+    a = +1;
+    b = -1;
+    c = ?2;
+    d = &b;
+    e = !t;
+    f = #5;
+    g = *p;
+*/
+
+/*
+    binary = (1 + 2) - arroba;
+    exponetial = 2^4;
+    vezes = 2*2;
+    dividido = 2/2;
+    modulo = 7%10;
+    dif = 2 != 1;
+    eq = c == 2;
+    bitwise = 2 | 2;
+    bitwise = 1 & 1;
+*/
+
+    ternary = 2 ? arthur : joao;
+
+    vector[2] = 5;
+}

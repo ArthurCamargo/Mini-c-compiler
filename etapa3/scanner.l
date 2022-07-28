@@ -16,17 +16,15 @@ int get_line_number()
 
 numbers [0-9]
 letters [a-zA-Z]
-positiveInteger {numbers}+
-integer ("-")?{numbers}+
+integer {numbers}+
 expoent [eE]{integer}
-float {integer}("."{integer})?{expoent}?
+float {integer}("."{integer}){expoent}?
 bool ("false"|"true")
 white [ \t]+
+%x IN_COMMENT
 
 %%
 {white} {}
-"//".* {}
-"/*".*"*/" {}
 
 "int"       { return TK_PR_INT;      }
 "float"     { return TK_PR_FLOAT;    }
@@ -95,19 +93,16 @@ white [ \t]+
 "<<" { yylval.valor_lexico = create_symbol_value_string(get_line_number(), COMPOSE_OP, TYPE_STRING, strdup(yytext));
         return TK_OC_SR;  }
 
-{positiveInteger}  { yylval.valor_lexico = create_symbol_value_int_uint_bool(get_line_number(), LITERAL, TYPE_UINT, atoi(yytext));
-                         return TK_LIT_UINT;}
-
-{integer}          { yylval.valor_lexico = create_symbol_value_int_uint_bool(get_line_number(), LITERAL, TYPE_INT, atoi(yytext));
+{integer}          { yylval.valor_lexico = create_symbol_value_int_bool(get_line_number(), LITERAL, TYPE_INT, atoi(yytext));
                          return TK_LIT_INT;}
 
 {float}            { yylval.valor_lexico = create_symbol_value_float(get_line_number(), LITERAL, TYPE_FLOAT, atof(yytext));
                          return TK_LIT_FLOAT;}
 
-"true"             { yylval.valor_lexico = create_symbol_value_int_uint_bool(get_line_number(), LITERAL, TYPE_BOOL, 1);
+"true"             { yylval.valor_lexico = create_symbol_value_int_bool(get_line_number(), LITERAL, TYPE_BOOL, 1);
                          return TK_LIT_TRUE;}
 
-"false"            { yylval.valor_lexico = create_symbol_value_int_uint_bool(get_line_number(), LITERAL, TYPE_BOOL, 0);
+"false"            { yylval.valor_lexico = create_symbol_value_int_bool(get_line_number(), LITERAL, TYPE_BOOL, 0);
                          return TK_LIT_FALSE;}
 
 "'".?"'"           { yylval.valor_lexico = create_symbol_value_char(get_line_number(), LITERAL, TYPE_CHAR, yytext[1]);
@@ -118,6 +113,20 @@ white [ \t]+
 
 ({letters}|"_")({letters}|{numbers}|"_")* { yylval.valor_lexico = create_symbol_value_string(get_line_number(), ID, TYPE_STRING, strdup(yytext));
                                             return TK_IDENTIFICADOR;}
+
+"//".*"\n" {g_line_number ++;}
+
+
+<INITIAL>{
+"/*"              BEGIN(IN_COMMENT);
+}
+
+<IN_COMMENT>{
+"*/"      BEGIN(INITIAL);
+[^*\n]+   // eat comment in chunks ;
+"*"       // eat the lone star
+\n        g_line_number++;
+}
 
 "\n" {g_line_number++;}
 

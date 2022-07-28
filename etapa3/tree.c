@@ -2,6 +2,7 @@
 
 tree* insert_leaf(symbol data)
 {
+    //Create an empty node/tree O
     tree* t = (tree *) malloc(sizeof(tree)); //allocate space for the tree
     t->data = data;
     t->child_number = 0;
@@ -11,11 +12,12 @@ tree* insert_leaf(symbol data)
 
 tree* insert_child(tree* t, tree* child)
 {
+    //Insert a child given a node/tree
     if(t == NULL)
     {
         return child;
     }
-    if(child != NULL && child != t)
+    else if(child != NULL && child != t)
     {
         t->child_number ++;
         t->child = (tree**)realloc(t->child, t->child_number * sizeof(tree*)); //reallocates for fitting the new baby
@@ -56,9 +58,6 @@ void print_data(symbol data)
         case LITERAL:
             switch(data.lv.lt)
             {
-                case TYPE_UINT:
-                    printf("[label=\"%d\"];\n",data.lv.v.vb);
-                    break;
                 case TYPE_INT:
                     printf("[label=\"%d\"];\n",data.lv.v.vb);
                     break;
@@ -108,11 +107,8 @@ void exporta(tree* arvore)
         case LITERAL:
             switch(arvore->data.lv.lt)
             {
-                case TYPE_UINT:
-                    printf("%p [label=\"%d\"];\n", arvore, arvore->data.lv.v.vb);
-                    break;
                 case TYPE_INT:
-                    printf("%p [label=\"%d\"];\n", arvore, arvore->data.lv.v.vb);
+                    printf("%p [label=\"%d\"];\n", arvore, arvore->data.lv.v.vi);
                     break;
                 case TYPE_FLOAT:
                     printf("%p [label=\"%f\"];\n", arvore, arvore->data.lv.v.vf);
@@ -141,8 +137,9 @@ symbol create_symbol(int line, token_type t, literal_type literal)
     return s;
 }
 
-symbol create_symbol_value_int_uint_bool(int line, token_type t, literal_type literal, int n)
-{ symbol s;
+symbol create_symbol_value_int_bool(int line, token_type t, literal_type literal, int n)
+{ 
+    symbol s;
     s.token_t = t;
     s.lv.lt = literal;
     s.lv.v.vb = n;
@@ -180,19 +177,33 @@ symbol create_symbol_value_float(int line, token_type t, literal_type literal, f
     return s;
 }
 
+char * prepend(char* string_var, const char* prepend_string)
+{
+    int first_string_size = strlen(string_var);
+    int second_string_size = strlen(prepend_string);
+    char * result = malloc(sizeof(char) * first_string_size + sizeof(char) * second_string_size + 2 * sizeof('\0'));
+    if(result)
+    {
+        strcpy(result, prepend_string);
+        strcat(result, string_var);
+        free(string_var);
+    }
+
+    return result;
+}
 
 void libera(tree * t)
 {
-    if(t == NULL)
-        return;
-
     for(int i = 0; i < t->child_number; i ++)
     {
         libera(t->child[i]);
     }
 
     if(t->data.lv.lt == TYPE_STRING || t->data.token_t == ID)
+    {
+        //printf("Freeing %s\n", t->data.lv.v.vs);
         free(t->data.lv.v.vs);
+    }
     free(t->child);
     free(t);
 }

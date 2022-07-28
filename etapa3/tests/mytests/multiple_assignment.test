@@ -1,0 +1,4 @@
+int func () {
+    int qualquercoisa, a, b <= 10;
+    int a, b <= 20, c <= 32, d;
+}
