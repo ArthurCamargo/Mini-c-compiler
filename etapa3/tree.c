@@ -68,7 +68,7 @@ void print_data(symbol data)
                     printf("[label=\"%s\"];\n",data.lv.v.vb ? "true" : "false");
                     break;
                 case TYPE_STRING:
-                    printf("[label=\"%s\"];\n",data.lv.v.vs);
+                    printf("[label=%s];\n",data.lv.v.vs);
                     break;
                 case TYPE_CHAR:
                     printf("[label=\"%c\"];\n",data.lv.v.vc);
@@ -117,7 +117,7 @@ void exporta(tree* arvore)
                     printf("%p [label=\"%s\"];\n", arvore, arvore->data.lv.v.vb ? "true" : "false");
                     break;
                 case TYPE_STRING:
-                    printf("%p [label=%s];\n", arvore, arvore->data.lv.v.vs);
+                    printf("%p [label=\"%s\"];\n", arvore, arvore->data.lv.v.vs);
                     break;
                 case TYPE_CHAR:
                     printf("%p [label=\"%c\"];\n", arvore, arvore->data.lv.v.vc);
@@ -194,6 +194,8 @@ char * prepend(char* string_var, const char* prepend_string)
 
 void libera(tree * t)
 {
+    if(!t)
+        return;
     for(int i = 0; i < t->child_number; i ++)
     {
         libera(t->child[i]);

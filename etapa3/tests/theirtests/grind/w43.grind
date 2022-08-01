@@ -1,0 +1,14 @@
+==9034== Memcheck, a memory error detector
+==9034== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==9034== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==9034== Command: ../../../etapa3
+==9034== 
+==9034== 
+==9034== HEAP SUMMARY:
+==9034==     in use at exit: 0 bytes in 0 blocks
+==9034==   total heap usage: 28 allocs, 28 frees, 50,636 bytes allocated
+==9034== 
+==9034== All heap blocks were freed -- no leaks are possible
+==9034== 
+==9034== For counts of detected and suppressed errors, rerun with: -v
+==9034== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

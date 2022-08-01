@@ -1,7 +1,7 @@
 import sys
 
-out_f = open(sys.argv[1], "r", encoding="utf8")
-diag_f = open(sys.argv[2], "w", encoding="utf8")
+out_f = open(sys.argv[1], "r")
+diag_f = open(sys.argv[2], "w")
 
 diag_f.write("digraph G {\n")
 dict_nodes = {}

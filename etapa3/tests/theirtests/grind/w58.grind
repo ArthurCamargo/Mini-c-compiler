@@ -1,0 +1,14 @@
+==9064== Memcheck, a memory error detector
+==9064== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==9064== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==9064== Command: ../../../etapa3
+==9064== 
+==9064== 
+==9064== HEAP SUMMARY:
+==9064==     in use at exit: 0 bytes in 0 blocks
+==9064==   total heap usage: 34 allocs, 34 frees, 50,756 bytes allocated
+==9064== 
+==9064== All heap blocks were freed -- no leaks are possible
+==9064== 
+==9064== For counts of detected and suppressed errors, rerun with: -v
+==9064== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

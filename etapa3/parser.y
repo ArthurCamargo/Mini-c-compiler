@@ -16,7 +16,7 @@ extern tree* arvore;
 %type<ast> simple_command local_variable id_list literal attribution
 %type<ast> operand_arit expr ternary unary_minus or and or_log and_log equal rel soma_sub mult_div
 %type<ast> exponential unary parenthesis flux_control conditional iterative vector_attribution
-%type<ast> input output return break continue shift func_call args type
+%type<ast> input output return break continue shift func_call args type assignment
 
 //Literals
 %token<valor_lexico> TK_LIT_INT TK_LIT_FLOAT TK_LIT_FALSE TK_LIT_TRUE TK_LIT_CHAR TK_LIT_STRING
@@ -50,11 +50,11 @@ declaration
     ;
 
 global_variable
-    : static type id vector_declaration global_fotter ';' {$$ = NULL;}
+    : static type id vector_declaration global_fotter ';' {$$ = NULL; libera($3);}
     ;
 
 global_fotter
-    : ',' id vector_declaration global_fotter {$$ = NULL;}
+    : ',' id vector_declaration global_fotter {$$ = NULL; libera($2);}
     |       {$$ = NULL;}
     ;
 
@@ -86,7 +86,7 @@ list
     ;
 
 parameters
-    : parameters ',' const type id  {$$ = NULL; libera($4);}
+    : parameters ',' const type id  {$$ = NULL; libera($5);}
     | const type id                 {$$ = NULL; libera($3);}
     ;
 
@@ -124,15 +124,17 @@ local_variable
     ;
 
 id_list
-    : id TK_OC_LE id {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | id TK_OC_LE literal {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | id_list ',' id  TK_OC_LE id {$$ = insert_leaf($4);  $$ = insert_child($$, $1);
-                                   $$ = insert_child($$, $3); $$ = insert_child($$, $5);}
-    | id_list ',' id  TK_OC_LE literal {$$ = insert_leaf($4);  $$ = insert_child($$, $1);
-                                        $$ = insert_child($$, $3); $$ = insert_child($$, $5);}
-    | id_list ',' id                 {$$ = insert_child($$, $1); libera($3);}
-    | id                             {$$ = NULL; libera($1);}
+    : assignment              {$$ = $1;}
+    | id_list ',' assignment  {$$ = $1;  $$ = insert_child($$, $3);}
+    | id_list ',' id          {$$ = $1; libera($3);}
+    | id                      {$$ = NULL; libera($1);}
     ;
+
+assignment
+    : id TK_OC_LE id         {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    | id TK_OC_LE literal    {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    ;
+
 
 literal
     : TK_LIT_INT    {$$ = insert_leaf($1); }
