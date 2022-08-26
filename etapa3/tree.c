@@ -56,7 +56,7 @@ void print_data(symbol data)
             printf("[label=\"%s\"];\n", data.lv.v.vs);
             break;
         case LITERAL:
-            switch(data.lv.lt)
+            switch(data.lv.literal_type)
             {
                 case TYPE_INT:
                     printf("[label=\"%d\"];\n",data.lv.v.vb);
@@ -105,7 +105,7 @@ void exporta(tree* arvore)
             printf("%p [label=\"%s\"];\n", arvore, arvore->data.lv.v.vs);
             break;
         case LITERAL:
-            switch(arvore->data.lv.lt)
+            switch(arvore->data.lv.literal_type)
             {
                 case TYPE_INT:
                     printf("%p [label=\"%d\"];\n", arvore, arvore->data.lv.v.vi);
@@ -117,7 +117,7 @@ void exporta(tree* arvore)
                     printf("%p [label=\"%s\"];\n", arvore, arvore->data.lv.v.vb ? "true" : "false");
                     break;
                 case TYPE_STRING:
-                    printf("%p [label=\"%s\"];\n", arvore, arvore->data.lv.v.vs);
+                    printf("%p [label=%s];\n", arvore, arvore->data.lv.v.vs);
                     break;
                 case TYPE_CHAR:
                     printf("%p [label=\"%c\"];\n", arvore, arvore->data.lv.v.vc);
@@ -127,51 +127,51 @@ void exporta(tree* arvore)
     }
 }
 
-symbol create_symbol(int line, token_type t, literal_type literal)
+symbol create_symbol(int line, token_type t, type literal)
 {
     symbol s;
     s.line = line;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.literal_type = literal;
 
     return s;
 }
 
-symbol create_symbol_value_int_bool(int line, token_type t, literal_type literal, int n)
+symbol create_symbol_value_int_bool(int line, token_type t, type literal, int n)
 { 
     symbol s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.literal_type = literal;
     s.lv.v.vb = n;
 
     return s;
 }
 
-symbol create_symbol_value_char(int line, token_type t, literal_type literal, char n)
+symbol create_symbol_value_char(int line, token_type t, type literal, char n)
 {
     symbol s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.literal_type = literal;
     s.lv.v.vc = n;
 
     return s;
 }
 
-symbol create_symbol_value_string(int line, token_type t, literal_type literal, char* n)
+symbol create_symbol_value_string(int line, token_type t, type literal, char* n)
 {
     symbol s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.literal_type = literal;
     s.lv.v.vs = n;
 
     return s;
 }
 
-symbol create_symbol_value_float(int line, token_type t, literal_type literal, float n)
+symbol create_symbol_value_float(int line, token_type t, type literal, float n)
 {
     symbol s;
     s.token_t = t;
-    s.lv.lt = literal;
+    s.lv.literal_type = literal;
     s.lv.v.vf = n;
 
     return s;
@@ -181,15 +181,15 @@ char * prepend(char* string_var, const char* prepend_string)
 {
     int first_string_size = strlen(string_var);
     int second_string_size = strlen(prepend_string);
-    char * result = malloc(sizeof(char) * first_string_size + sizeof(char) * second_string_size + 2 * sizeof('\0'));
-    if(result)
+    char * resuliteral_type = malloc(sizeof(char) * first_string_size + sizeof(char) * second_string_size + 2 * sizeof('\0'));
+    if(resuliteral_type)
     {
-        strcpy(result, prepend_string);
-        strcat(result, string_var);
+        strcpy(resuliteral_type, prepend_string);
+        strcat(resuliteral_type, string_var);
         free(string_var);
     }
 
-    return result;
+    return resuliteral_type;
 }
 
 void libera(tree * t)
@@ -201,7 +201,7 @@ void libera(tree * t)
         libera(t->child[i]);
     }
 
-    if(t->data.lv.lt == TYPE_STRING || t->data.token_t == ID)
+    if(t->data.lv.literal_type == TYPE_STRING || t->data.token_t == ID)
     {
         //printf("Freeing %s\n", t->data.lv.v.vs);
         free(t->data.lv.v.vs);

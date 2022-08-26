@@ -5,14 +5,15 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef enum literal_type
+typedef enum type
 {
     TYPE_INT,
     TYPE_FLOAT,
     TYPE_BOOL,
     TYPE_STRING,
     TYPE_CHAR,
-} literal_type;
+
+} type;
 
 typedef enum token_type
 {
@@ -20,6 +21,7 @@ typedef enum token_type
     COMPOSE_OP,
     ID,
     LITERAL,
+
 }token_type;
 
 
@@ -34,8 +36,9 @@ typedef union value
 
 typedef struct literal_value
 {
-    literal_type lt;
+    type literal_type;
     value v;
+
 }literal_value;
 
 typedef struct symbol
@@ -48,17 +51,16 @@ typedef struct symbol
 typedef struct tree
 {
     symbol data;
+    type node_type;
     int child_number;
     struct tree** child; //copy of pointer to create an n-ary tree
 } tree;
 
 
-
-symbol create_symbol(int line, token_type t, literal_type literal);
-symbol create_symbol_value_int_bool(int line, token_type t, literal_type literal, int n);
-symbol create_symbol_value_char(int line, token_type t, literal_type literal, char n);
-symbol create_symbol_value_string(int line, token_type t, literal_type literal, char* n);
-symbol create_symbol_value_float(int line, token_type t, literal_type literal, float n);
+symbol create_symbol_value_int_bool(int line, token_type t, type literal, int n);
+symbol create_symbol_value_char(int line, token_type t, type literal, char n);
+symbol create_symbol_value_string(int line, token_type t, type literal, char* n);
+symbol create_symbol_value_float(int line, token_type t, type literal, float n);
 tree* empty_tree();
 tree* insert_leaf(symbol data);
 tree* insert_child(tree* t, tree* tc);

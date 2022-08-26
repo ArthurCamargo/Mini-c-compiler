@@ -10,7 +10,7 @@ stack* create_stack()
 
 symbol_table* pop(stack **s)
 {
-    symbol_table *table;
+    symbol_table* table;
     if(s)
     {
         stack * temp;
@@ -34,14 +34,18 @@ void push(stack **s, symbol_table *table)
 
 int search(stack *s, char* string)
 {
-    stack *temp;
+    stack *temp; 
     temp = s;
     bool verifing = true;
     while(verifing)
     {
         if(s)
         {
-            verifing = verify_symbol(s->table, string);
+            key_object key;
+            key.key_string = string;
+            key.size = strlen(string);
+            key.hash_value = hash_string(string, strlen(string));
+            verifing = find_symbol_in_table(s->table->buckets, s->table->capacity, &key);
             s = s->next;
         }
         else

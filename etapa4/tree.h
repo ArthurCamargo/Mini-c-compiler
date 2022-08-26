@@ -37,7 +37,7 @@ typedef union value
 
 typedef struct literal_value
 {
-    type lt;
+    type literal_type;
     value v;
 } literal_value;
 
@@ -59,7 +59,6 @@ typedef struct tree
 
 token_value create_token_value(int line, token_type t, char *lexeme);
 token_value create_token_value_int(int line, token_type t, type lexeme_type, char *lexeme,  int n);
-token_value create_token_value_uint(int line, token_type t, type lexeme_type, char *lexeme,  uint n);
 token_value create_token_value_bool(int line, token_type t, type lexeme_type, char *lexeme,  bool n);
 token_value create_token_value_char(int line, token_type t, type lexeme_type, char *lexeme,  char n);
 token_value create_token_value_string(int line, token_type t, type lexeme_type, char *lexeme,  char* n);
@@ -71,6 +70,7 @@ tree* create_insert_child(token_type type, tree * t, tree * child);
 void print_data(token_value data);
 void print_tree(tree * t);
 void libera(tree * t);
+char * prepend(char* string_var, const char* prepend_string);
 void exporta(tree * t);
 
 #endif

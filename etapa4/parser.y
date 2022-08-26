@@ -1,14 +1,9 @@
 %{
 #include "tree.h"
-#include "stack.h"
 #include "symbol_table.h"
-#include "error.h"
 
-int yylex(void);
-int yyerror(const char*);
+int yylex(void); void yyerror (char const *s);
 extern tree* arvore;
-extern stack* st;
-
 %}
 
 %start start
@@ -16,27 +11,23 @@ extern stack* st;
 %union {
     token_value valor_lexico;
     tree* ast;
-    type tipo;
 }
 
-%type<ast> start program declaration global_variable_body global_fotter close_block open_block
+%type<ast> start program declaration global_variable global_fotter vector_declaration
 %type<ast> static id function func_header list parameters const command_block command
-%type<ast> simple_command local_variable id_list initialization literal attribution
+%type<ast> simple_command local_variable id_list literal attribution
 %type<ast> operand_arit expr ternary unary_minus or and or_log and_log equal rel soma_sub mult_div
 %type<ast> exponential unary parenthesis flux_control conditional iterative vector_attribution
-%type<ast> input output return break continue shift func_call args
-
-%type<valor_lexico> vector_declaration
-%type<tipo> type
+%type<ast> input output return break continue shift func_call args type assignment
 
 //Literals
-%token<valor_lexico> TK_LIT_UINT  TK_LIT_INT TK_LIT_FLOAT TK_LIT_FALSE TK_LIT_TRUE TK_LIT_CHAR TK_LIT_STRING
+%token<valor_lexico> TK_LIT_INT TK_LIT_FLOAT TK_LIT_FALSE TK_LIT_TRUE TK_LIT_CHAR TK_LIT_STRING
 
 //Identifiers
 %token<valor_lexico> TK_IDENTIFICADOR
 
 //Reserved words
-%token<tipo> TK_PR_INT TK_PR_FLOAT TK_PR_BOOL TK_PR_STRING TK_PR_CHAR TK_PR_UINT
+%token<valor_lexico> TK_PR_INT TK_PR_FLOAT TK_PR_BOOL TK_PR_STRING TK_PR_CHAR
 %token<valor_lexico> TK_PR_IF TK_PR_THEN TK_PR_ELSE TK_PR_WHILE TK_PR_DO TK_PR_INPUT
 %token<valor_lexico> TK_PR_OUTPUT TK_PR_RETURN TK_PR_CONST TK_PR_STATIC TK_PR_FOREACH
 %token<valor_lexico> TK_PR_FOR TK_PR_SWITCH TK_PR_CASE TK_PR_BREAK TK_PR_CONTINUE TK_PR_CLASS
@@ -57,22 +48,21 @@ program
 
 declaration
     : function             {$$ = $1;}
-    | global_variable_body {$$ = NULL;}
+    | global_variable {$$ = NULL;}
     ;
 
-global_variable_body
-    : static type id vector_declaration global_fotter ';' {symbol s = create_symbol($4, $2, NULL, $3->data);
-                                                           insert_symbol(st->table, s);} //declare
+global_variable
+    : static type id vector_declaration global_fotter ';' {$$ = NULL; libera($3);}
     ;
 
 global_fotter
-    : ',' id vector_declaration global_fotter {} //declare
+    : ',' id vector_declaration global_fotter {$$ = NULL; libera($2);}
     |       {$$ = NULL;}
     ;
 
 vector_declaration
-    : '[' TK_LIT_UINT ']' {$$ = $2;}
-    |                     {}
+    : '[' TK_LIT_INT ']'  {$$ = NULL;}
+    |                     {$$ = NULL;}
     ;
 
 static
@@ -98,8 +88,8 @@ list
     ;
 
 parameters
-    : parameters ',' const type id  {$$ = NULL;}
-    | const type id                 {$$ = NULL;}
+    : parameters ',' const type id  {$$ = NULL; libera($5);}
+    | const type id                 {$$ = NULL; libera($3);}
     ;
 
 const
@@ -108,15 +98,7 @@ const
     ;
 
 command_block
-    : open_block command  close_block {$$ = $2;}
-    ;
-
-open_block
-    : '{'                         {symbol_table table = create_table(); push(&st, &table);}
-    ;
-
-close_block
-    : '}'                         {pop(&st);}
+    : '{' command '}'     {$$ = $2;}
     ;
 
 command
@@ -144,48 +126,43 @@ local_variable
     ;
 
 id_list
-    : static const type id  id_list{ $$ = $2; $$ = insert_child($$, $1);
-                                       symbol s = create_symbol(1, NULL, $1->data);
-                                       insert_symbol(st->table, s);}
-
-    | id_list ',' id  initialization { $$ = $3; $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-
-    | id                             { symbol s = create_symbol(1, NULL, $1->data);
-                                       insert_symbol(st->table, s);}
+    : assignment              {$$ = $1;}
+    | id_list ',' assignment  {$$ = $1;  $$ = insert_child($$, $3);}
+    | id_list ',' id          {$$ = $1; libera($3);}
+    | id                      {$$ = NULL; libera($1);}
     ;
 
-initialization
-    : TK_OC_LE id                    {$$ = insert_leaf($1); $$ = insert_child($$, $2);}
-    | TK_OC_LE literal               {$$ = insert_leaf($1); $$ = insert_child($$, $2);}
+assignment
+    : id TK_OC_LE id         {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    | id TK_OC_LE literal    {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
     ;
 
 literal
-    : TK_LIT_UINT   {$$ = insert_leaf($1);}
-    | TK_LIT_INT    {$$ = insert_leaf($1);}
-    | TK_LIT_FLOAT  {$$ = insert_leaf($1);}
-    | TK_LIT_FALSE  {$$ = insert_leaf($1);}
-    | TK_LIT_TRUE   {$$ = insert_leaf($1);}
-    | TK_LIT_CHAR   {$$ = insert_leaf($1);}
-    | TK_LIT_STRING {$$ = insert_leaf($1);}
+    : TK_LIT_INT    {$$ = insert_leaf($1); }
+    | TK_LIT_FLOAT  {$$ = insert_leaf($1); }
+    | TK_LIT_FALSE  {$$ = insert_leaf($1); }
+    | TK_LIT_TRUE   {$$ = insert_leaf($1); }
+    | TK_LIT_CHAR   {$$ = insert_leaf($1); }
+    | TK_LIT_STRING {$$ = insert_leaf($1); }
     ;
 
 attribution
-    : id '=' expr   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
-                     check_errors_attribution($1->data, $3->data);
-                     }
+    : id '=' expr   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
     | vector_attribution '=' expr  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
     ;
 
 vector_attribution
-    : id '[' expr ']' {$$ = insert_leaf($2); $$->data.lv.v.vs = "[]"; $$->data.token_t = COMPOSE_OP;
+              : id '[' expr ']' {$$ = insert_leaf($2); $$->data.lv.v.vs = "[]"; $$->data.token_t = COMPOSE_OP;
                        $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
     ;
 
+
 expr
     : ternary       {$$ = $1;}
+    ;
 
 ternary
-        : ternary '?' ternary ':' or {$$ = insert_leaf($2); $$->data.lv.v.vs = "?:";
+        : unary_minus '?' unary_minus':' ternary {$$ = insert_leaf($2); $$->data.lv.v.vs = "?:";
                                        $$->data.token_t = COMPOSE_OP;
                                        $$ = insert_child($$, $1); $$ = insert_child($$, $3);
                                        $$ = insert_child($$, $5);}
@@ -310,14 +287,14 @@ continue
     ;
 
 shift
-    : id TK_OC_SL TK_LIT_UINT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
-    | id TK_OC_SR TK_LIT_UINT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
-    | vector_attribution TK_OC_SL TK_LIT_UINT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
-    | vector_attribution TK_OC_SR TK_LIT_UINT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
+    : id TK_OC_SL TK_LIT_INT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
+    | id TK_OC_SR TK_LIT_INT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
+    | vector_attribution TK_OC_SL TK_LIT_INT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
+    | vector_attribution TK_OC_SR TK_LIT_INT  {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, insert_leaf($3));}
     ;
 
 func_call
-    : id '(' args ')' {$$ = $1; $$ = insert_child($$, $3);}
+    : id '(' args ')' {$$ = $1; $$->data.lv.v.vs = prepend($$->data.lv.v.vs, "call "); $$ = insert_child($$, $3);}
     ;
 
 args
@@ -329,20 +306,16 @@ args
 operand_arit
     : vector_attribution { $$ = $1;}
     | id                 { $$ = $1;}
-    | TK_LIT_UINT        { $$ = insert_leaf($1);}
     | TK_LIT_INT         { $$ = insert_leaf($1);}
     | TK_LIT_FLOAT       { $$ = insert_leaf($1);}
-    | TK_LIT_TRUE        { $$ = insert_leaf($1);}
-    | TK_LIT_FALSE       { $$ = insert_leaf($1);}
     | func_call          { $$ = $1;}
     ;
 
 type
-    : TK_PR_INT     {$$ = TYPE_INT;}
-    | TK_PR_UINT    {$$ = TYPE_UINT;}
-    | TK_PR_FLOAT   {$$ = TYPE_FLOAT;}
-    | TK_PR_BOOL    {$$ = TYPE_BOOL;}
-    | TK_PR_CHAR    {$$ = TYPE_CHAR;}
-    | TK_PR_STRING  {$$ = TYPE_STRING;}
+    : TK_PR_INT     {$$ = NULL;}
+    | TK_PR_FLOAT   {$$ = NULL;}
+    | TK_PR_BOOL    {$$ = NULL;}
+    | TK_PR_CHAR    {$$ = NULL;}
+    | TK_PR_STRING  {$$ = NULL;}
     ;
 %%

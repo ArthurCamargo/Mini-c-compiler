@@ -1,0 +1,408 @@
+Grupo,test,Output
+GrupoA,w17,"line 6: syntax error, unexpected ;"
+GrupoA,w18,"line 7: syntax error, unexpected ;"
+GrupoA,w19,"line 8: syntax error, unexpected ;"
+GrupoA,w20,"line 9: syntax error, unexpected ;"
+GrupoA,w21,"line 6: syntax error, unexpected ;"
+GrupoA,w22,"line 5: syntax error, unexpected ;"
+GrupoA,w23,"line 8: syntax error, unexpected ;"
+GrupoA,w24,"line 8: syntax error, unexpected ;"
+GrupoA,w25,"line 9: syntax error, unexpected ;"
+GrupoA,w26,"line 6: syntax error, unexpected ;"
+GrupoA,w27,"line 5: syntax error, unexpected ;"
+GrupoA,w75,"line 3: syntax error, unexpected ;"
+GrupoA,w77,"line 3: syntax error, unexpected ;"
+GrupoA,w78,"line 3: syntax error, unexpected ;"
+GrupoE,w00,Segmentation fault
+GrupoE,w01,Segmentation fault
+GrupoE,w02,Segmentation fault
+GrupoE,w03,Segmentation fault
+GrupoE,w04,Segmentation fault
+GrupoE,w05,Segmentation fault
+GrupoE,w06,Segmentation fault
+GrupoE,w07,Segmentation fault
+GrupoE,w08,Segmentation fault
+GrupoE,w09,Segmentation fault
+GrupoE,w10,Segmentation fault
+GrupoE,w11,Segmentation fault
+GrupoE,w12,Segmentation fault
+GrupoE,w13,Segmentation fault
+GrupoE,w14,Segmentation fault
+GrupoE,w15,Segmentation fault
+GrupoE,w16,Segmentation fault
+GrupoE,w17,Segmentation fault
+GrupoE,w18,Segmentation fault
+GrupoE,w19,Segmentation fault
+GrupoE,w20,Segmentation fault
+GrupoE,w21,Segmentation fault
+GrupoE,w22,Segmentation fault
+GrupoE,w23,Segmentation fault
+GrupoE,w24,Segmentation fault
+GrupoE,w25,Segmentation fault
+GrupoE,w26,Segmentation fault
+GrupoE,w27,Segmentation fault
+GrupoE,w28,Segmentation fault
+GrupoE,w29,Segmentation fault
+GrupoE,w30,Segmentation fault
+GrupoE,w31,Segmentation fault
+GrupoE,w32,Segmentation fault
+GrupoE,w33,Segmentation fault
+GrupoE,w34,Segmentation fault
+GrupoE,w35,Segmentation fault
+GrupoE,w36,Segmentation fault
+GrupoE,w37,Segmentation fault
+GrupoE,w38,Segmentation fault
+GrupoE,w39,Segmentation fault
+GrupoE,w40,Segmentation fault
+GrupoE,w41,Segmentation fault
+GrupoE,w42,Segmentation fault
+GrupoE,w43,Segmentation fault
+GrupoE,w44,Segmentation fault
+GrupoE,w45,Segmentation fault
+GrupoE,w46,Segmentation fault
+GrupoE,w47,Segmentation fault
+GrupoE,w48,Segmentation fault
+GrupoE,w49,Segmentation fault
+GrupoE,w50,Segmentation fault
+GrupoE,w51,Segmentation fault
+GrupoE,w52,Segmentation fault
+GrupoE,w53,Segmentation fault
+GrupoE,w54,Segmentation fault
+GrupoE,w55,Segmentation fault
+GrupoE,w56,Segmentation fault
+GrupoE,w57,Segmentation fault
+GrupoE,w58,Segmentation fault
+GrupoE,w59,Segmentation fault
+GrupoE,w60,Segmentation fault
+GrupoE,w61,Segmentation fault
+GrupoE,w62,Segmentation fault
+GrupoE,w63,Segmentation fault
+GrupoE,w64,Segmentation fault
+GrupoE,w65,Segmentation fault
+GrupoE,w66,Segmentation fault
+GrupoE,w67,Segmentation fault
+GrupoE,w68,Segmentation fault
+GrupoE,w69,Segmentation fault
+GrupoE,w70,Segmentation fault
+GrupoE,w71,Segmentation fault
+GrupoE,w72,Segmentation fault
+GrupoE,w73,Segmentation fault
+GrupoE,w74,Segmentation fault
+GrupoE,w75,Segmentation fault
+GrupoE,w76,Segmentation fault
+GrupoE,w77,Segmentation fault
+GrupoE,w78,Segmentation fault
+GrupoG,w04,"syntax error, unexpected TK_OC_LE, expecting ; or , or = in line 2"
+GrupoG,w10,"syntax error, unexpected TK_OC_LE, expecting ; or , or = in line 2"
+GrupoG,w12,"syntax error, unexpected TK_OC_LE, expecting ; or , or = in line 2"
+GrupoG,w28,"syntax error, unexpected { in line 3"
+GrupoG,w29,"syntax error, unexpected { in line 3"
+GrupoG,w30,"syntax error, unexpected TOKEN_ERRO in line 3"
+GrupoG,w41,"syntax error, unexpected TOKEN_ERRO in line 4"
+GrupoG,w50,"syntax error, unexpected TK_OC_AND in line 5"
+GrupoG,w51,"syntax error, unexpected TK_OC_OR in line 5"
+GrupoG,w61,"syntax error, unexpected * in line 6"
+GrupoG,w63,"syntax error, unexpected TK_OC_LE, expecting ; or , or = in line 2"
+GrupoG,w64,"syntax error, unexpected TK_OC_LE, expecting ; or , or = in line 2"
+GrupoG,w65,"syntax error, unexpected / in line 20"
+GrupoG,w67,"syntax error, unexpected * in line 20"
+GrupoG,w69,"syntax error, unexpected { in line 3"
+GrupoG,w70,"syntax error, unexpected TK_OC_LE, expecting ; or , or = in line 3"
+GrupoJ,w01,Segmentation fault
+GrupoJ,w02,Segmentation fault
+GrupoJ,w03,Double free detected
+GrupoJ,w05,Segmentation fault
+GrupoJ,w06,Double free detected
+GrupoJ,w09,Double free detected
+GrupoJ,w10,Segmentation fault
+GrupoJ,w11,Double free detected
+GrupoJ,w12,Segmentation fault
+GrupoJ,w13,Segmentation fault
+GrupoJ,w14,Segmentation fault
+GrupoJ,w17,Double free detected
+GrupoJ,w18,Segmentation fault
+GrupoJ,w19,Double free detected
+GrupoJ,w20,Segmentation fault
+GrupoJ,w21,Segmentation fault
+GrupoJ,w22,Double free detected
+GrupoJ,w23,Double free detected
+GrupoJ,w24,Segmentation fault
+GrupoJ,w25,Double free detected
+GrupoJ,w26,Double free detected
+GrupoJ,w27,Segmentation fault
+GrupoJ,w28,Double free detected
+GrupoJ,w29,Double free detected
+GrupoJ,w30,Double free detected
+GrupoJ,w31,Segmentation fault
+GrupoJ,w32,Segmentation fault
+GrupoJ,w33,Double free detected
+GrupoJ,w34,Segmentation fault
+GrupoJ,w35,Double free detected
+GrupoJ,w36,Segmentation fault
+GrupoJ,w37,Double free detected
+GrupoJ,w38,Segmentation fault
+GrupoJ,w39,Segmentation fault
+GrupoJ,w40,Segmentation fault
+GrupoJ,w41,Segmentation fault
+GrupoJ,w42,Double free detected
+GrupoJ,w43,Segmentation fault
+GrupoJ,w44,Segmentation fault
+GrupoJ,w45,Segmentation fault
+GrupoJ,w46,Segmentation fault
+GrupoJ,w47,Segmentation fault
+GrupoJ,w48,Double free detected
+GrupoJ,w49,Segmentation fault
+GrupoJ,w50,Double free detected
+GrupoJ,w51,Double free detected
+GrupoJ,w52,Double free detected
+GrupoJ,w53,Double free detected
+GrupoJ,w54,Double free detected
+GrupoJ,w55,Segmentation fault
+GrupoJ,w56,Double free detected
+GrupoJ,w57,Double free detected
+GrupoJ,w58,Segmentation fault
+GrupoJ,w59,Segmentation fault
+GrupoJ,w60,Segmentation fault
+GrupoJ,w61,Double free detected
+GrupoJ,w62,Segmentation fault
+GrupoJ,w63,Segmentation fault
+GrupoJ,w64,Segmentation fault
+GrupoJ,w65,Segmentation fault
+GrupoJ,w66,Double free detected
+GrupoJ,w67,Double free detected
+GrupoJ,w68,Double free detected
+GrupoJ,w69,Segmentation fault
+GrupoJ,w70,Double free detected
+GrupoJ,w71,Double free detected
+GrupoJ,w72,Segmentation fault
+GrupoJ,w73,Double free detected
+GrupoJ,w74,Segmentation fault
+GrupoJ,w75,Segmentation fault
+GrupoJ,w76,Segmentation fault
+GrupoJ,w77,Segmentation fault
+GrupoJ,w78,Double free detected
+GrupoK,w00,Segmentation fault
+GrupoK,w02,Segmentation fault
+GrupoK,w03,Segmentation fault
+GrupoK,w05,Segmentation fault
+GrupoK,w07,Segmentation fault
+GrupoK,w08,Segmentation fault
+GrupoK,w09,Segmentation fault
+GrupoK,w17,Segmentation fault
+GrupoK,w18,Segmentation fault
+GrupoK,w19,Segmentation fault
+GrupoK,w20,Segmentation fault
+GrupoK,w21,Segmentation fault
+GrupoK,w22,Segmentation fault
+GrupoK,w23,Segmentation fault
+GrupoK,w24,Segmentation fault
+GrupoK,w25,Segmentation fault
+GrupoK,w26,Segmentation fault
+GrupoK,w27,Segmentation fault
+GrupoK,w28,Segmentation fault
+GrupoK,w29,Segmentation fault
+GrupoK,w30,Segmentation fault
+GrupoK,w31,Segmentation fault
+GrupoK,w32,Segmentation fault
+GrupoK,w33,Segmentation fault
+GrupoK,w34,Segmentation fault
+GrupoK,w35,Segmentation fault
+GrupoK,w36,Segmentation fault
+GrupoK,w37,Segmentation fault
+GrupoK,w38,Segmentation fault
+GrupoK,w39,Segmentation fault
+GrupoK,w40,Segmentation fault
+GrupoK,w41,Segmentation fault
+GrupoK,w42,Segmentation fault
+GrupoK,w43,Segmentation fault
+GrupoK,w44,Segmentation fault
+GrupoK,w45,Segmentation fault
+GrupoK,w46,Segmentation fault
+GrupoK,w47,Segmentation fault
+GrupoK,w48,Segmentation fault
+GrupoK,w49,Segmentation fault
+GrupoK,w50,Segmentation fault
+GrupoK,w51,Segmentation fault
+GrupoK,w52,Segmentation fault
+GrupoK,w53,Segmentation fault
+GrupoK,w54,Segmentation fault
+GrupoK,w55,Segmentation fault
+GrupoK,w56,Segmentation fault
+GrupoK,w57,Segmentation fault
+GrupoK,w58,Segmentation fault
+GrupoK,w59,Segmentation fault
+GrupoK,w60,Segmentation fault
+GrupoK,w61,Segmentation fault
+GrupoK,w62,Segmentation fault
+GrupoK,w65,Segmentation fault
+GrupoK,w66,Segmentation fault
+GrupoK,w67,Segmentation fault
+GrupoK,w69,Segmentation fault
+GrupoK,w71,Segmentation fault
+GrupoK,w72,Segmentation fault
+GrupoK,w73,Segmentation fault
+GrupoK,w74,Segmentation fault
+GrupoK,w75,Segmentation fault
+GrupoK,w76,Segmentation fault
+GrupoK,w77,Segmentation fault
+GrupoK,w78,Segmentation fault
+GrupoO,w54,"syntax error, unexpected <, expecting ; - erro na linha 5"
+GrupoO,w55,"syntax error, unexpected >, expecting ; - erro na linha 5"
+GrupoP,w01,Segmentation fault
+GrupoP,w03,syntax error at line 7: 
+GrupoP,w09,syntax error at line 10: 
+GrupoP,w10,syntax error at line 3: 
+GrupoP,w11,syntax error at line 3: 
+GrupoP,w12,syntax error at line 3: 
+GrupoP,w13,syntax error at line 3: 
+GrupoP,w17,syntax error at line 4: 
+GrupoP,w18,syntax error at line 4: 
+GrupoP,w19,syntax error at line 4: 
+GrupoP,w20,syntax error at line 4: 
+GrupoP,w21,syntax error at line 3: 
+GrupoP,w22,syntax error at line 3: 
+GrupoP,w23,syntax error at line 5: 
+GrupoP,w24,syntax error at line 5: 
+GrupoP,w25,syntax error at line 5: 
+GrupoP,w26,syntax error at line 3: 
+GrupoP,w27,syntax error at line 3: 
+GrupoP,w28,Segmentation fault
+GrupoP,w29,Segmentation fault
+GrupoP,w30,syntax error at line 3: 
+GrupoP,w31,syntax error at line 4: 
+GrupoP,w32,syntax error at line 5: 
+GrupoP,w34,syntax error at line 4: 
+GrupoP,w35,syntax error at line 6: 
+GrupoP,w36,syntax error at line 6: 
+GrupoP,w37,syntax error at line 6: 
+GrupoP,w38,syntax error at line 6: 
+GrupoP,w39,syntax error at line 8: 
+GrupoP,w40,syntax error at line 4: 
+GrupoP,w41,syntax error at line 4: 
+GrupoP,w42,syntax error at line 4: 
+GrupoP,w43,syntax error at line 4: 
+GrupoP,w44,syntax error at line 4: 
+GrupoP,w46,syntax error at line 5: 
+GrupoP,w47,syntax error at line 5: 
+GrupoP,w48,syntax error at line 5: 
+GrupoP,w49,syntax error at line 5: 
+GrupoP,w50,syntax error at line 5: 
+GrupoP,w51,syntax error at line 5: 
+GrupoP,w52,syntax error at line 5: 
+GrupoP,w53,syntax error at line 5: 
+GrupoP,w54,syntax error at line 5: 
+GrupoP,w55,syntax error at line 5: 
+GrupoP,w56,syntax error at line 5: 
+GrupoP,w57,syntax error at line 5: 
+GrupoP,w58,syntax error at line 4: 
+GrupoP,w59,syntax error at line 4: 
+GrupoP,w61,syntax error at line 6: 
+GrupoP,w62,syntax error at line 6: 
+GrupoP,w65,syntax error at line 18: 
+GrupoP,w66,syntax error at line 20: 
+GrupoP,w67,syntax error at line 18: 
+GrupoP,w69,Segmentation fault
+GrupoP,w71,syntax error at line 6: 
+GrupoP,w72,syntax error at line 6: 
+GrupoP,w73,syntax error at line 3: 
+GrupoP,w74,syntax error at line 5: 
+GrupoP,w75,syntax error at line 3: 
+GrupoP,w76,syntax error at line 6: 
+GrupoP,w77,syntax error at line 3: 
+GrupoP,w78,syntax error at line 3: 
+GrupoR,w00,Erro na linha 1
+GrupoR,w01,Erro na linha 1
+GrupoR,w02,Erro na linha 7
+GrupoR,w03,Erro na linha 2
+GrupoR,w04,Erro na linha 3
+GrupoR,w05,Erro na linha 4
+GrupoR,w06,Erro na linha 4
+GrupoR,w07,Segmentation fault
+GrupoR,w08,Segmentation fault
+GrupoR,w09,Erro na linha 2
+GrupoR,w10,Erro na linha 4
+GrupoR,w11,Erro na linha 4
+GrupoR,w12,Erro na linha 4
+GrupoR,w13,Erro na linha 4
+GrupoR,w14,Erro na linha 3
+GrupoR,w15,Erro na linha 3
+GrupoR,w16,Erro na linha 3
+GrupoR,w17,Segmentation fault
+GrupoR,w18,Segmentation fault
+GrupoR,w19,Segmentation fault
+GrupoR,w20,Segmentation fault
+GrupoR,w21,Segmentation fault
+GrupoR,w22,Erro na linha 3
+GrupoR,w23,Double free detected
+GrupoR,w24,Segmentation fault
+GrupoR,w25,Segmentation fault
+GrupoR,w26,Segmentation fault
+GrupoR,w27,Erro na linha 3
+GrupoR,w28,Segmentation fault
+GrupoR,w29,Erro na linha 3
+GrupoR,w30,Double free detected
+GrupoR,w31,Segmentation fault
+GrupoR,w32,Segmentation fault
+GrupoR,w33,Segmentation fault
+GrupoR,w34,Double free detected
+GrupoR,w35,Double free detected
+GrupoR,w36,Segmentation fault
+GrupoR,w37,Segmentation fault
+GrupoR,w38,Segmentation fault
+GrupoR,w39,Segmentation fault
+GrupoR,w40,Segmentation fault
+GrupoR,w41,Segmentation fault
+GrupoR,w42,Segmentation fault
+GrupoR,w43,Segmentation fault
+GrupoR,w44,Double free detected
+GrupoR,w45,Double free detected
+GrupoR,w46,Segmentation fault
+GrupoR,w47,Double free detected
+GrupoR,w48,Segmentation fault
+GrupoR,w49,Segmentation fault
+GrupoR,w50,Segmentation fault
+GrupoR,w51,Segmentation fault
+GrupoR,w52,Segmentation fault
+GrupoR,w53,Segmentation fault
+GrupoR,w54,Segmentation fault
+GrupoR,w55,Segmentation fault
+GrupoR,w56,Segmentation fault
+GrupoR,w57,Segmentation fault
+GrupoR,w58,Segmentation fault
+GrupoR,w59,Segmentation fault
+GrupoR,w60,Segmentation fault
+GrupoR,w61,Segmentation fault
+GrupoR,w62,Segmentation fault
+GrupoR,w63,Erro na linha 2
+GrupoR,w64,Erro na linha 2
+GrupoR,w65,Segmentation fault
+GrupoR,w66,Double free detected
+GrupoR,w67,Segmentation fault
+GrupoR,w68,Erro na linha 1
+GrupoR,w69,Erro na linha 3
+GrupoR,w70,Erro na linha 4
+GrupoR,w71,Double free detected
+GrupoR,w72,Double free detected
+GrupoR,w73,Erro na linha 3
+GrupoR,w74,Double free detected
+GrupoR,w75,Erro na linha 3
+GrupoR,w76,Double free detected
+GrupoR,w77,Erro na linha 3
+GrupoR,w78,Erro na linha 3
+GrupoW,w14,Double free detected
+GrupoW,w15,Double free detected
+GrupoW,w16,Double free detected
+GrupoW,w17,"syntax error, unexpected ; at line 6"
+GrupoW,w18,"syntax error, unexpected ; at line 7"
+GrupoW,w19,"syntax error, unexpected ; at line 8"
+GrupoW,w20,"syntax error, unexpected ; at line 9"
+GrupoW,w21,"syntax error, unexpected ; at line 6"
+GrupoW,w22,"syntax error, unexpected ; at line 5"
+GrupoW,w23,"syntax error, unexpected ; at line 8"
+GrupoW,w24,"syntax error, unexpected ; at line 8"
+GrupoW,w25,"syntax error, unexpected ; at line 9"
+GrupoW,w26,"syntax error, unexpected ; at line 6"
+GrupoW,w27,"syntax error, unexpected ; at line 5"
+GrupoW,w75,"syntax error, unexpected ; at line 3"
+GrupoW,w77,"syntax error, unexpected ; at line 3"
+GrupoW,w78,"syntax error, unexpected ; at line 3"
