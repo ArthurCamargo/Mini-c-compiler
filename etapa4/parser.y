@@ -1,9 +1,11 @@
 %{
 #include "tree.h"
 #include "symbol_table.h"
+#include "stack.h"
 
 int yylex(void); void yyerror (char const *s);
 extern tree* arvore;
+stack* pilha = NULL;
 %}
 
 %start start
@@ -47,8 +49,8 @@ program
     ;
 
 declaration
-    : function             {$$ = $1;}
-    | global_variable {$$ = NULL;}
+    : function            {$$ = $1;}
+    | global_variable     {push_new_table(&pilha); printf("Escopo global\n"); print_stack(pilha);}
     ;
 
 global_variable
@@ -98,7 +100,15 @@ const
     ;
 
 command_block
-    : '{' command '}'     {$$ = $2;}
+    : open_command command close_command {$$ = $2;}
+    ;
+
+open_command
+    : '{' {push_new_table(&pilha); printf("Abri\n"); print_stack(pilha);}
+    ;
+
+close_command
+    : '}' {pop(&pilha); printf("Fechei\n"); print_stack(pilha);}
     ;
 
 command

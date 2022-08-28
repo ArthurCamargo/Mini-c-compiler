@@ -1,13 +1,5 @@
 #include "stack.h"
 
-stack* create_stack()
-{
-    stack *s;
-    s = NULL;
-
-    return s;
-}
-
 symbol_table* pop(stack **s)
 {
     symbol_table* table;
@@ -30,6 +22,12 @@ void push(stack **s, symbol_table *table)
     temp->table = table;
     temp->next = *s;
     *s = temp;
+}
+
+void push_new_table(stack **s)
+{
+    symbol_table new_table = create_table();
+    push(s, &new_table);
 }
 
 int search(stack *s, char* string)
@@ -71,6 +69,7 @@ void print_stack(stack *s)
     while(s)
     {
         s = s->next;
-        printf("%d\n", i++);
+        i++;
     }
+    printf("%d\n", i);
 }

@@ -11,7 +11,8 @@ typedef struct stack
 
 
 
-void print_stack();
+void print_stack(stack *s);
+void push_new_table(stack **s);
 stack *create_stack();
 symbol_table *pop(stack **s);
 void push(stack **s, symbol_table* table);
