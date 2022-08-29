@@ -43,7 +43,7 @@ typedef struct literal_value
 
 typedef struct token_value
 {
-    int line;
+    unsigned int line;
     token_type token_t;
     type t_type;
     char * lexeme;

@@ -141,18 +141,6 @@ token_value create_token_value(int line, token_type t, char *lexeme)
     return s;
 }
 
-token_value create_token_value_uint(int line, token_type t, type lexeme_type, char* lexeme, uint n)
-{
-    token_value s;
-    s.token_t = t;
-    s.lv.literal_type = lexeme_type;
-    s.lexeme = lexeme;
-    s.lv.v.vui = n;
-    s.t_type = TYPE_UINT;
-
-    return s;
-}
-
 token_value create_token_value_int(int line, token_type t, type lexeme_type, char *lexeme,  int n)
 {
     token_value s;

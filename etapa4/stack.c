@@ -1,11 +1,11 @@
 #include "stack.h"
 
-symbol_table* pop(stack **s)
+symbol_table* pop(stack** s)
 {
     symbol_table* table;
     if(s)
     {
-        stack * temp;
+        stack* temp;
         temp = *s;
         table = temp->table;
         *s = (*s)->next;
@@ -15,24 +15,34 @@ symbol_table* pop(stack **s)
     return table;
 }
 
-void push(stack **s, symbol_table *table)
+void push(stack** s, symbol_table* table)
 {
-    stack *temp;
+    stack* temp;
     temp = malloc(sizeof(stack));
     temp->table = table;
     temp->next = *s;
     *s = temp;
 }
 
-void push_new_table(stack **s)
+void push_new_table(stack** s)
 {
+    symbol_table* p;
     symbol_table new_table = create_table();
-    push(s, &new_table);
+    p = &new_table;
+    push(s, p);
 }
 
-int search(stack *s, char* string)
+bool declare_symbol(stack* st, int size_mult, type t, nature n, unsigned int line, value v, char* lexeme)
 {
-    stack *temp; 
+    //Declare a symbol and return the result, if true: it was successfully declared
+    //else error already declared
+    symbol new_symbol = create_symbol(size_mult, t, n, line, v, lexeme);
+    return insert_symbol(st->table, &new_symbol);
+}
+
+int search(stack* s, char* string)
+{
+    stack* temp;
     temp = s;
     bool verifing = true;
     while(verifing)
@@ -57,13 +67,13 @@ int search(stack *s, char* string)
     return 1;
 }
 
-void destroy_stack(stack *s)
+void destroy_stack(stack* s)
 {
     while(s != NULL)
         pop(&s);
 }
 
-void print_stack(stack *s)
+void print_stack(stack* s)
 {
     int i = 0;
     while(s)

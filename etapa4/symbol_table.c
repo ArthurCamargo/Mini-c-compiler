@@ -71,7 +71,7 @@ uint hash_string(char *str, int size)
         hash *= 16777619;
     }
 
-    return hash % MAX_SIZE;
+    return hash % size;
 }
 
 bucket* find_symbol_in_table(bucket * buckets, uint capacity, key_object* key)
@@ -86,7 +86,7 @@ bucket* find_symbol_in_table(bucket * buckets, uint capacity, key_object* key)
     }
 }
 
-static void allocateCapacity(symbol_table* table, uint new_capacity)
+static void allocate_capacity(symbol_table* table, uint new_capacity)
 {
     bucket* buckets = ALLOCATE(bucket, new_capacity);
     for (int i = 0; i < new_capacity; i ++) {
@@ -109,7 +109,7 @@ static void allocateCapacity(symbol_table* table, uint new_capacity)
         table->count ++;
     }
 
-    FREE_ARRAY(bucket, table->buckets, table->capacity);
+    //FREE_ARRAY(bucket, table->buckets, table->count);
 
     table->buckets = buckets;
     table->capacity = new_capacity;
@@ -134,7 +134,7 @@ bool insert_symbol(symbol_table* table, symbol* s)
     if(table->count + 1 > table->capacity * 0.5) {
         //If the table is half full we double it's size for trying to avoid collitions
         int new_capacity = GROW_CAPACITY(table->capacity);
-        allocateCapacity(table, new_capacity);
+        allocate_capacity(table, new_capacity);
     }
 
     key_object key;

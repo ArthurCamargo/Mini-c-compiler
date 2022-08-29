@@ -18,5 +18,6 @@ symbol_table *pop(stack **s);
 void push(stack **s, symbol_table* table);
 void destroy_stack(stack *s);
 int search(stack *s, char* string);
+bool declare_symbol(stack* st, int size_mult, type t, nature n, unsigned int line, value v, char* lexeme);
 
 #endif

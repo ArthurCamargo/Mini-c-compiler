@@ -5,7 +5,7 @@
 
 int yylex(void); void yyerror (char const *s);
 extern tree* arvore;
-stack* pilha = NULL;
+extern stack* top;
 %}
 
 %start start
@@ -20,8 +20,9 @@ stack* pilha = NULL;
 %type<ast> simple_command local_variable id_list literal attribution
 %type<ast> operand_arit expr ternary unary_minus or and or_log and_log equal rel soma_sub mult_div
 %type<ast> exponential unary parenthesis flux_control conditional iterative vector_attribution
-%type<ast> input output return break continue shift func_call args type assignment
+%type<ast> input output return break continue shift func_call args assignment
 
+%type<valor_lexico> type
 //Literals
 %token<valor_lexico> TK_LIT_INT TK_LIT_FLOAT TK_LIT_FALSE TK_LIT_TRUE TK_LIT_CHAR TK_LIT_STRING
 
@@ -50,11 +51,17 @@ program
 
 declaration
     : function            {$$ = $1;}
-    | global_variable     {push_new_table(&pilha); printf("Escopo global\n"); print_stack(pilha);}
+    | global_variable     {}
     ;
 
 global_variable
-    : static type id vector_declaration global_fotter ';' {$$ = NULL; libera($3);}
+    : static type id vector_declaration global_fotter ';' {declare_symbol(top,
+                                                                            0,
+                                                                    $2.t_type,
+                                                                     TYPE_VAR,
+                                                                $3->data.line,
+                                                                $3->data.lv.v,
+                                                              $3->data.lexeme);}
     ;
 
 global_fotter
@@ -104,11 +111,11 @@ command_block
     ;
 
 open_command
-    : '{' {push_new_table(&pilha); printf("Abri\n"); print_stack(pilha);}
+    : '{' {push_new_table(&top); printf("Abri\n"); print_stack(top);}
     ;
 
 close_command
-    : '}' {pop(&pilha); printf("Fechei\n"); print_stack(pilha);}
+    : '}' {pop(&top); printf("Fechei\n"); print_stack(top);}
     ;
 
 command
@@ -322,10 +329,10 @@ operand_arit
     ;
 
 type
-    : TK_PR_INT     {$$ = NULL;}
-    | TK_PR_FLOAT   {$$ = NULL;}
-    | TK_PR_BOOL    {$$ = NULL;}
-    | TK_PR_CHAR    {$$ = NULL;}
-    | TK_PR_STRING  {$$ = NULL;}
+    : TK_PR_INT     {$$ = $1;}
+    | TK_PR_FLOAT   {$$ = $1;}
+    | TK_PR_BOOL    {$$ = $1;}
+    | TK_PR_CHAR    {$$ = $1;}
+    | TK_PR_STRING  {$$ = $1;}
     ;
 %%

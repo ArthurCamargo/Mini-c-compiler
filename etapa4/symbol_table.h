@@ -5,8 +5,6 @@
 #include "utils.h"
 #include <limits.h>
 
-#define MAX_SIZE 1000
-
 typedef struct arguments
 {
     int number; // Number of arguments starting with this one
@@ -56,14 +54,14 @@ typedef struct symbol_table
 
 symbol_table create_table();
 void destroy_table(symbol_table* table);
-bucket* find_symbol_in_table(bucket * buckets, uint capacity, key_object* key);
+bucket* find_symbol_in_table(bucket* buckets, uint capacity, key_object* key);
 int set_type();
 bool insert_symbol(symbol_table* table, symbol* s);
-symbol create_symbol(int size_mult, type t, nature n, unsigned int line, value v, char * lexeme);
-void set_symbol_type(symbol *s, type t);
-void set_symbol_size(symbol *s, int size_mult);
-uint hash_string(char *str, int size);
-symbol get_symbol(symbol_table *table, char * string);
-uint verify_symbol(symbol_table *table, char *string);
+symbol create_symbol(int size_mult, type t, nature n, unsigned int line, value v, char* lexeme);
+void set_symbol_type(symbol* s, type t);
+void set_symbol_size(symbol* s, int size_mult);
+uint hash_string(char* str, int size);
+symbol get_symbol(symbol_table* table, char* string);
+uint verify_symbol(symbol_table* table, char* string);
 
 #endif

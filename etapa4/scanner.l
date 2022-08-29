@@ -1,3 +1,4 @@
+%option noinput nounput noyywrap nodefault
 %{
 // Definicoes
 #include <stdio.h>
