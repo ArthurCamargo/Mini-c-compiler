@@ -16,6 +16,7 @@ typedef enum nature
 {
     TYPE_LIT,   // Literal
     TYPE_VAR,   // Variable
+    TYPE_VEC,   // Vector
     TYPE_FUNC,  // Function TYPE_OP,    // Operator
 
 } nature;
@@ -33,7 +34,7 @@ typedef struct symbol
 
 typedef struct key_object
 {
-    int hash_value;
+    unsigned int hash_value;
     char* key_string;
     int size;
 
@@ -52,15 +53,15 @@ typedef struct symbol_table
     bucket* buckets; // Itens ("name", data)
 } symbol_table;
 
-symbol_table create_table();
+symbol_table* create_table();
 void destroy_table(symbol_table* table);
-bucket* find_symbol_in_table(bucket* buckets, uint capacity, key_object* key);
+bucket* find_symbol_in_table(bucket* buckets, int capacity, key_object* key);
 int set_type();
-bool insert_symbol(symbol_table* table, symbol* s);
+bool insert_symbol(symbol_table* table, symbol s);
 symbol create_symbol(int size_mult, type t, nature n, unsigned int line, value v, char* lexeme);
 void set_symbol_type(symbol* s, type t);
 void set_symbol_size(symbol* s, int size_mult);
-uint hash_string(char* str, int size);
+uint hash_string(char* str, int size, int capacity);
 symbol get_symbol(symbol_table* table, char* string);
 uint verify_symbol(symbol_table* table, char* string);
 

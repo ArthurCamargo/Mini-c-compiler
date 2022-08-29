@@ -1,4 +1,5 @@
 #include "stack.h"
+#include "errors.h"
 
 symbol_table* pop(stack** s)
 {
@@ -26,19 +27,24 @@ void push(stack** s, symbol_table* table)
 
 void push_new_table(stack** s)
 {
-    symbol_table* p;
-    symbol_table new_table = create_table();
-    p = &new_table;
-    push(s, p);
+    symbol_table *new_table = create_table();
+    push(s, new_table);
 }
 
-bool declare_symbol(stack* st, int size_mult, type t, nature n, unsigned int line, value v, char* lexeme)
+void declare_variable(stack* st, int size_mult, type t, nature n, unsigned int line, value v, char* lexeme)
 {
-    //Declare a symbol and return the result, if true: it was successfully declared
-    //else error already declared
-    symbol new_symbol = create_symbol(size_mult, t, n, line, v, lexeme);
-    return insert_symbol(st->table, &new_symbol);
+    symbol s = create_symbol(size_mult, t, n, line, v, lexeme);
+    if(insert_symbol(st->table, s))
+    {
+        return;
+    }
+    else
+    {
+        printf("%s already declared, line %d", v.vs, line);
+        exit(ERR_DECLARED);
+    }
 }
+
 
 int search(stack* s, char* string)
 {
@@ -52,7 +58,7 @@ int search(stack* s, char* string)
             key_object key;
             key.key_string = string;
             key.size = strlen(string);
-            key.hash_value = hash_string(string, strlen(string));
+            key.hash_value = hash_string(string, strlen(string), s->table->capacity);
             verifing = find_symbol_in_table(s->table->buckets, s->table->capacity, &key);
             s = s->next;
         }

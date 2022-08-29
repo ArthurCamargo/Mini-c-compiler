@@ -41,8 +41,8 @@ extern stack* top;
 %token <valor_lexico> ')' '(' ']' '[' '}' '{' '-' '+' '?' '*' '/' '|' '>' '<' '!' '=' '&' '%' '#' '^' '$' ',' ';' ':' '.'
 
 %%
-start:
-     program {arvore = $1;}
+start
+    : program {arvore = $1;}
 
 program
     : declaration program {$$ = $1; $$ = insert_child($$, $2);}
@@ -55,13 +55,7 @@ declaration
     ;
 
 global_variable
-    : static type id vector_declaration global_fotter ';' {declare_symbol(top,
-                                                                            0,
-                                                                    $2.t_type,
-                                                                     TYPE_VAR,
-                                                                $3->data.line,
-                                                                $3->data.lv.v,
-                                                              $3->data.lexeme);}
+    : static type id vector_declaration global_fotter ';' {declare_variable(top, 1, $2.t_type, TYPE_VAR, $2.line, $3->data.lv.v, $3->data.lexeme);}
     ;
 
 global_fotter

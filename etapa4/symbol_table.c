@@ -9,7 +9,7 @@ symbol create_symbol(int size_mult, type t, nature n, unsigned int line, value v
     s.t_type = t;
     set_symbol_size(&s, size_mult);
     s.literal_value = v;
-    s.lexeme = lexeme;
+    s.lexeme = strdup(lexeme);
     return s;
 }
 
@@ -45,12 +45,12 @@ void set_symbol_size(symbol *s, int size_mult)
     }
 }
 
-symbol_table create_table()
+symbol_table* create_table()
 {
-    symbol_table table;
-    table.count = 0;
-    table.capacity = 0;
-    table.buckets = NULL;
+    symbol_table* table = malloc(sizeof(symbol_table));
+    table->count = 0;
+    table->capacity = 1024;
+    table->buckets =  calloc(table->capacity, sizeof(bucket));
 
     return table;
 }
@@ -59,29 +59,32 @@ void destroy_table(symbol_table* table)
 {
 }
 
-uint hash_string(char *str, int size)
+unsigned int hash_string(char *str, int size, int capacity)
 {
     //FNV-1 Hash function
     //http://www.isthe.com/chongo/tech/comp/fnv/
-    uint hash = 2166136261u;
+    unsigned int hash = 2166136261u;
 
     for(int i = 0; i < size; i ++)
     {
         hash ^= (int8_t)str[i];
         hash *= 16777619;
     }
+    printf("Here is your hash %u, and size %d \n", hash, size);
 
-    return hash % size;
+    return hash % capacity;
 }
 
-bucket* find_symbol_in_table(bucket * buckets, uint capacity, key_object* key)
+bucket* find_symbol_in_table(bucket * buckets, int capacity, key_object* key)
 {
     unsigned int index = key->hash_value % capacity;
     while(1){
         bucket* bucket = &buckets[index];
-        if(bucket->key == key || bucket->key == NULL) {
+        if(bucket->key == key || bucket->key == NULL)
+        {
             return bucket;
         }
+
         index = (index + 1) % capacity;
     }
 }
@@ -109,7 +112,7 @@ static void allocate_capacity(symbol_table* table, uint new_capacity)
         table->count ++;
     }
 
-    //FREE_ARRAY(bucket, table->buckets, table->count);
+    FREE_ARRAY(bucket, table->buckets, table->count);
 
     table->buckets = buckets;
     table->capacity = new_capacity;
@@ -122,14 +125,14 @@ void transferTable(symbol_table* from, symbol_table* to)
         bucket* bucket = &from->buckets[i];
         if(bucket->key != NULL)
         {
-            insert_symbol(to, bucket->data);
+            insert_symbol(to,(*bucket->data));
         }
     }
 }
 
 
 
-bool insert_symbol(symbol_table* table, symbol* s)
+bool insert_symbol(symbol_table* table, symbol s)
 {
     if(table->count + 1 > table->capacity * 0.5) {
         //If the table is half full we double it's size for trying to avoid collitions
@@ -138,19 +141,20 @@ bool insert_symbol(symbol_table* table, symbol* s)
     }
 
     key_object key;
-    key.key_string = s->lexeme;
-    key.size = strlen(s->lexeme);
-    key.hash_value = hash_string(s->lexeme, strlen(s->lexeme));
+    key.key_string = s.lexeme;
+    key.size = strlen(s.lexeme);
+    key.hash_value = hash_string(s.lexeme, strlen(s.lexeme), table->capacity);
+    printf("Inserting '%s' with key %u \n", s.lexeme, key.hash_value);
 
     bucket* actual_bucket = find_symbol_in_table(table->buckets, table->capacity, &key);
     bool is_new_key;
-    is_new_key = actual_bucket ?  true : false;
+    is_new_key = !actual_bucket;
 
     if (is_new_key)
         table->count ++;
 
     actual_bucket->key = &key;
-    actual_bucket->data = s;
+    actual_bucket->data = &s;
 
     return is_new_key;
 }

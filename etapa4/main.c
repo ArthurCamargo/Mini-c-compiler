@@ -17,7 +17,6 @@ stack *top = NULL;
 int main (int argc, char **argv)
 {
     push_new_table(&top); //Escopo global
-    printf("%d", top->table->capacity);
     int ret = yyparse();
     exporta(arvore);
     libera(arvore);
