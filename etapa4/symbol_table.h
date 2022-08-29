@@ -5,13 +5,6 @@
 #include "utils.h"
 #include <limits.h>
 
-typedef struct arguments
-{
-    int number; // Number of arguments starting with this one
-    token_type type;
-    struct arguments *next;
-} arguments;
-
 typedef enum nature
 {
     TYPE_LIT,   // Literal
@@ -23,7 +16,7 @@ typedef enum nature
 
 typedef struct symbol
 {
-    unsigned int location; // Location (line) of the symbol in the code
+    int location; // Location (line) of the symbol in the code
     nature nat; // {Literal, Variable, Function ...}
     type t_type; // {uInt, Int, Float, Bool, Char, String ...}
     uint vector_size; // if it's a vector there is a multiplicative value
@@ -58,11 +51,12 @@ void destroy_table(symbol_table* table);
 bucket* find_symbol_in_table(bucket* buckets, int capacity, key_object* key);
 int set_type();
 bool insert_symbol(symbol_table* table, symbol s);
-symbol create_symbol(int size_mult, type t, nature n, unsigned int line, value v, char* lexeme);
+symbol create_symbol(int size_mult, type t, nature n, int line, value v, char* lexeme);
 void set_symbol_type(symbol* s, type t);
 void set_symbol_size(symbol* s, int size_mult);
 uint hash_string(char* str, int size, int capacity);
 symbol get_symbol(symbol_table* table, char* string);
 uint verify_symbol(symbol_table* table, char* string);
+bucket* search_symbol_in_table(symbol_table* table, symbol s);
 
 #endif

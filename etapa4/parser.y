@@ -3,7 +3,9 @@
 #include "symbol_table.h"
 #include "stack.h"
 
-int yylex(void); void yyerror (char const *s);
+int yylex(void);
+void yyerror (char const *s);
+
 extern tree* arvore;
 extern stack* top;
 %}
@@ -55,7 +57,7 @@ declaration
     ;
 
 global_variable
-    : static type id vector_declaration global_fotter ';' {declare_variable(top, 1, $2.t_type, TYPE_VAR, $2.line, $3->data.lv.v, $3->data.lexeme);}
+    : static type id vector_declaration global_fotter ';' { declare_variable(top, 1, $2.t_type, TYPE_VAR, $3->data.line, $3->data.lv.v, $3->data.lexeme);}
     ;
 
 global_fotter
@@ -105,11 +107,11 @@ command_block
     ;
 
 open_command
-    : '{' {push_new_table(&top); printf("Abri\n"); print_stack(top);}
+    : '{' {push_new_table(&top);}
     ;
 
 close_command
-    : '}' {pop(&top); printf("Fechei\n"); print_stack(top);}
+    : '}' {pop(&top);} 
     ;
 
 command
@@ -133,19 +135,24 @@ simple_command
     ;
 
 local_variable
-    : static const type id_list {$$ = $4;}
+    : static const type id_list {$$ = $4;} 
     ;
 
 id_list
     : assignment              {$$ = $1;}
     | id_list ',' assignment  {$$ = $1;  $$ = insert_child($$, $3);}
     | id_list ',' id          {$$ = $1; libera($3);}
-    | id                      {$$ = NULL; libera($1);}
+    | id                      {declare_variable(top, 1, TYPE_UNKNOWN, TYPE_VAR, $1->data.line, $1->data.lv.v, $1->data.lexeme);}
     ;
 
 assignment
-    : id TK_OC_LE id         {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | id TK_OC_LE literal    {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : id TK_OC_LE id         {$$ = insert_leaf($2);
+							  $$ = insert_child($$, $1);
+							  $$ = insert_child($$, $3);}
+
+    | id TK_OC_LE literal    {$$ = insert_leaf($2);
+							  $$ = insert_child($$, $1);
+							  $$ = insert_child($$, $3);}
     ;
 
 literal

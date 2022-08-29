@@ -15,7 +15,7 @@ stack *create_stack();
 symbol_table *pop(stack **s);
 void push(stack **s, symbol_table* table);
 void destroy_stack(stack *s);
-int search(stack *s, char* string);
-void declare_variable(stack* st, int size_mult, type t, nature n, unsigned int line, value v, char* lexeme);
+bucket* search(stack* top, symbol s);
+void declare_variable(stack* st, int size_mult, type t, nature n, int line, value v, char* lexeme);
 
 #endif

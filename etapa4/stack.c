@@ -31,7 +31,7 @@ void push_new_table(stack** s)
     push(s, new_table);
 }
 
-void declare_variable(stack* st, int size_mult, type t, nature n, unsigned int line, value v, char* lexeme)
+void declare_variable(stack* st, int size_mult, type t, nature n, int line, value v, char* lexeme)
 {
     symbol s = create_symbol(size_mult, t, n, line, v, lexeme);
     if(insert_symbol(st->table, s))
@@ -40,37 +40,45 @@ void declare_variable(stack* st, int size_mult, type t, nature n, unsigned int l
     }
     else
     {
-        printf("%s already declared, line %d", v.vs, line);
+        printf("'%s' already declared, line %d\n", v.vs, line);
         exit(ERR_DECLARED);
     }
 }
 
+void assign_variable(stack* st, symbol* ps, )
+{
+	bucket* current_bucket = search(st, ps);
+	if(current_bucket)
+	{
+		current_bucket->data.
+	}
+}
 
-int search(stack* s, char* string)
+bucket* search(stack* top, symbol s)
 {
     stack* temp;
-    temp = s;
-    bool verifing = true;
-    while(verifing)
+	bucket* current_bucket;
+    temp = top;
+    
+	while(1)
     {
-        if(s)
+        if(top)
         {
-            key_object key;
-            key.key_string = string;
-            key.size = strlen(string);
-            key.hash_value = hash_string(string, strlen(string), s->table->capacity);
-            verifing = find_symbol_in_table(s->table->buckets, s->table->capacity, &key);
-            s = s->next;
+			current_bucket = search_symbol_in_table(top->table, s);
+			if(current_bucket)
+			{
+				printf("Achei\n");
+				return current_bucket;
+			}
+			top = top->next;
         }
         else
         {
-            verifing = false;
-            s = temp;
-            return 0;
+			printf("Nao achei\n");
+            top = temp;
+            return NULL;
         }
     }
-    s = temp;
-    return 1;
 }
 
 void destroy_stack(stack* s)
