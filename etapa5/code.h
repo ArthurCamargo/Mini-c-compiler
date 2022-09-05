@@ -8,12 +8,12 @@
 // Comentarios
 /*
  * TODO:
- * - [ ] Implementar uma estrutura de dados para conter o codigo e argumentos (code_line)
- * - [ ] Implementar uma estrutura que tera uma lista de instrucoes (code)
- * - [ ] Implementar uma funcao para fornecer nomes de rotulos (label create_label(){ //something static here})
- * - [ ] Funcao para gerar nomes de registradores (char* create_reg_name(bool reset){ //something static here)
- * Geracao de codigo (2 passagens, percorrendo ast)
- * - [ ] Funcao de percorrimento da AST e geracao de codigo, deve conter um ponteir para todo o codigo (code)
+ * - [✓ ] Implementar uma estrutura de dados para conter o codigo e argumentos (code_line)
+ * - [✓ ] Implementar uma estrutura que tera uma lista de instrucoes (code)
+ * - [✓ ] Implementar uma funcao para fornecer nomes de rotulos (label create_label(){ //something static here})
+ * - [✓ ] Funcao para gerar nomes de registradores (char* create_reg_name(bool reset){ //something static here)
+ * Geracao de codigo (1 passagens, percorrendo ast)
+ * - [ ] Funcao de percorrimento da AST e geracao de codigo, deve conter um ponteiro para todo o codigo (code)
  * - [ ] Criacao de uma ou mais instrucoes ILOC para cada operacao
  * - [ ] Calculo de endereço na declaracao de variaveis
  *      - [ ] locais, relativo ao deslocamento do rfp (ponteiro para o topo da stack)
@@ -95,7 +95,6 @@ typedef enum opcode
 
 typedef struct list // Commmon generic list
 {
-    int size;
     int count;
     void *data;
     struct list* next;
@@ -103,50 +102,38 @@ typedef struct list // Commmon generic list
 
 
 
-typedef struct operation // Operation data
-{
-    char* name;
-    opcode op_num;
 
-} operation;
 
-typedef struct reg // Register
-{
-    int number;
-    char* name;
-}reg;
 
 typedef struct code_line// A single line of code to be written
 {
     int size;            // Size in bytes of the code
-    operation op;        // Operation to be computed
-    reg first_register;  // First operation
-    reg second_register; // Second operation
-    reg result;          // Result to the value computed
+    opcode op;        // Operation to be computed
+    int first_register;  // First operation
+    int second_register; // Second operation
+    int result;          // Result to the value computed
 }code_line;
 
 // Create list
-list create_code_list(code_line* c);
-code_line* create_code_line(code_line c);
+code_line create_code_line(int first, int second, int result, opcode op);
+list* concat(list* l, code_line cl);
 
 
 typedef struct code // Lis of lines of code to be written
 {
     //Normally stored in reverse Bottom up
-    list body;
+    list* body;
 
 }code;
 
+void print_code_line(code_line cl); // Print one line of code based on the data of code_line
+void generate_code(code* c); // Print the whole code given a code body
+list create_code_list(code_line* c);
 
-typedef struct label // Label to where to jump
-{
-    int number; // Cannot creat a static inside struct so it will be passed in the function
-    char* name;
-}label;
-
-
-
-char* generate_code(); //TODO: view the parameters
+//Create a new Label
+int create_label();
+// Create a new Register
+int create_register();
 
 
 #endif

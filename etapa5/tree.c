@@ -9,6 +9,7 @@ tree* insert_leaf(token_value data)
     t->data = data;
     t->child_number = 0;
     t->child = (tree **) malloc(sizeof(tree*));
+    t->code_list = (code *) malloc(sizeof(code ));
     return t;
 }
 
@@ -28,19 +29,12 @@ tree* insert_child(tree* t, tree* child)
     return t;
 }
 
-void print_tree(tree * t)
-{
-    if(t == NULL)
-        return;
-    for(int i = 0; i < t->child_number; i ++)
-    {
-        print_data(t->child[i]->data);
-    }
 
-    for(int i = 0; i < t->child_number; i ++)
-    {
-        print_tree(t->child[i]);
-    }
+
+void print_tree(tree* t)
+{
+    //Print the code of the entire tree
+    generate_code(t->code_list);
 }
 
 void print_data(token_value data)
@@ -153,7 +147,7 @@ token_value create_token_value_int(int line, token_type t, type lexeme_type, cha
     return s;
 }
 
-char * prepend(char* string_var, const char* prepend_string)
+char* prepend(char* string_var, const char* prepend_string)
 {
     int first_string_size = strlen(string_var);
     int second_string_size = strlen(prepend_string);

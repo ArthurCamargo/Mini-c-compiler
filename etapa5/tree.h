@@ -5,6 +5,8 @@
 #ifndef TREE_H
 #define TREE_H
 
+#include "code.h"
+
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdlib.h>
@@ -57,6 +59,8 @@ typedef struct token_value
 
 typedef struct tree
 {
+    int temp;
+    code* code_list;
     token_value data;
     int child_number;
     struct tree** child;

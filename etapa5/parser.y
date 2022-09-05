@@ -118,7 +118,7 @@ open_command
     ;
 
 close_command
-    : '}' {pop(&top);} 
+    : '}' {pop(&top);}
     ;
 
 command
@@ -142,7 +142,7 @@ simple_command
     ;
 
 local_variable
-    : static const type id_list {$$ = $4;} 
+    : static const type id_list {$$ = $4;}
     ;
 
 id_list
@@ -155,13 +155,13 @@ id_list
 
 assignment
     : id TK_OC_LE id         {$$ = insert_leaf($2);
-							  $$ = insert_child($$, $1);
-							  $$ = insert_child($$, $3);
+                              $$ = insert_child($$, $1);
+                              $$ = insert_child($$, $3);
                               }
 
     | id TK_OC_LE literal    {$$ = insert_leaf($2);
-							  $$ = insert_child($$, $1);
-							  $$ = insert_child($$, $3);}
+                              $$ = insert_child($$, $1);
+                              $$ = insert_child($$, $3);}
     ;
 
 literal
@@ -209,11 +209,11 @@ expr
     ;
 
 ternary
-        : unary_minus '?' unary_minus':' ternary {$$ = insert_leaf($2); $$->data.lv.v.vs = "?:";
-                                       $$->data.token_t = COMPOSE_OP;
-                                       $$ = insert_child($$, $1); $$ = insert_child($$, $3);
-                                       $$ = insert_child($$, $5);}
-    | unary_minus                {$$ = $1;}
+    : unary_minus '?' unary_minus':' ternary {$$ = insert_leaf($2); $$->data.lv.v.vs = "?:";
+                                              $$->data.token_t = COMPOSE_OP;
+                                              $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                                              $$ = insert_child($$, $5);}
+    | unary_minus                            {$$ = $1;}
     ;
 
 unary_minus

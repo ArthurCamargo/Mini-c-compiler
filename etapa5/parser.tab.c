@@ -1688,8 +1688,8 @@ yyreduce:
   case 44:
 #line 157 "parser.y" /* yacc.c:1646  */
     {(yyval.ast) = insert_leaf((yyvsp[-1].valor_lexico));
-							  (yyval.ast) = insert_child((yyval.ast), (yyvsp[-2].ast));
-							  (yyval.ast) = insert_child((yyval.ast), (yyvsp[0].ast));
+                              (yyval.ast) = insert_child((yyval.ast), (yyvsp[-2].ast));
+                              (yyval.ast) = insert_child((yyval.ast), (yyvsp[0].ast));
                               }
 #line 1695 "parser.tab.c" /* yacc.c:1646  */
     break;
@@ -1697,8 +1697,8 @@ yyreduce:
   case 45:
 #line 162 "parser.y" /* yacc.c:1646  */
     {(yyval.ast) = insert_leaf((yyvsp[-1].valor_lexico));
-							  (yyval.ast) = insert_child((yyval.ast), (yyvsp[-2].ast));
-							  (yyval.ast) = insert_child((yyval.ast), (yyvsp[0].ast));}
+                              (yyval.ast) = insert_child((yyval.ast), (yyvsp[-2].ast));
+                              (yyval.ast) = insert_child((yyval.ast), (yyvsp[0].ast));}
 #line 1703 "parser.tab.c" /* yacc.c:1646  */
     break;
 
@@ -1785,9 +1785,9 @@ yyreduce:
   case 56:
 #line 212 "parser.y" /* yacc.c:1646  */
     {(yyval.ast) = insert_leaf((yyvsp[-3].valor_lexico)); (yyval.ast)->data.lv.v.vs = "?:";
-                                       (yyval.ast)->data.token_t = COMPOSE_OP;
-                                       (yyval.ast) = insert_child((yyval.ast), (yyvsp[-4].ast)); (yyval.ast) = insert_child((yyval.ast), (yyvsp[-2].ast));
-                                       (yyval.ast) = insert_child((yyval.ast), (yyvsp[0].ast));}
+                                              (yyval.ast)->data.token_t = COMPOSE_OP;
+                                              (yyval.ast) = insert_child((yyval.ast), (yyvsp[-4].ast)); (yyval.ast) = insert_child((yyval.ast), (yyvsp[-2].ast));
+                                              (yyval.ast) = insert_child((yyval.ast), (yyvsp[0].ast));}
 #line 1792 "parser.tab.c" /* yacc.c:1646  */
     break;
 
