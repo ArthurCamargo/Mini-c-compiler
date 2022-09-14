@@ -116,7 +116,28 @@ typedef struct code_line// A single line of code to be written
 
 // Create list
 code_line create_code_line(int first, int second, int result, opcode op);
-list* concat(list* l, code_line cl);
+
+//Create a code line accordying to the type of the instruction
+//
+//Normal instructions
+//r0, r1 => r2
+//add
+//sub
+//mult
+//lshift
+//rshift
+//and
+//or
+//xor
+//loadA0
+//cmp_LT
+//cmp_LE
+//cmp_EQ
+//cmp_GE
+//cmp_GT
+//cmp_NE
+
+list* concat(list* l, code_line* cl);
 
 
 typedef struct code // Lis of lines of code to be written

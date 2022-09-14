@@ -24,14 +24,15 @@ int main (int argc, char **argv)
 
 
     {
-    //TODO Remove tests
-    //TEST AREA
-
-
+        //TODO Remove tests
+        //TEST AREA
         code_line cl;
-        cl = create_code_line(0, 1, 2, ADD);
+        cl = create_code_line(create_register(), create_register(), create_register(), ADD);
         list l = create_code_list(&cl);
         arvore->code_list->body = &l;
+        sc = create_code_line(create_register(), create_register(), create_register(), SUB);
+        concat(arvore->code_list->body, &sc);
+
         print_tree(arvore);
     }
 

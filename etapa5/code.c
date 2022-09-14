@@ -2,13 +2,12 @@
 
 //List operations
 
-
 list create_code_list(code_line* c)
 {
     list l;
-    l.count = 0;
+    l.count = 1;
 
-    l.data = (code_line*) c;
+    l.data = c;
     l.next = NULL;
 
     return l;
@@ -30,25 +29,27 @@ code_line create_code_line(int first, int second, int result, opcode op)
 }
 
 
-list* concat(list* l, code_line cl)
+list* concat(list* l, code_line* cl)
 {
     list* pointer = l;
     if(!l->data)
     {
         l->count ++;
-        l->data = &cl;
+        l->data = cl;
         l->next = NULL;
     }
     else
     {
         l->count ++;
         list* new_list = (list*) malloc(sizeof(list));
-        while(pointer != NULL)
+
+        while(pointer->next != NULL)
         {
             pointer = l->next;
         }
+
         pointer->next = new_list;
-        new_list->data = &cl;
+        new_list->data = cl;
         new_list->next = NULL;
     }
 
