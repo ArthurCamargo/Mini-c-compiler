@@ -117,13 +117,14 @@ typedef struct code_line// A single line of code to be written
 // Create list
 code_line create_code_line(int first, int second, int result, opcode op);
 
-//Create a code line accordying to the type of the instruction
+//Create a code line accordying to the type of parameters of the instruction
 //
 //Normal instructions
-//r0, r1 => r2
+//r0, r1 => r2 or r1 => r2, r3 (3 regs)
 //add
 //sub
 //mult
+//div
 //lshift
 //rshift
 //and
@@ -136,6 +137,63 @@ code_line create_code_line(int first, int second, int result, opcode op);
 //cmp_GE
 //cmp_GT
 //cmp_NE
+//cstoreAO
+code_line create_normal_code_line(opcode op);
+
+
+
+//Immediate instructions
+//r0, c1 => r1 or r1 => r2, c3 (2 regs, 1 c)
+//addI
+//subI
+//rsubI
+//multI
+//divI
+//rdivI
+//lshiftI
+//rshiftI
+code_line create_immediate_code_line(int immediate, opcode op);
+
+//2 registers only (2 regs)
+//r1 => r2
+//load
+//cload
+//store
+//cstore
+//i2i
+//c2c
+//c2i
+//i2c
+code_line create_two_register_code_line(opcode op);
+
+
+// Imeddiate load (1 reg, 1 c)
+// c1 => r1
+// loadI
+code_line create_immediate_load_code_line(int immediate, opcode op);
+
+
+// Jump Immediate (1 label)
+// -> l1
+// jumpI
+
+code_line create_immediate_jump_code_line(int immediate, opcode op);
+
+
+// Sigle register (1 reg)
+// -> r1
+// jump
+
+code_line create_one_register_code_line(opcode op);
+
+// One register and 2 labels
+// r1 -> l2, l3
+// cbr
+
+code_line create_conditional_branch_code_line(int label1, int label2, opcode op);
+
+
+
 
 list* concat(list* l, code_line* cl);
 

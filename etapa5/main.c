@@ -30,6 +30,7 @@ int main (int argc, char **argv)
         cl = create_code_line(create_register(), create_register(), create_register(), ADD);
         list l = create_code_list(&cl);
         arvore->code_list->body = &l;
+        code_line sc;
         sc = create_code_line(create_register(), create_register(), create_register(), SUB);
         concat(arvore->code_list->body, &sc);
 
