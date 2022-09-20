@@ -13,7 +13,6 @@ list create_code_list(code_line* c)
     return l;
 }
 
-
 code_line create_code_line(int first, int second, int result, opcode op)
 {
     code_line c;
@@ -26,6 +25,48 @@ code_line create_code_line(int first, int second, int result, opcode op)
     c.result = result;
 
     return c;
+}
+
+code_line create_normal_code_line(opcode op)
+{
+    //r1, r2 => r3
+    return create_code_line(create_register(), create_register(), create_register(), op);
+}
+
+code_line create_immediate_code_line(int immediate, opcode op)
+{
+    //r0, c1 => r1 or r1 => r2, c3 (2 regs, 1 c)
+    return create_code_line(create_register(), immediate, create_register(), op);
+}
+
+code_line create_two_register_code_line(opcode op)
+{
+    //r1 => r2
+    return create_code_line(create_register(), 0, create_register(), op);
+}
+
+code_line create_immediate_load_code_line(int immediate, opcode op)
+{
+    // c1 => r1
+    return create_code_line(immediate, 0, create_register(), op);
+}
+
+code_line create_immediate_jump_code_line(int immediate, opcode op)
+{
+    // -> l1
+    return create_code_line(0, 0, immediate, op);
+}
+
+code_line create_one_register_code_line(opcode op)
+{
+    // -> r1
+    return create_code_line(0, 0, create_register(), op);
+}
+
+code_line create_conditional_branch_code_line(int label1, int label2, opcode op)
+{
+    // r1 -> l2, l3
+    return create_code_line(create_register(), label1, label2, op); 
 }
 
 
@@ -45,7 +86,7 @@ list* concat(list* l, code_line* cl)
 
         while(pointer->next != NULL)
         {
-            pointer = l->next;
+            pointer = pointer->next;
         }
 
         pointer->next = new_list;
@@ -154,10 +195,10 @@ void print_code_line(code_line cl)
             printf("xorI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
         case LOADI:
-            printf("loadI %d     => r%d\n", cl.first_register, cl.result);
+            printf("loadI %d => r%d\n", cl.first_register, cl.result);
             break;
         case LOAD:
-            printf("load r%d     => r%d\n", cl.first_register, cl.result);
+            printf("load r%d => r%d\n", cl.first_register, cl.result);
             break;
         case LOADAI:
             printf("loadAI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
@@ -166,7 +207,7 @@ void print_code_line(code_line cl)
             printf("loadA0 r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
         case CLOAD:
-            printf("cload r%d       => r%d\n", cl.first_register, cl.result);
+            printf("cload r%d => r%d\n", cl.first_register, cl.result);
             break;
         case CLOADAI:
             printf("cloadAI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
@@ -175,43 +216,43 @@ void print_code_line(code_line cl)
             printf("cloadA0 r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
         case STORE:
-            printf("store r%d        => r%d\n", cl.first_register, cl.result);
+            printf("store r%d => r%d\n", cl.first_register, cl.result);
             break;
         case STOREAI:
-            printf("storeAI r%d      => r%d, %d\n", cl.first_register, cl.second_register, cl.result);
+            printf("storeAI r%d => r%d, %d\n", cl.first_register, cl.second_register, cl.result);
             break;
         case STOREA0:
-            printf("storeA0 r%d      => r%d, r%d\n", cl.first_register, cl.second_register, cl.result);
+            printf("storeA0 r%d => r%d, r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
         case CSTORE:
-            printf("cstore r%d       => r%d\n", cl.first_register, cl.result);
+            printf("cstore r%d => r%d\n", cl.first_register, cl.result);
             break;
         case CSTOREAI:
-            printf("cstoreAI r%d     => r%d, %d\n", cl.first_register, cl.second_register, cl.result);
+            printf("cstoreAI r%d => r%d, %d\n", cl.first_register, cl.second_register, cl.result);
             break;
         case CSTOREA0:
-            printf("cstoreA0 r%d     => r%d, r%d\n", cl.first_register, cl.second_register, cl.result);
+            printf("cstoreA0 r%d => r%d, r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
         case I2I:
-            printf("i2i r%d         => r%d\n", cl.first_register, cl.result);
+            printf("i2i r%d => r%d\n", cl.first_register, cl.result);
             break;
         case C2C:
-            printf("c2c r%d         => r%d\n", cl.first_register, cl.result);
+            printf("c2c r%d => r%d\n", cl.first_register, cl.result);
             break;
         case C2I:
-            printf("c2i r%d         => r%d\n", cl.first_register, cl.result);
+            printf("c2i r%d => r%d\n", cl.first_register, cl.result);
             break;
         case I2C:
-            printf("i2c r%d         => r%d\n", cl.first_register, cl.result);
+            printf("i2c r%d => r%d\n", cl.first_register, cl.result);
             break;
         case JUMPI:
-            printf("jumpI           -> l%d\n",  cl.result);
+            printf("jumpI -> l%d\n",  cl.result);
             break;
         case JUMP:
-            printf("jump            -> r%d\n", cl.result);
+            printf("jump -> r%d\n", cl.result);
             break;
         case CBR:
-            printf("cbr r%d         -> l%d, l%d\n", cl.first_register, cl.second_register, cl.result);
+            printf("cbr r%d -> l%d, l%d\n", cl.first_register, cl.second_register, cl.result);
             break;
         case CMP_LT:
             printf("cmp_LT r%d, r%d -> r%d\n", cl.first_register, cl.second_register, cl.result);

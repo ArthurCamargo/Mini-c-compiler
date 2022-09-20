@@ -138,6 +138,7 @@ code_line create_code_line(int first, int second, int result, opcode op);
 //cmp_GT
 //cmp_NE
 //cstoreAO
+
 code_line create_normal_code_line(opcode op);
 
 
