@@ -5,6 +5,7 @@
 #include "tree.h"
 #include "symbol_table.h"
 #include "stack.h"
+#include "code.h"
 
 int yylex(void);
 void yyerror (char const *s);
@@ -55,7 +56,8 @@ program
     ;
 
 declaration
-    : function            {$$ = $1;}
+    : function            {$$ = $1;
+                          }
     | global_variable     {$$ = NULL;}
     ;
 
@@ -110,7 +112,8 @@ const
     ;
 
 command_block
-    : open_command command close_command {$$ = $2;}
+    : open_command command close_command {$$ = $2;
+    }
     ;
 
 open_command
@@ -181,7 +184,13 @@ attribution
                                                                         $left->data.lv.v, $left->data.lexeme);
                                   symbol var_right = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $right->data.line,
                                                                 $right->data.lv.v, $right->data.lexeme);
-                                  assign_variable(top, &var_left, &var_right);}
+                                  assign_variable(top, &var_left, &var_right);
+
+                                      // Concatenate
+                                      $$->temp = create_register();
+                                      code_line new_code_line = create_code_line($right->temp, 0, $$->temp, STORE);
+                                      insert_code(&($$->code_list), new_code_line);
+                                  }
 
     | vector_attribution[left] '=' expr[right] {
                                    $$ = insert_leaf($2);
@@ -257,15 +266,34 @@ rel
     ;
 
 soma_sub
-    : soma_sub '+' mult_div {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | soma_sub '-' mult_div {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : soma_sub '+' mult_div {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, ADD);
+                             insert_code(&($$->code_list), new_code_line);}
+    | soma_sub '-' mult_div {
+                                $$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                                $$->temp = create_register();
+                                code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, SUB);
+                                insert_code(&($$->code_list), new_code_line);}
     | mult_div              {$$ = $1;}
     ;
 
 mult_div
-    : mult_div '*' unary    {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | mult_div '/' unary    {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : mult_div '*' unary    {
+                                $$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                                $$->temp = create_register();
+                                code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, MULT);
+                                insert_code(&($$->code_list), new_code_line);
+                             }
+    | mult_div '/' unary    {
+                                $$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                                $$->temp = create_register();
+                                code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, DIV);
+                                insert_code(&($$->code_list), new_code_line);
+                             }
+
     | mult_div '%' unary    {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+
     | exponential           {$$ = $1;}
     ;
 
@@ -357,7 +385,11 @@ args
 operand_arit
     : vector_attribution { $$ = $1;}
     | id                 { $$ = $1;}
-    | TK_LIT_INT         { $$ = insert_leaf($1);}
+    | TK_LIT_INT         { $$ = insert_leaf($1);
+                           $$->temp = create_register();
+                           code_line new_code_line = create_code_line($1.lv.v.vi, 0, $$->temp, LOADI);
+                           insert_code(&($$->code_list), new_code_line);
+                         }
     | TK_LIT_FLOAT       { $$ = insert_leaf($1);}
     | func_call          { $$ = $1;}
     ;

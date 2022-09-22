@@ -105,7 +105,7 @@ extern int yydebug;
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 union YYSTYPE
 {
-#line 18 "parser.y"
+#line 19 "parser.y"
 
     token_value valor_lexico;
     tree* ast;

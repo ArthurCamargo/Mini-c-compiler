@@ -9,9 +9,10 @@ tree* insert_leaf(token_value data)
     t->data = data;
     t->child_number = 0;
     t->child = (tree **) malloc(sizeof(tree*));
-    t->code_list = (code *) malloc(sizeof(code ));
+    t->code_list = initialize_code_list();
     return t;
 }
+
 
 tree* insert_child(tree* t, tree* child)
 {
@@ -24,6 +25,7 @@ tree* insert_child(tree* t, tree* child)
         t->child_number ++;
         t->child = (tree**)realloc(t->child, t->child_number * sizeof(tree*)); //reallocates for fitting the new baby
         t->child[t->child_number - 1] = child;
+        t->code_list = *concat_list(&t->code_list, &child->code_list);
     }
 
     return t;
@@ -34,7 +36,8 @@ tree* insert_child(tree* t, tree* child)
 void print_tree(tree* t)
 {
     //Print the code of the entire tree
-    generate_code(t->code_list);
+
+    generate_code(&t->code_list);
 }
 
 void print_data(token_value data)

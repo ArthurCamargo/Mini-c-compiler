@@ -92,19 +92,6 @@ typedef enum opcode
 } opcode;
 
 
-
-typedef struct list // Commmon generic list
-{
-    int count;
-    void *data;
-    struct list* next;
-}list;
-
-
-
-
-
-
 typedef struct code_line// A single line of code to be written
 {
     int size;            // Size in bytes of the code
@@ -113,6 +100,13 @@ typedef struct code_line// A single line of code to be written
     int second_register; // Second operation
     int result;          // Result to the value computed
 }code_line;
+
+typedef struct list // Commmon generic list
+{
+    int count;
+    code_line data;
+    struct list* next;
+}list;
 
 // Create list
 code_line create_code_line(int first, int second, int result, opcode op);
@@ -196,19 +190,14 @@ code_line create_conditional_branch_code_line(int label1, int label2, opcode op)
 
 
 
-list* concat(list* l, code_line* cl);
+void insert_code(list* l, code_line cl);
 
-
-typedef struct code // Lis of lines of code to be written
-{
-    //Normally stored in reverse Bottom up
-    list* body;
-
-}code;
+list* concat_list(list* l1, list* l2);
 
 void print_code_line(code_line cl); // Print one line of code based on the data of code_line
-void generate_code(code* c); // Print the whole code given a code body
+void generate_code(list* c); // Print the whole code given a code body
 list create_code_list(code_line* c);
+list initialize_code_list(); // In
 
 //Create a new Label
 int create_label();

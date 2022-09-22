@@ -7,7 +7,17 @@ list create_code_list(code_line* c)
     list l;
     l.count = 1;
 
-    l.data = c;
+    l.data = *c;
+    l.next = NULL;
+
+    return l;
+}
+
+list initialize_code_list()
+{
+    list l;
+    l.count = 0;
+    l.data.size = 0;
     l.next = NULL;
 
     return l;
@@ -70,13 +80,14 @@ code_line create_conditional_branch_code_line(int label1, int label2, opcode op)
 }
 
 
-list* concat(list* l, code_line* cl)
+void insert_code(list* l, code_line cl)
 {
     list* pointer = l;
-    if(!l->data)
+    if(l->data.size == 0)
     {
         l->count ++;
         l->data = cl;
+        l->data.size ++;
         l->next = NULL;
     }
     else
@@ -93,11 +104,28 @@ list* concat(list* l, code_line* cl)
         new_list->data = cl;
         new_list->next = NULL;
     }
-
-    return l;
 }
 
+list* concat_list(list* l1, list* l2)
+{
+    if(l2->data.size == 0)
+        return l1;
+    else if (l1->data.size == 0)
+        return l2;
+    //Concat list l1 with list l2
+    list* pointer = l1;
 
+    //Find the last element
+    while(pointer->next != NULL)
+    {
+        pointer = pointer->next;
+    }
+    // Last element of the list 1 point to the list2
+    pointer->next = l2;
+    pointer->count = l1->count + l2->count;
+
+    return pointer;
+}
 
 int create_label()
 {
@@ -116,12 +144,14 @@ int create_register()
     return number;
 }
 
-void generate_code (code* c)
+void generate_code (list* c)
 {
-    list* pointer = c->body;
-    for(int i = 0; i < c->body->count; i ++)
+    list* pointer = c;
+
+    printf("Generating %d\n", c->count);
+    for(int i = 0; i < c->count; i ++)
     {
-        print_code_line(*((code_line*) pointer->data));
+        print_code_line(pointer->data);
         pointer = pointer->next;
     }
 }
