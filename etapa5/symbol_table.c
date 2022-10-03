@@ -28,22 +28,22 @@ void set_symbol_size(symbol *s, int size_mult)
         case TYPE_UNKNOWN:
             break;
         case TYPE_UINT:
-            s->size = 32 * size_mult;
+            s->size = 4 * size_mult;
             break;
         case TYPE_INT:
-            s->size = 32 * size_mult;
+            s->size = 4 * size_mult;
             break;
         case TYPE_BOOL:
-            s->size = 8 * size_mult;
+            s->size = 2 * size_mult;
             break;
         case TYPE_FLOAT:
-            s->size = 64 * size_mult;
-            break;
-        case TYPE_CHAR:
             s->size = 8 * size_mult;
             break;
+        case TYPE_CHAR:
+            s->size = 4 * size_mult;
+            break;
         case TYPE_STRING:
-            s->size = 1 * size_mult;
+            s->size = 4 * size_mult;
             break;
     }
 }
@@ -51,6 +51,7 @@ void set_symbol_size(symbol *s, int size_mult)
 symbol_table* create_table()
 {
     symbol_table* table = malloc(sizeof(symbol_table));
+    table->offset = 0;
     table->count = 0;
     table->capacity = 1024;
     table->buckets =  calloc(table->capacity, sizeof(bucket));

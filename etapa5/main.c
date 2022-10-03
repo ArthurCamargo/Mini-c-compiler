@@ -7,6 +7,7 @@ extern int yyparse(void);
 extern int yylex_destroy(void);
 extern int get_line_number();
 
+
 void yyerror (char const *s) {
    int n = get_line_number();
    fprintf (stderr, "[!] %s -- line:%d\n", s, n);

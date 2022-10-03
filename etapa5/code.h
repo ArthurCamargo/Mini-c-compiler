@@ -71,6 +71,8 @@ typedef enum opcode
     CLOADA0,
     STORE,
     STOREAI,
+    STOREAIRFP,
+    STOREAIRBSS,
     STOREA0,
     CSTORE,
     CSTOREAI,

@@ -21,6 +21,7 @@ typedef enum nature
 typedef struct symbol
 {
     int location; // Location (line) of the symbol in the code
+    int address; // Addres of the symbol if is a variable to be stored
     nature nat; // {Literal, Variable, Function ...}
     type t_type; // {uInt, Int, Float, Bool, Char, String ...}
     uint vector_size; // if it's a vector there is a multiplicative value
@@ -45,6 +46,7 @@ typedef struct bucket
 
 typedef struct symbol_table
 {
+    unsigned int offset; //Offset for address
     unsigned int count; // How many itens in the hash table
     unsigned int capacity; // How much can we support
     bucket* buckets; // Itens ("name", data)

@@ -101,6 +101,7 @@ void insert_code(list* l, code_line cl)
         }
 
         pointer->next = new_list;
+        new_list->data.size ++;
         new_list->data = cl;
         new_list->next = NULL;
     }
@@ -122,9 +123,9 @@ list* concat_list(list* l1, list* l2)
     }
     // Last element of the list 1 point to the list2
     pointer->next = l2;
-    pointer->count = l1->count + l2->count;
+    l1->count = l1->count + l2->count;
 
-    return pointer;
+    return l1;
 }
 
 int create_label()
@@ -148,7 +149,6 @@ void generate_code (list* c)
 {
     list* pointer = c;
 
-    printf("Generating %d\n", c->count);
     for(int i = 0; i < c->count; i ++)
     {
         print_code_line(pointer->data);
@@ -250,6 +250,12 @@ void print_code_line(code_line cl)
             break;
         case STOREAI:
             printf("storeAI r%d => r%d, %d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case STOREAIRFP:
+            printf("storeAI r%d => rfp, %d\n", cl.first_register, cl.result);
+            break;
+        case STOREAIRBSS:
+            printf("storeAI r%d => rbss, %d\n", cl.first_register, cl.result);
             break;
         case STOREA0:
             printf("storeA0 r%d => r%d, r%d\n", cl.first_register, cl.second_register, cl.result);

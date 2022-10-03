@@ -45,6 +45,9 @@ void declare_variable(stack* st, int size_mult, type t, nature n, int line, valu
     }
 
     symbol s = create_symbol(size_mult, t, n, line, v, lexeme);
+    s.address = st->table->offset;
+    st->table->offset += s.size; // Increases the offset
+
     if(insert_symbol(st->table, s))
     {
         return;
@@ -71,7 +74,8 @@ void declare_function(stack* st, int size_mult, type t, nature n, int line, valu
     }
 }
 
-void assign_variable(stack* st, symbol* var, symbol* value)
+
+symbol* assign_variable(stack* st, symbol* var, symbol* value)
 {
 	bucket* current_bucket = search(st, *var);
 	if(current_bucket)
@@ -95,6 +99,8 @@ void assign_variable(stack* st, symbol* var, symbol* value)
         printf("Function '%s' assigned with a variable at line %d", symbol_in_table->lexeme, symbol_in_table->location);
         exit(ERR_FUNCTION);
     }
+
+    return symbol_in_table;
 }
 
 void call_function(stack* st, symbol* func_name)

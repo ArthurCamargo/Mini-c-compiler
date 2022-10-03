@@ -152,8 +152,8 @@ id_list
     : assignment              {$$ = $1;}
     | id_list ',' assignment  {$$ = $1;  $$ = insert_child($$, $3);}
     | id_list ',' id          {$$ = $1;
-                               declare_variable(top, 1, TYPE_UNKNOWN, TYPE_VAR, $3->data.line, $3->data.lv.v, $3->data.lexeme); libera($3);}
-    | id                      {declare_variable(top, 1, TYPE_UNKNOWN, TYPE_VAR, $1->data.line, $1->data.lv.v, $1->data.lexeme);}
+                               declare_variable(top, 1, TYPE_INT, TYPE_VAR, $3->data.line, $3->data.lv.v, $3->data.lexeme); libera($3);}
+    | id                      {declare_variable(top, 1, TYPE_INT, TYPE_VAR, $1->data.line, $1->data.lv.v, $1->data.lexeme);}
     ;
 
 assignment
@@ -177,31 +177,34 @@ literal
     ;
 
 attribution
-    : id[left] '=' expr[right]   {$$ = insert_leaf($2);
-                                  $$ = insert_child($$, $1);
-                                  $$ = insert_child($$, $3);
-                                  symbol var_left = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $left->data.line,
-                                                                        $left->data.lv.v, $left->data.lexeme);
-                                  symbol var_right = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $right->data.line,
-                                                                $right->data.lv.v, $right->data.lexeme);
-                                  assign_variable(top, &var_left, &var_right);
+    : id[left] '=' expr[right]   {    $$ = insert_leaf($2);
+                                      $$ = insert_child($$, $1);
+                                      $$ = insert_child($$, $3);
+                                      symbol var_left = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $left->data.line,
+                                                                            $left->data.lv.v, $left->data.lexeme);
+                                      symbol var_right = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $right->data.line,
+                                                                    $right->data.lv.v, $right->data.lexeme);
+                                      symbol* variable = assign_variable(top, &var_left, &var_right);
 
                                       // Concatenate
                                       $$->temp = create_register();
-                                      code_line new_code_line = create_code_line($right->temp, 0, $$->temp, STORE);
-                                      insert_code(&($$->code_list), new_code_line);
+                                      code_line new_code_line1 = create_code_line($right->temp, 0, $$->temp, STORE);
+                                      code_line new_code_line2 = create_code_line($$->temp, 0, variable->address, STOREAIRFP);
+                                      insert_code(&($$->code_list), new_code_line1);
+                                      insert_code(&($$->code_list), new_code_line2);
                                   }
 
     | vector_attribution[left] '=' expr[right] {
-                                   $$ = insert_leaf($2);
-                                   $$ = insert_child($$, $1);
-                                   $$ = insert_child($$, $3);
-                                   symbol var_left = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $left->data.line,
-                                                                         $left->child[0]->data.lv.v,
-                                                                         $left->child[0]->data.lexeme);
-                                   symbol var_right = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $right->data.line,
-                                                                         $right->data.lv.v, $right->data.lexeme);
-                                   assign_vector(top, &var_left, &var_right);}
+                                               $$ = insert_leaf($2);
+                                               $$ = insert_child($$, $1);
+                                               $$ = insert_child($$, $3);
+                                               symbol var_left = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $left->data.line,
+                                                                                     $left->child[0]->data.lv.v,
+                                                                                     $left->child[0]->data.lexeme);
+                                               symbol var_right = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $right->data.line,
+                                                                                     $right->data.lv.v, $right->data.lexeme);
+                                               assign_vector(top, &var_left, &var_right);
+                                   }
     ;
 
 vector_attribution

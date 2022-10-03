@@ -21,7 +21,7 @@ void destroy_stack(stack *s);
 bucket* search(stack* top, symbol s);
 void declare_variable(stack* st, int size_mult, type t, nature n, int line, value v, char* lexeme);
 void declare_function(stack* st, int size_mult, type t, nature n, int line, value v, char* lexeme);
-void assign_variable(stack* st, symbol* var, symbol* value);
+symbol* assign_variable(stack* st, symbol* var, symbol* value);
 void assign_vector(stack* st, symbol* var, symbol* value);
 void call_function(stack* st, symbol* func_name);
 
