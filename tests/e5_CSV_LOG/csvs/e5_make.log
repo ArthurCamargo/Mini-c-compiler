@@ -1,0 +1,7 @@
+GrupoC
+
+~/ensino/private/comp/e5/GrupoC ~/ensino/private/comp/e5
+bison -d parser.y
+flex scanner.l
+gcc  utils.c main.c tree.c stack.c symbol_table.c lex.yy.c parser.tab.c code.c -o etapa5
+~/ensino/private/comp/e5
