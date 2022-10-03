@@ -24,6 +24,7 @@ void push(stack** s, symbol_table* table)
     stack* temp;
     temp = malloc(sizeof(stack));
     temp->table = table;
+    temp->is_global = false;
     temp->next = *s;
     *s = temp;
 }
@@ -45,8 +46,16 @@ void declare_variable(stack* st, int size_mult, type t, nature n, int line, valu
     }
 
     symbol s = create_symbol(size_mult, t, n, line, v, lexeme);
-    s.address = st->table->offset;
-    st->table->offset += s.size; // Increases the offset
+    if(s.nat == TYPE_GLOBAL_VAR)
+    {
+        s.address = st->table->offset;
+        st->table->offset += s.size; // Increases the offset
+    }
+    else if (s.nat == TYPE_VAR)
+    {
+        s.address = st->table->offset;
+        st->table->offset += s.size; // Increases the offset
+    }
 
     if(insert_symbol(st->table, s))
     {
@@ -72,6 +81,21 @@ void declare_function(stack* st, int size_mult, type t, nature n, int line, valu
         printf("'%s' already declared, line %d\n", v.vs, line);
         exit(ERR_DECLARED);
     }
+}
+
+symbol* find_variable(stack* st, symbol* var)
+{
+	bucket* current_bucket = search(st, *var);
+	if(current_bucket)
+	{
+	} else {
+        printf("Variable '%s' not declared at line %d", var->lexeme, var->location);
+        exit(ERR_UNDECLARED);
+    }
+
+    symbol* symbol_in_table = current_bucket->data;
+
+    return symbol_in_table;
 }
 
 

@@ -64,10 +64,8 @@ declaration
 global_variable
     : static type id '[' TK_LIT_INT[vector_int] ']' global_fotter ';' {declare_variable(top, $vector_int.lv.v.vi, $2.t_type,
                                                                        TYPE_VEC, $3->data.line, $3->data.lv.v, $3->data.lexeme);}
-    | static type id global_fotter ';'                                {declare_variable(top, 1, $2.t_type, TYPE_VAR, $3->data.line,
-                                                                       $3->data.lv.v, $3->data.lexeme);
-
-                                                                       }
+    | static type id global_fotter ';'                                {declare_variable(top, 1, $2.t_type, TYPE_GLOBAL_VAR, $3->data.line,
+                                                                       $3->data.lv.v, $3->data.lexeme); }
     ;
 
 global_fotter
@@ -190,8 +188,13 @@ attribution
 
                                       // Concatenate
                                       $$->temp = create_register();
-                                      code_line new_code_line1 = create_code_line($right->temp, 0, $$->temp, STORE);
-                                      code_line new_code_line2 = create_code_line($$->temp, 0, variable->address, STOREAIRFP);
+                                      code_line new_code_line1 = create_code_line($right->temp, 0, $$->temp, I2I);
+                                      code_line new_code_line2;
+                                      if(variable->nat == TYPE_VAR)
+                                          new_code_line2 = create_code_line($$->temp, 0, variable->address, STOREAIRFP);
+                                      else if (variable->nat == TYPE_GLOBAL_VAR)
+                                          new_code_line2 = create_code_line($$->temp, 0, variable->address, STOREAIRBSS);
+
                                       insert_code(&($$->code_list), new_code_line1);
                                       insert_code(&($$->code_list), new_code_line2);
                                   }
@@ -389,7 +392,20 @@ args
 
 operand_arit
     : vector_attribution { $$ = $1;}
-    | id                 { $$ = $1;}
+    | id[left]           { $$ = $1;
+                           $$->temp = create_register();
+                           symbol var_left = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $left->data.line,
+                                                                  $left->data.lv.v, $left->data.lexeme);
+                           symbol* variable = find_variable(top, &var_left);
+                           code_line new_code_line;
+                           if(variable->nat == TYPE_GLOBAL_VAR)
+                               new_code_line = create_code_line(0, variable->address, $$->temp, LOADAIRBSS);
+                           else if (variable->nat == TYPE_VAR)
+                               new_code_line = create_code_line(0, variable->address, $$->temp, LOADAIRFP);
+
+                           insert_code(&($$->code_list), new_code_line);
+
+                         }
     | TK_LIT_INT         { $$ = insert_leaf($1);
                            $$->temp = create_register();
                            code_line new_code_line = create_code_line($1.lv.v.vi, 0, $$->temp, LOADI);

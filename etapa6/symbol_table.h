@@ -15,6 +15,7 @@ typedef enum nature
     TYPE_VAR,   // Variable
     TYPE_VEC,   // Vector
     TYPE_FUNC,  // Function TYPE_OP,    // Operator
+    TYPE_GLOBAL_VAR, //Global variable
 
 } nature;
 

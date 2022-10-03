@@ -233,6 +233,12 @@ void print_code_line(code_line cl)
         case LOADAI:
             printf("loadAI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
+        case LOADAIRFP:
+            printf("loadAI rfp, %d => r%d\n", cl.second_register, cl.result);
+            break;
+        case LOADAIRBSS:
+            printf("loadAI rbss, %d => r%d\n", cl.second_register, cl.result);
+            break;
         case LOADA0:
             printf("loadA0 r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
             break;

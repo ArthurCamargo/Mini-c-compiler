@@ -20,6 +20,7 @@ stack *top = NULL;
 int main (int argc, char **argv)
 {
     push_new_table(&top); //Escopo global
+    top->is_global = true;
     int ret = yyparse();
     print_tree(arvore);
     yylex_destroy();

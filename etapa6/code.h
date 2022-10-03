@@ -65,6 +65,8 @@ typedef enum opcode
     LOADI,
     LOAD,
     LOADAI,
+    LOADAIRFP,
+    LOADAIRBSS,
     LOADA0,
     CLOAD,
     CLOADAI,

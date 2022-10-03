@@ -20,7 +20,7 @@ void* reallocate(void* pointer, size_t oldSize, size_t newSize) {
         void* result = realloc(pointer, newSize);
         return result;
     /*
-     * Ok, afters some research, found taht when the pointer is null, realloc
+     * Ok, afters some research, found that when the pointer is null, realloc
      * behaves as malloc(newSize) which is pretty cool!
      */
     }

@@ -8,6 +8,7 @@
 
 typedef struct stack
 {
+    bool is_global;
     symbol_table *table;
     struct stack *next;
 }stack;
@@ -24,5 +25,6 @@ void declare_function(stack* st, int size_mult, type t, nature n, int line, valu
 symbol* assign_variable(stack* st, symbol* var, symbol* value);
 void assign_vector(stack* st, symbol* var, symbol* value);
 void call_function(stack* st, symbol* func_name);
+symbol* find_variable(stack* st, symbol* var);
 
 #endif

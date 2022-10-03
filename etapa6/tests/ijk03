@@ -1,8 +1,8 @@
 //Endereço de variáveis globais são um deslocamento =rbss=
-int c;
-int b;
-int a;
-int z;
+int c; //0
+int b; //4
+int a; //8
+int z; //12
 int main()
 {
   b = 456;
