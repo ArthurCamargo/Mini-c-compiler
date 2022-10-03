@@ -1,0 +1,4 @@
+loadI 1 => r1
+loadI 2 => r2
+div r1, r2 => r3
+store r3 => r4

@@ -1,0 +1,10 @@
+loadI 456 => r1
+store r1 => r2
+storeAI r2 => rfp, 4
+loadI 923 => r3
+store r3 => r4
+storeAI r4 => rfp, 12
+add r0, r0 => r5
+store r5 => r6
+storeAI r6 => rfp, 8
+loadI 0 => r7
