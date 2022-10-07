@@ -157,13 +157,35 @@ void generate_code (list* c)
 }
 
 
-void print_code_line(code_line cl)
+
+/*
+ 	.file	"test.c"
+	.text
+	.globl	main
+	.type	main, @function
+main:
+.LFB0:
+	pushq	%rbp
+	movq	%rsp, %rbp
+	movl	$2, -8(%rbp)
+	movl	$3, -4(%rbp)
+	movl	-8(%rbp), %eax
+	addl	%eax, -4(%rbp)
+	movl	$0, %eax
+	popq	%rbp
+	ret
+.LFE0:
+*/
+
+void print_assembly_line(code_line cl)
 {
     switch(cl.op)
     {
         case NOP:
             printf("nop\n");
             break;
+        case LABEL:
+            printf(".LEB%d:\n", cl.first_register);
         case ADD:
             printf("add r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
@@ -315,4 +337,194 @@ void print_code_line(code_line cl)
             printf("cmp_NE r%d, r%d -> r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
     }
+
+
+
+}
+
+
+
+void print_assembly_header()
+{
+    printf(".file\t%s\n", __FILE__);
+    printf(".text\n");
+    printf(".globl main\n");
+    printf(".type main, @function\n");
+
+}
+
+void generateAsm(list* c)
+{
+    list* pointer = c;
+    print_assembly_header();
+    for(int i = 0; i < c->count; i++)
+    {
+            print_assembly_line(pointer->data);
+            pointer = pointer->next;
+    }
+}
+
+
+void print_code_line(code_line cl)
+{
+    switch(cl.op)
+    {
+        case NOP:
+            printf("nop\n");
+            break;
+        case LABEL:
+            printf("L%d:\n", cl.first_register);
+        case ADD:
+            printf("add r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case SUB:
+            printf("sub r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case MULT:
+            printf("mult r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case DIV:
+            printf("div r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case ADDI:
+            printf("addI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case SUBI:
+            printf("subI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case RSUBI:
+            printf("rsubI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case MULTI:
+            printf("multI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case DIVI:
+            printf("divI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case RDIVI:
+            printf("rdivI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case LSHIFT:
+            printf("lshift r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case LSHIFTI:
+            printf("lshiftI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case RSHIFT:
+            printf("rshift r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case RSHIFTI:
+            printf("rshiftI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case AND:
+            printf("and r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case ANDI:
+            printf("andI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case OR:
+            printf("or r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case ORI:
+            printf("orI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case XOR:
+            printf("xor r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case XORI:
+            printf("xorI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case LOADI:
+            printf("loadI %d => r%d\n", cl.first_register, cl.result);
+            break;
+        case LOAD:
+            printf("load r%d => r%d\n", cl.first_register, cl.result);
+            break;
+        case LOADAI:
+            printf("loadAI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case LOADAIRFP:
+            printf("loadAI rfp, %d => r%d\n", cl.second_register, cl.result);
+            break;
+        case LOADAIRBSS:
+            printf("loadAI rbss, %d => r%d\n", cl.second_register, cl.result);
+            break;
+        case LOADA0:
+            printf("loadA0 r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CLOAD:
+            printf("cload r%d => r%d\n", cl.first_register, cl.result);
+            break;
+        case CLOADAI:
+            printf("cloadAI r%d, %d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CLOADA0:
+            printf("cloadA0 r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case STORE:
+            printf("store r%d => r%d\n", cl.first_register, cl.result);
+            break;
+        case STOREAI:
+            printf("storeAI r%d => r%d, %d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case STOREAIRFP:
+            printf("storeAI r%d => rfp, %d\n", cl.first_register, cl.result);
+            break;
+        case STOREAIRBSS:
+            printf("storeAI r%d => rbss, %d\n", cl.first_register, cl.result);
+            break;
+        case STOREA0:
+            printf("storeA0 r%d => r%d, r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CSTORE:
+            printf("cstore r%d => r%d\n", cl.first_register, cl.result);
+            break;
+        case CSTOREAI:
+            printf("cstoreAI r%d => r%d, %d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CSTOREA0:
+            printf("cstoreA0 r%d => r%d, r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case I2I:
+            printf("i2i r%d => r%d\n", cl.first_register, cl.result);
+            break;
+        case C2C:
+            printf("c2c r%d => r%d\n", cl.first_register, cl.result);
+            break;
+        case C2I:
+            printf("c2i r%d => r%d\n", cl.first_register, cl.result);
+            break;
+        case I2C:
+            printf("i2c r%d => r%d\n", cl.first_register, cl.result);
+            break;
+        case JUMPI:
+            printf("jumpI -> l%d\n",  cl.result);
+            break;
+        case JUMP:
+            printf("jump -> r%d\n", cl.result);
+            break;
+        case CBR:
+            printf("cbr r%d -> l%d, l%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CMP_LT:
+            printf("cmp_LT r%d, r%d -> r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CMP_LE:
+            printf("cmp_LE r%d, r%d -> r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CMP_EQ:
+            printf("cmp_EQ r%d, r%d -> r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CMP_GE:
+            printf("cmp_GE r%d, r%d -> r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CMP_GT:
+            printf("cmp_GT r%d, r%d -> r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+        case CMP_NE:
+            printf("cmp_NE r%d, r%d -> r%d\n", cl.first_register, cl.second_register, cl.result);
+            break;
+    }
+
+    
 }

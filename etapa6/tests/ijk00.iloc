@@ -1,0 +1,12 @@
+loadI 923 => r1
+i2i r1 => r2
+storeAI r2 => rbss, 0
+loadI 456 => r3
+i2i r3 => r4
+storeAI r4 => rfp, 4
+loadAI rbss, 0 => r5
+loadAI rfp, 4 => r6
+add r5, r6 => r7
+i2i r7 => r8
+storeAI r8 => rfp, 0
+loadI 0 => r9

@@ -15,14 +15,14 @@
  * Geracao de codigo (1 passagens, percorrendo ast)
  * - [ ] Funcao de percorrimento da AST e geracao de codigo, deve conter um ponteiro para todo o codigo (code)
  * - [ ] Criacao de uma ou mais instrucoes ILOC para cada operacao
- * - [ ] Calculo de endereço na declaracao de variaveis
- *      - [ ] locais, relativo ao deslocamento do rfp (ponteiro para o topo da stack)
- *      - [ ] globais, relativo ao deslocamento do rbss (base do segmento de dados)
- * - [ ] Expressoes aritimeticas, com operacoes binarias
- *      - [ ] Soma
- *      - [ ] Subtracao
- *      - [ ] Divisao
- *      - [ ] Multiplicacao
+ * - [X] Calculo de endereço na declaracao de variaveis
+ *      - [X] locais, relativo ao deslocamento do rfp (ponteiro para o topo da stack)
+ *      - [X] globais, relativo ao deslocamento do rbss (base do segmento de dados)
+ * - [X] Expressoes aritimeticas, com operacoes binarias
+ *      - [X] Soma
+ *      - [X] Subtracao
+ *      - [X] Divisao
+ *      - [X] Multiplicacao
  * - [ ] Expressoes logicas para controle de fluxo
  *      - [ ] operadores relacionais
  *      - [ ] operadores logicos (&& ||)
@@ -42,6 +42,7 @@
 typedef enum opcode
 {
     NOP,
+    LABEL,
     ADD,
     SUB,
     MULT,
@@ -199,7 +200,8 @@ void insert_code(list* l, code_line cl);
 list* concat_list(list* l1, list* l2);
 
 void print_code_line(code_line cl); // Print one line of code based on the data of code_line
-void generate_code(list* c); // Print the whole code given a code body
+void generate_code(list* c); // Print the whole code given a code body (ILOC)
+void generateAsm(list* c); //Print Assembly code given a code body
 list create_code_list(code_line* c);
 list initialize_code_list(); // In
 
@@ -207,6 +209,7 @@ list initialize_code_list(); // In
 int create_label();
 // Create a new Register
 int create_register();
+
 
 
 #endif

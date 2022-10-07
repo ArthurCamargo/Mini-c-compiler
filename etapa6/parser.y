@@ -56,7 +56,10 @@ program
     ;
 
 declaration
-    : function            {$$ = $1;
+    : function            {$$ = $1; 
+                            declare_function(top, 1, $2.t_type, TYPE_FUNC,
+                            $3->data.line, $3->data.lv.v, $3->data.lexeme);
+                            int label = create_label();
                           }
     | global_variable     {$$ = NULL;}
     ;
