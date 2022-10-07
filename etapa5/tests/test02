@@ -1,5 +1,0 @@
-//Expect error
-int a;
-int main () {
-    b = 2;
-}

@@ -257,16 +257,28 @@ and_log
     ;
 
 equal
-    : equal TK_OC_EQ rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | equal TK_OC_NE rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : equal TK_OC_EQ rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_EQ);}
+    | equal TK_OC_NE rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_NE);}
     | rel                  {$$ = $1;}
     ;
 
 rel
-    : rel TK_OC_LE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | rel TK_OC_GE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | rel '>' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | rel '<' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : rel TK_OC_LE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_LE);}
+    | rel TK_OC_GE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_GE);}
+    | rel '>' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_GT);}
+    | rel '<' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_LT);}
     | soma_sub              {$$ = $1;}
     ;
 

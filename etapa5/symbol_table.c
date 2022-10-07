@@ -1,6 +1,6 @@
 // Authors
 // Arthur Camargo && Joao Maieron
-//
+
 #include "symbol_table.h"
 #include <string.h>
 

@@ -13,16 +13,16 @@
  * - [✓ ] Implementar uma funcao para fornecer nomes de rotulos (label create_label(){ //something static here})
  * - [✓ ] Funcao para gerar nomes de registradores (char* create_reg_name(bool reset){ //something static here)
  * Geracao de codigo (1 passagens, percorrendo ast)
- * - [ ] Funcao de percorrimento da AST e geracao de codigo, deve conter um ponteiro para todo o codigo (code)
- * - [ ] Criacao de uma ou mais instrucoes ILOC para cada operacao
- * - [ ] Calculo de endereço na declaracao de variaveis
- *      - [ ] locais, relativo ao deslocamento do rfp (ponteiro para o topo da stack)
- *      - [ ] globais, relativo ao deslocamento do rbss (base do segmento de dados)
- * - [ ] Expressoes aritimeticas, com operacoes binarias
- *      - [ ] Soma
- *      - [ ] Subtracao
- *      - [ ] Divisao
- *      - [ ] Multiplicacao
+ * - [X] Funcao de percorrimento da AST e geracao de codigo, deve conter um ponteiro para todo o codigo (code)
+ * - [X] Criacao de uma ou mais instrucoes ILOC para cada operacao
+ * - [X] Calculo de endereço na declaracao de variaveis
+ *      - [X] locais, relativo ao deslocamento do rfp (ponteiro para o topo da stack)
+ *      - [X] globais, relativo ao deslocamento do rbss (base do segmento de dados)
+ * - [X] Expressoes aritimeticas, com operacoes binarias
+ *      - [X] Soma
+ *      - [X] Subtracao
+ *      - [X] Divisao
+ *      - [X] Multiplicacao
  * - [ ] Expressoes logicas para controle de fluxo
  *      - [ ] operadores relacionais
  *      - [ ] operadores logicos (&& ||)

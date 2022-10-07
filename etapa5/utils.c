@@ -1,8 +1,6 @@
 // Authors
 // Arthur Camargo && Joao Maieron
 
-
-
 #include "utils.h"
 
 void* reallocate(void* pointer, size_t oldSize, size_t newSize) {
