@@ -27,6 +27,7 @@ extern stack* top;
 %type<ast> operand_arit expr ternary unary_minus or and or_log and_log equal rel soma_sub mult_div
 %type<ast> exponential unary parenthesis flux_control conditional iterative vector_attribution
 %type<ast> input output return break continue shift func_call args assignment
+%type<ast> if
 
 %type<valor_lexico> type
 //Literals
@@ -56,11 +57,7 @@ program
     ;
 
 declaration
-    : function            {$$ = $1; 
-                            declare_function(top, 1, $2.t_type, TYPE_FUNC,
-                            $3->data.line, $3->data.lv.v, $3->data.lexeme);
-                            int label = create_label();
-                          }
+    : function            {$$ = $1;}
     | global_variable     {$$ = NULL;}
     ;
 
@@ -95,7 +92,7 @@ function
 func_header
     : static type id list       {$$ = $3;
                                  declare_function(top, 1, $2.t_type, TYPE_FUNC,
-                                    $3->data.line, $3->data.lv.v, $3->data.lexeme);
+                                 $3->data.line, $3->data.lv.v, $3->data.lexeme);
                                  }
     ;
 
@@ -115,8 +112,7 @@ const
     ;
 
 command_block
-    : open_command command close_command {$$ = $2;
-    }
+    : open_command command close_command {$$ = $2;}
     ;
 
 open_command
@@ -243,12 +239,20 @@ unary_minus
     ;
 
 or
-    : or TK_OC_OR and            {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : or TK_OC_OR and            {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                                  $$->temp = create_register();
+                                  code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, OR);
+                                  insert_code(&($$->code_list), new_code_line);}
+
     | and                        {$$ = $1;}
     ;
 
 and
-    : and TK_OC_AND or_log {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : and TK_OC_AND or_log {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                            $$->temp = create_register();
+                            code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, AND);
+                            insert_code(&($$->code_list), new_code_line);}
+
     | or_log               {$$ = $1;}
     ;
 
@@ -263,16 +267,39 @@ and_log
     ;
 
 equal
-    : equal TK_OC_EQ rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | equal TK_OC_NE rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : equal TK_OC_EQ rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                            $$->temp = create_register();
+                            code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_EQ);
+                            insert_code(&($$->code_list), new_code_line);}
+
+    | equal TK_OC_NE rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                            $$->temp = create_register();
+                            code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_NE);
+                            insert_code(&($$->code_list), new_code_line);}
+
     | rel                  {$$ = $1;}
     ;
 
 rel
-    : rel TK_OC_LE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | rel TK_OC_GE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | rel '>' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
-    | rel '<' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : rel TK_OC_LE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_LE);
+                             insert_code(&($$->code_list), new_code_line);}
+
+    | rel TK_OC_GE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_GE);
+                             insert_code(&($$->code_list), new_code_line);}
+                             
+    | rel '>' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_GT);
+                             insert_code(&($$->code_list), new_code_line);}
+
+    | rel '<' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_LT);
+                             insert_code(&($$->code_list), new_code_line);}
     | soma_sub              {$$ = $1;}
     ;
 
@@ -333,12 +360,26 @@ flux_control
     ;
 
 conditional
-    : TK_PR_IF '(' expr ')' command_block {$$ = insert_leaf($1); $$ = insert_child($$, $3); $$ = insert_child($$, $5);}
 
-    | TK_PR_IF '(' expr ')' command_block TK_PR_ELSE command_block { $$ = insert_leaf($1); $$ = insert_child($$, $3);
-                                                                        $$ = insert_child($$, $5); $$ = insert_child($$, $7);}
+    : if
+    | if TK_PR_ELSE command_block[block] {$$ = $1; $$ = insert_child($$, $3); $if->f = generate_label(&($1->code_list), create_label());}
     ;
 
+if
+    : TK_PR_IF[lif] '(' expr[ex] ')' {$<ast>$ = insert_leaf($1);
+                                      $<ast>$->t = create_label();
+                                      $<ast>$->f = create_label();}
+
+    command_block[block] {$if = $<ast>5; $if->t = $<ast>5->t;
+                          code_line new_code_line2 = create_code_line(0, 0, $if->f, JUMPI);
+                          insert_code(&($block->code_list), new_code_line2);
+                          code_line new_code_line = create_code_line($ex->temp, $if->t, $if->f, CBR);
+                          insert_code(&($ex->code_list), new_code_line);
+                          $ex->t = generate_label(&($ex->code_list), $if->t);
+                          $if->f = generate_label(&($block->code_list), $if->f);
+                          $$ = insert_child($if, $ex); $$ = insert_child($if, $block);}
+
+for
 iterative
     : TK_PR_FOR '(' attribution ':' expr ':' attribution ')' command_block {
         $$ = insert_leaf($1);

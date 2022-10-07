@@ -237,12 +237,20 @@ unary_minus
     ;
 
 or
-    : or TK_OC_OR and            {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : or TK_OC_OR and            {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                                  $$->temp = create_register();
+                                  code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, OR);
+                                  insert_code(&($$->code_list), new_code_line);}
+
     | and                        {$$ = $1;}
     ;
 
 and
-    : and TK_OC_AND or_log {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
+    : and TK_OC_AND or_log {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                            $$->temp = create_register();
+                            code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, AND);
+                            insert_code(&($$->code_list), new_code_line);}
+
     | or_log               {$$ = $1;}
     ;
 
@@ -259,26 +267,36 @@ and_log
 equal
     : equal TK_OC_EQ rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
                              $$->temp = create_register();
-                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_EQ);}
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_EQ);
+                             insert_code(&($$->code_list), new_code_line);}
+
     | equal TK_OC_NE rel   {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
                              $$->temp = create_register();
-                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_NE);}
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_NE);
+                             insert_code(&($$->code_list), new_code_line);}
     | rel                  {$$ = $1;}
     ;
 
 rel
     : rel TK_OC_LE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
                              $$->temp = create_register();
-                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_LE);}
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_LE);
+                             insert_code(&($$->code_list), new_code_line);}
+
     | rel TK_OC_GE soma_sub {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
                              $$->temp = create_register();
-                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_GE);}
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_GE);
+                             insert_code(&($$->code_list), new_code_line);}
+
     | rel '>' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
                              $$->temp = create_register();
-                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_GT);}
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_GT);
+                             insert_code(&($$->code_list), new_code_line);}
+
     | rel '<' soma_sub      {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
                              $$->temp = create_register();
-                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_LT);}
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, CMP_LT);
+                             insert_code(&($$->code_list), new_code_line);}
     | soma_sub              {$$ = $1;}
     ;
 
@@ -287,27 +305,26 @@ soma_sub
                              $$->temp = create_register();
                              code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, ADD);
                              insert_code(&($$->code_list), new_code_line);}
-    | soma_sub '-' mult_div {
-                                $$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
-                                $$->temp = create_register();
-                                code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, SUB);
-                                insert_code(&($$->code_list), new_code_line);}
+
+    | soma_sub '-' mult_div {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, SUB);
+                             insert_code(&($$->code_list), new_code_line);}
+
     | mult_div              {$$ = $1;}
     ;
 
 mult_div
-    : mult_div '*' unary    {
-                                $$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
-                                $$->temp = create_register();
-                                code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, MULT);
-                                insert_code(&($$->code_list), new_code_line);
-                             }
-    | mult_div '/' unary    {
-                                $$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
-                                $$->temp = create_register();
-                                code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, DIV);
-                                insert_code(&($$->code_list), new_code_line);
-                             }
+    : mult_div '*' unary    {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, MULT);
+                             insert_code(&($$->code_list), new_code_line);}
+
+    | mult_div '/' unary    {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);
+                             $$->temp = create_register();
+                             code_line new_code_line = create_code_line($1->temp, $3->temp, $$->temp, DIV);
+                             insert_code(&($$->code_list), new_code_line);}
+
 
     | mult_div '%' unary    {$$ = insert_leaf($2); $$ = insert_child($$, $1); $$ = insert_child($$, $3);}
 
@@ -342,7 +359,7 @@ conditional
     : TK_PR_IF '(' expr ')' command_block {$$ = insert_leaf($1); $$ = insert_child($$, $3); $$ = insert_child($$, $5);}
 
     | TK_PR_IF '(' expr ')' command_block TK_PR_ELSE command_block { $$ = insert_leaf($1); $$ = insert_child($$, $3);
-                                                                        $$ = insert_child($$, $5); $$ = insert_child($$, $7);}
+                                                                     $$ = insert_child($$, $5); $$ = insert_child($$, $7);}
     ;
 
 iterative
@@ -401,7 +418,14 @@ args
 
 operand_arit
     : vector_attribution { $$ = $1;}
-    | id                 { $$ = $1;}
+    | id                 {$$ = $1;
+                          $$->temp = create_register();
+                          code_line new_code_line2 = create_code_line($$->temp, 0, variable->address, LOADAI);
+                          insert_code(&($$->code_list), new_code_line1);
+                          insert_code(&($$->code_list), new_code_line2);
+                          code_line new_code_line = create_code_line($1.lv.v.vs, 0, $$->temp, LOAD);
+                          insert_code(&($$->code_list), new_code_line);}
+
     | TK_LIT_INT         { $$ = insert_leaf($1);
                            $$->temp = create_register();
                            code_line new_code_line = create_code_line($1.lv.v.vi, 0, $$->temp, LOADI);

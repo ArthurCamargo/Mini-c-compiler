@@ -59,7 +59,9 @@ typedef struct token_value
 
 typedef struct tree
 {
-    int temp;
+    int temp; // Temporary register value
+    int t; // Label case true
+    int f; // Label case false
     list code_list;
     token_value data;
     int child_number;

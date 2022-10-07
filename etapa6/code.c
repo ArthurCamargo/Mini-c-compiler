@@ -364,6 +364,16 @@ void generateAsm(list* c)
     }
 }
 
+int generate_label(list* l, int new_label)
+{
+    // Generate a new label
+    code_line new_code_line = create_code_line(new_label, 0, 0, LABEL);
+    insert_code(l, new_code_line);
+
+    return new_label;
+
+}
+
 
 void print_code_line(code_line cl)
 {
@@ -374,6 +384,7 @@ void print_code_line(code_line cl)
             break;
         case LABEL:
             printf("L%d:\n", cl.first_register);
+            break;
         case ADD:
             printf("add r%d, r%d => r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
@@ -525,6 +536,4 @@ void print_code_line(code_line cl)
             printf("cmp_NE r%d, r%d -> r%d\n", cl.first_register, cl.second_register, cl.result);
             break;
     }
-
-    
 }
