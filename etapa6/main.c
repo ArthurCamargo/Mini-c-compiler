@@ -14,11 +14,26 @@ void yyerror (char const *s) {
 }
 
 
+bool optimization_flag = false;
+
 tree *arvore = NULL;
 stack *top = NULL;
 
 int main (int argc, char **argv)
 {
+
+    // Optimizations
+    if(argc > 1)
+    {
+        // see there if exists the -o
+        char* optimization = argv[1];
+
+        if(strcmp(optimization, "-O") == -1)
+        {
+            //Activate optimization
+            optimization_flag = true;
+        }
+    }
     push_new_table(&top); //Escopo global
     top->is_global = true;
     int ret = yyparse();

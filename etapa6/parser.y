@@ -362,24 +362,28 @@ flux_control
 conditional
 
     : if
-    | if TK_PR_ELSE command_block[block] {$$ = $1; $$ = insert_child($$, $3); $if->f = generate_label(&($1->code_list), create_label());}
+    | if TK_PR_ELSE command_block[block] {$$ = $1;
+                                          $if->f = generate_label(&($block->code_list), $if->f); //l4 After the else{x}
+                                          $$ = insert_child($$, $3);
+                                          }
+
     ;
 
 if
     : TK_PR_IF[lif] '(' expr[ex] ')' {$<ast>$ = insert_leaf($1);
-                                      $<ast>$->t = create_label();
-                                      $<ast>$->f = create_label();}
+                                      $<ast>$->t = create_label(); //l1
+                                      $<ast>$->f = create_label();} //l2 }
 
     command_block[block] {$if = $<ast>5; $if->t = $<ast>5->t;
-                          code_line new_code_line2 = create_code_line(0, 0, $if->f, JUMPI);
-                          insert_code(&($block->code_list), new_code_line2);
                           code_line new_code_line = create_code_line($ex->temp, $if->t, $if->f, CBR);
                           insert_code(&($ex->code_list), new_code_line);
-                          $ex->t = generate_label(&($ex->code_list), $if->t);
-                          $if->f = generate_label(&($block->code_list), $if->f);
+                          $ex->t = generate_label(&($ex->code_list), $if->t); //l1 -> ex (just before the if(x))
+                          code_line new_code_line2 = create_code_line(0, 0, $if->f+1, JUMPI); //jump to l+1
+                          insert_code(&($block->code_list), new_code_line2);
+                          $if->f = generate_label(&($block->code_list), $if->f); // l2 -> block(just after if(){x})
+                          $if->f = create_label(); //l3
                           $$ = insert_child($if, $ex); $$ = insert_child($if, $block);}
 
-for
 iterative
     : TK_PR_FOR '(' attribution ':' expr ':' attribution ')' command_block {
         $$ = insert_leaf($1);

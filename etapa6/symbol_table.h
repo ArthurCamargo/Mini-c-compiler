@@ -5,7 +5,6 @@
 #ifndef SYMBOL_TABLE
 #define SYMBOL_TABLE
 
-#include "tree.h"
 #include "utils.h"
 #include <limits.h>
 

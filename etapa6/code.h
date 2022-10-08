@@ -27,13 +27,13 @@
  *      - [X] operadores relacionais
  *      - [X] operadores logicos (&& ||)
  * - [X] Comandos de atribuicao
- * - [ ] Comandos de fluxo de controle
- *   - [ ] If com else opcional
+ * - [X] Comandos de fluxo de controle
+ *   - [X] If com else opcional
  *   - [ ] Lacos de repeticao while e for
  * - [ ] Chamada de funcao (com jumpI para um label)
- * - [ ] Conteudo de cada variavel esta em um endereco de memoria, que deve ser calculado no momento da declaracao
- * - [ ] Antes de realizar qualquer operacao sobre uma variavel deve se carregar seu conteudo (load)
- * - [ ] O valor resultante estara obrigatoriamente em um registrador e esse valor final deve ser transferido para
+ * - [X] Conteudo de cada variavel esta em um endereco de memoria, que deve ser calculado no momento da declaracao
+ * - [X] Antes de realizar qualquer operacao sobre uma variavel deve se carregar seu conteudo (load)
+ * - [X] O valor resultante estara obrigatoriamente em um registrador e esse valor final deve ser transferido para
  *       o endereco da variavel na memorial
  */
 
@@ -194,7 +194,6 @@ code_line create_conditional_branch_code_line(int label1, int label2, opcode op)
 
 
 
-
 void insert_code(list* l, code_line cl);
 
 list* concat_list(list* l1, list* l2);
@@ -203,7 +202,8 @@ void print_code_line(code_line cl); // Print one line of code based on the data 
 void generate_code(list* c); // Print the whole code given a code body (ILOC)
 void generateAsm(list* c); //Print Assembly code given a code body
 list create_code_list(code_line* c);
-list initialize_code_list(); // In
+list initialize_code_list(); 
+                             
 
 //Create a new Label
 int create_label();

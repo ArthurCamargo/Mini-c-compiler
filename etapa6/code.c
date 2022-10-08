@@ -1,3 +1,4 @@
+#include "tree.h"
 #include "code.h"
 
 //List operations
@@ -145,10 +146,19 @@ int create_register()
     return number;
 }
 
-void generate_code (list* c)
+void print_code_header(list* l, stack* st)
+{
+    symbol func_name = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, 0, (value) "main", 0);
+
+    func_name = *find_variable(st, &func_name);
+
+}
+
+void generate_code (list* c, stack* st)
 {
     list* pointer = c;
 
+    print_code_header(pointer, st);
     for(int i = 0; i < c->count; i ++)
     {
         print_code_line(pointer->data);

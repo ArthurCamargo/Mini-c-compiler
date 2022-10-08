@@ -57,6 +57,7 @@ program
 
 declaration
     : function            {$$ = $1;
+                           
                           }
     | global_variable     {$$ = NULL;}
     ;
@@ -95,6 +96,7 @@ func_header
     : static type id list       {$$ = $3;
                                  declare_function(top, 1, $2.t_type, TYPE_FUNC,
                                     $3->data.line, $3->data.lv.v, $3->data.lexeme);
+                                
                                  }
     ;
 
@@ -407,7 +409,9 @@ func_call
                        $$ = insert_child($$, $3);
                        symbol func_name = create_symbol(1, TYPE_UNKNOWN, TYPE_VAR, $1->data.line,
                                                         $1->data.lv.v, $1->data.lexeme);
-                       call_function(top, &func_name);}
+                       call_function(top, &func_name);
+                       }
+
     ;
 
 args
